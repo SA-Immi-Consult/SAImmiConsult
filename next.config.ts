@@ -21,8 +21,12 @@ const nextConfig: NextConfig = {
     // Enables React Server Actions (stable in Next.js App Router).
     // Allows calling server-side functions directly from client components
     // without needing API routes.
-    serverActions: true
-  }
+	
+    // FIXED: Next.js 16 requires serverActions to be an object, not a boolean
+    serverActions: {},
+  },
+
+  // (If you have other config values, keep them here)
 };
 
 
