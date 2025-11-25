@@ -13,7 +13,16 @@ export const routing = defineRouting({
   pathnames: {
     '/': '/',
     '/about': '/about',
-    '/contact': '/contact'
+    '/contact': '/contact',
+	'/services': '/services',
+    '/services/immigration': '/services/immigration',
+    '/services/emigration': '/services/emigration',
+    '/services/visa-types': '/services/visa-types',
+    '/services/additional-support': '/services/additional-support',
+    '/faq': '/faq',
+    '/news': '/news',
+    '/login': '/login',
+    '/signup': '/signup'
   }
 });
 
