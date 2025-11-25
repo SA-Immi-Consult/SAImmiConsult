@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
+import { siteConfig } from '@/config/siteConfig';
 import styles from '../services.module.css';
 
 export default function VisaTypesPage() {
@@ -22,10 +23,12 @@ export default function VisaTypesPage() {
           </p>
 
           <div className={styles.pageCtaRow}>
-            <Link href="/contact" className={styles.pagePrimaryButton}>
+            <Link
+              href={siteConfig.contactPath} className={styles.pagePrimaryButton}>
               {t('header.primaryCta')}
             </Link>
-            <Link href="/faq" className={styles.pageSecondaryButton}>
+            <Link
+              href={siteConfig.faqPath} className={styles.pageSecondaryButton}>
               {t('header.secondaryCta')}
             </Link>
           </div>

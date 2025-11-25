@@ -84,7 +84,7 @@ export default function LoginPage() {
 
             <p className={styles.authSecondaryText}>
               {t('footer.noAccount')}{' '}
-              <Link href="/signup" className={styles.authLink}>
+              <Link href={siteConfig.signupPath} className={styles.authLink}>
                 {t('footer.signupLink')}
               </Link>
             </p>

@@ -1,10 +1,10 @@
 // src/components/Navbar.tsx
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
 import { Link, usePathname } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
+import { siteConfig } from '@/config/siteConfig';
 import styles from './Navbar.module.css';
 import LocaleSwitcher from './LocaleSwitcher';
 
@@ -17,20 +17,16 @@ type NavItemKey =
   | 'contact'
   | 'login';
 
-type NavItem = {
-  key: NavItemKey;
-  href: string;
-};
-
-const NAV_ITEMS: NavItem[] = [
-  { key: 'home', href: '/' },
-  { key: 'about', href: '/about' },
-  { key: 'services', href: '/services' },
-  { key: 'news', href: '/news' },
-  { key: 'faq', href: '/faq' },
-  { key: 'contact', href: '/contact' },
-  { key: 'login', href: '/login' }
-];
+// Let TS infer href union from siteConfig values
+const NAV_ITEMS = [
+  { key: 'home' as const, href: siteConfig.homePath },
+  { key: 'about' as const, href: siteConfig.aboutPath },
+  { key: 'services' as const, href: siteConfig.servicesPath },
+  { key: 'news' as const, href: siteConfig.newsPath },
+  { key: 'faq' as const, href: siteConfig.faqPath },
+  { key: 'contact' as const, href: siteConfig.contactPath },
+  { key: 'login' as const, href: siteConfig.loginPath }
+] as const;
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -39,9 +35,9 @@ export default function Navbar() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const isActive = (href: string) => {
-    if (href === '/') {
-      return pathname === '/';
+  const isActive = (href: (typeof NAV_ITEMS)[number]['href']) => {
+    if (href === siteConfig.homePath) {
+      return pathname === siteConfig.homePath;
     }
     // Mark parent as active for nested routes, e.g. /services/immigration
     return pathname === href || pathname.startsWith(`${href}/`);
@@ -76,7 +72,7 @@ export default function Navbar() {
   return (
     <nav className={styles.navbar}>
       {/* Brand / logo */}
-      <div className={styles.logo}>SA IMMI CONSULT</div>
+      <div className={styles.logo}>{siteConfig.brandName}</div>
 
       <ul className={styles.navLinks}>
         {NAV_ITEMS.map((item) => {
@@ -106,7 +102,7 @@ export default function Navbar() {
                 >
                   <div className={styles.servicesDropdownInner}>
                     <Link
-                      href="/services/immigration"
+                      href={siteConfig.servicesImmigrationPath}
                       className={styles.servicesDropdownItem}
                     >
                       <span className={styles.servicesDropdownTitle}>
@@ -118,7 +114,7 @@ export default function Navbar() {
                     </Link>
 
                     <Link
-                      href="/services/emigration"
+                      href={siteConfig.servicesEmigrationPath}
                       className={styles.servicesDropdownItem}
                     >
                       <span className={styles.servicesDropdownTitle}>
@@ -130,7 +126,7 @@ export default function Navbar() {
                     </Link>
 
                     <Link
-                      href="/services/visa-types"
+                      href={siteConfig.servicesVisaTypesPath}
                       className={styles.servicesDropdownItem}
                     >
                       <span className={styles.servicesDropdownTitle}>
@@ -142,7 +138,7 @@ export default function Navbar() {
                     </Link>
 
                     <Link
-                      href="/services/additional-support"
+                      href={siteConfig.servicesAdditionalSupportPath}
                       className={styles.servicesDropdownItem}
                     >
                       <span className={styles.servicesDropdownTitle}>

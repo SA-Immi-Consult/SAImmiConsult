@@ -170,8 +170,7 @@ function WhyReason({ title, body }: WhyReasonProps) {
 }
 
 /**
- * 2) SERVICES OVERVIEW SECTION
- * Short descriptions + links to individual service pages.
+ * 3) SERVICES OVERVIEW SECTION
  */
 function ServicesOverviewSection() {
   const t = useTranslations('Home.services');
@@ -184,13 +183,15 @@ function ServicesOverviewSection() {
           <h2 className={styles.sectionTitle}>{t('title')}</h2>
           <p className={styles.sectionSubtitle}>{t('subtitle')}</p>
         </div>
-        <Link href="/services" className={styles.servicesViewAllButton}>
+        <Link
+          href={siteConfig.servicesPath}
+          className={styles.servicesViewAllButton}
+        >
           {t('viewAll')}
         </Link>
       </header>
 
       <div className={styles.homeServicesGrid}>
-        {/* Immigration to South Africa */}
         <article className={styles.servicesCardPrimary}>
           <h3 className={styles.servicesCardTitle}>
             {t('immigration.title')}
@@ -199,14 +200,13 @@ function ServicesOverviewSection() {
             {t('immigration.body')}
           </p>
           <Link
-            href="/services/immigration"
+            href={siteConfig.servicesImmigrationPath}
             className={styles.servicesPrimaryCta}
           >
             {t('immigration.cta')}
           </Link>
         </article>
 
-        {/* Emigration from South Africa */}
         <article className={styles.servicesCardSecondary}>
           <h3 className={styles.servicesCardTitle}>
             {t('emigration.title')}
@@ -215,14 +215,13 @@ function ServicesOverviewSection() {
             {t('emigration.body')}
           </p>
           <Link
-            href="/services/emigration"
+            href={siteConfig.servicesEmigrationPath}
             className={styles.servicesSecondaryCta}
           >
             {t('emigration.cta')}
           </Link>
         </article>
 
-        {/* Visa types */}
         <article className={styles.servicesCardSecondary}>
           <h3 className={styles.servicesCardTitle}>
             {t('visaTypes.title')}
@@ -231,14 +230,13 @@ function ServicesOverviewSection() {
             {t('visaTypes.body')}
           </p>
           <Link
-            href="/services/visa-types"
+            href={siteConfig.servicesVisaTypesPath}
             className={styles.servicesSecondaryCta}
           >
             {t('visaTypes.cta')}
           </Link>
         </article>
 
-        {/* Additional service support */}
         <article className={styles.servicesCardSecondary}>
           <h3 className={styles.servicesCardTitle}>
             {t('additionalSupport.title')}
@@ -247,7 +245,7 @@ function ServicesOverviewSection() {
             {t('additionalSupport.body')}
           </p>
           <Link
-            href="/services/additional-support"
+            href={siteConfig.servicesAdditionalSupportPath}
             className={styles.servicesSecondaryCta}
           >
             {t('additionalSupport.cta')}
@@ -259,7 +257,7 @@ function ServicesOverviewSection() {
 }
 
 /**
- * 4) ABOUT US (BRIEF) SECTION – homepage summary, not full About page.
+ * 4) ABOUT BRIEF
  */
 function AboutBriefSection() {
   const t = useTranslations('Home.aboutBrief');
@@ -283,7 +281,7 @@ function AboutBriefSection() {
               <li>{t('highlights.1')}</li>
               <li>{t('highlights.2')}</li>
             </ul>
-            <Link href="/about" className={styles.homeAboutLink}>
+            <Link href={siteConfig.aboutPath} className={styles.homeAboutLink}>
               {t('cta')}
             </Link>
           </div>
@@ -294,15 +292,11 @@ function AboutBriefSection() {
 }
 
 /**
- * 5) NEWS & COMMUNICATION SECTION
+ * 5) NEWS – ticker button
  */
 function NewsBannerSection() {
   const t = useTranslations('Home.news');
-
-  // Single source of truth from translations
   const items = [t('items.0'), t('items.1'), t('items.2')];
-
-  // Duplicate the list once so the ticker can loop smoothly
   const tickerItems = items.concat(items);
 
   return (
@@ -314,12 +308,11 @@ function NewsBannerSection() {
             <h2 className={styles.newsTitle}>{t('title')}</h2>
             <p className={styles.newsSubtitle}>{t('subtitle')}</p>
           </div>
-          <Link href="/news" className={styles.newsButton}>
+          <Link href={siteConfig.newsPath} className={styles.newsButton}>
             {t('cta')}
           </Link>
         </div>
 
-        {/* Sliding news banner */}
         <div className={styles.newsList}>
           <div className={styles.newsTickerTrack}>
             {tickerItems.map((headline, index) => (
@@ -335,26 +328,16 @@ function NewsBannerSection() {
   );
 }
 
-
 /**
- * 6) FAQ SECTION – teaser on homepage, link to full FAQ page.
+ * 6) FAQ TEASER
  */
 function FaqSection() {
   const t = useTranslations('Home.faq');
 
   const questions = [
-    {
-      q: t('items.0.question'),
-      a: t('items.0.answer')
-    },
-    {
-      q: t('items.1.question'),
-      a: t('items.1.answer')
-    },
-    {
-      q: t('items.2.question'),
-      a: t('items.2.answer')
-    }
+    { q: t('items.0.question'), a: t('items.0.answer') },
+    { q: t('items.1.question'), a: t('items.1.answer') },
+    { q: t('items.2.question'), a: t('items.2.answer') }
   ];
 
   return (
@@ -366,7 +349,7 @@ function FaqSection() {
             <h2 className={styles.sectionTitle}>{t('title')}</h2>
             <p className={styles.sectionSubtitle}>{t('subtitle')}</p>
           </div>
-          <Link href="/faq" className={styles.faqLink}>
+          <Link href={siteConfig.faqPath} className={styles.faqLink}>
             {t('cta')}
           </Link>
         </div>
@@ -383,7 +366,6 @@ function FaqSection() {
     </section>
   );
 }
-
 /**
  * 7) TESTIMONIALS SECTION
  */
@@ -435,7 +417,8 @@ function TestimonialsSection() {
 }
 
 /**
- * 8) FINAL CTA SECTION – Contact Us
+ * 8) FINAL CTA SECTION – already using siteConfig
+ * (no changes needed here)
  */
 function FinalCtaSection() {
   const t = useTranslations('Home.finalCta');
@@ -451,10 +434,16 @@ function FinalCtaSection() {
             <p className={styles.finalCtaBody}>{t('body')}</p>
           </div>
           <div className={styles.finalCtaActions}>
-            <Link href="/contact" className={styles.finalCtaPrimaryButton}>
+            <Link
+              href={siteConfig.contactPath}
+              className={styles.finalCtaPrimaryButton}
+            >
               {t('primaryCta')}
             </Link>
-            <Link href="/faq" className={styles.finalCtaSecondaryButton}>
+            <Link
+              href={siteConfig.faqPath}
+              className={styles.finalCtaSecondaryButton}
+            >
               {t('secondaryCta')}
             </Link>
           </div>

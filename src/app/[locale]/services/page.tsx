@@ -10,10 +10,10 @@ const SERVICE_KEYS = ['immigration', 'emigration', 'visaTypes', 'additionalSuppo
 type ServiceKey = (typeof SERVICE_KEYS)[number];
 
 const SERVICE_LINKS: Record<ServiceKey, string> = {
-  immigration: '/services/immigration',
-  emigration: '/services/emigration',
-  visaTypes: '/services/visa-types',
-  additionalSupport: '/services/additional-support'
+  immigration: siteConfig.servicesImmigrationPath,
+  emigration: siteConfig.servicesEmigrationPath,
+  visaTypes: siteConfig.servicesVisaTypesPath,
+  additionalSupport: siteConfig.servicesAdditionalSupportPath
 };
 
 export default function ServicesPage() {
@@ -29,10 +29,16 @@ export default function ServicesPage() {
           <p className={styles.pageHeaderSubtitle}>{t('header.subtitle')}</p>
 
           <div className={styles.pageCtaRow}>
-            <Link href={siteConfig.contactPath} className={styles.pagePrimaryButton}>
+            <Link
+              href={siteConfig.contactPath}
+              className={styles.pagePrimaryButton}
+            >
               {t('header.primaryCta')}
             </Link>
-            <Link href="/faq" className={styles.pageSecondaryButton}>
+            <Link
+              href={siteConfig.faqPath}
+              className={styles.pageSecondaryButton}
+            >
               {t('header.secondaryCta')}
             </Link>
           </div>

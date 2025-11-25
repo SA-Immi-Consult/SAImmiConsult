@@ -417,7 +417,7 @@ export default function SignupPage() {
 
             <p className={styles.authSecondaryText}>
               {t('footer.haveAccount')}{' '}
-              <Link href="/login" className={styles.authLink}>
+              <Link href={siteConfig.loginPath} className={styles.authLink}>
                 {t('footer.loginLink')}
               </Link>
             </p>
