@@ -9,12 +9,12 @@ const SERVICE_KEYS = ['immigration', 'emigration', 'visaTypes', 'additionalSuppo
 
 type ServiceKey = (typeof SERVICE_KEYS)[number];
 
-const SERVICE_LINKS: Record<ServiceKey, string> = {
+const SERVICE_LINKS = {
   immigration: siteConfig.servicesImmigrationPath,
   emigration: siteConfig.servicesEmigrationPath,
   visaTypes: siteConfig.servicesVisaTypesPath,
   additionalSupport: siteConfig.servicesAdditionalSupportPath
-};
+} as const;
 
 export default function ServicesPage() {
   const t = useTranslations('ServicesOverview');
