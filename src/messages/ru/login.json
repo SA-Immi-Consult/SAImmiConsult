@@ -1,0 +1,27 @@
+{
+  "Login": {
+    "heading": "Вход для клиентов",
+    "subheading": "Существующие клиенты могут войти, чтобы следить за статусом дела и передавать обновлённые данные консультанту.",
+    "fieldsSectionTitle": "Данные для входа",
+    "fields": {
+      "email": {
+        "label": "Эл. почта",
+        "placeholder": "name@example.com"
+      },
+      "password": {
+        "label": "Пароль",
+        "placeholder": "Введите пароль"
+      },
+      "rememberMe": {
+        "label": "Запомнить меня на этом устройстве"
+      }
+    },
+    "actions": {
+      "submit": "Войти"
+    },
+    "footer": {
+      "noAccount": "Вы ещё не клиент SA Immi Consult?",
+      "signupLink": "Создать личный кабинет"
+    }
+  }
+}

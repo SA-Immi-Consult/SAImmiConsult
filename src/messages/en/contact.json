@@ -1,0 +1,64 @@
+{
+  "Contact": {
+    "heading": "Contact",
+    "subheading": "If your question isn't covered in our FAQ, please use this form for short general queries or to arrange a consultation.",
+    "labels": {
+      "optional": "Optional"
+    },
+    "fields": {
+      "fullName": {
+        "label": "Name and surname",
+        "placeholder": "Enter your full name"
+      },
+      "email": {
+        "label": "Email address",
+        "placeholder": "name@example.com"
+      },
+      "phone": {
+        "label": "Telephone number",
+        "placeholder": "+27 82 123 4567",
+        "hint": "Include your international dialing code."
+      },
+      "location": {
+        "label": "Town and country",
+        "placeholder": "e.g. Cape Town, South Africa",
+        "hint": "Helps us route your enquiry to the right consultant."
+      },
+      "enquiryType": {
+        "label": "Reason for your enquiry",
+        "placeholder": "Select an option",
+        "options": {
+          "general": "General enquiry",
+          "saImmigration": "South African immigration matter",
+          "ukImmigration": "UK immigration matter",
+          "corporate": "Corporate / HR / business enquiry",
+          "other": "Other"
+        }
+      },
+      "preferredContact": {
+        "label": "How should we contact you?",
+        "options": {
+          "email": "Email",
+          "phone": "Phone"
+        }
+      },
+      "preferredTime": {
+        "label": "If by phone, when would you prefer us to call?",
+        "options": {
+          "morning": "09:00 – 13:00",
+          "afternoon": "13:00 – 17:00"
+        }
+      },
+      "message": {
+        "label": "Your message",
+        "placeholder": "Share a brief summary of your situation or question."
+      },
+      "consent": {
+        "label": "I agree that SA Immi Consult may store and process my details to respond to this enquiry."
+      }
+    },
+    "actions": {
+      "submit": "Send enquiry"
+    }
+  }
+}

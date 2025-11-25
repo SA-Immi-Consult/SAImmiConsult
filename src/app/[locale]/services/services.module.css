@@ -1,0 +1,522 @@
+/* src/app/[locale]/services/services.module.css */
+
+/* PAGE LAYOUT
+   ------------------------------------------------------------------ */
+
+.pageContainer {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  padding: 4rem 1.75rem 3.5rem;
+  box-sizing: border-box;
+
+  /* Same calm background language as home */
+  background:
+    radial-gradient(circle at top left, #edf4ff 0, #f7f5f2 45%, #f3f6f5 100%);
+}
+
+.pageCard {
+  width: 100%;
+  max-width: 1040px;
+  background-color: #ffffff;
+  border-radius: 1.5rem;
+  padding: 2.5rem 2.25rem;
+  box-shadow:
+    0 22px 60px rgba(15, 23, 42, 0.16),
+    0 0 0 1px rgba(148, 163, 184, 0.25);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .pageCard {
+    padding: 3rem 3rem;
+    gap: 3rem;
+  }
+}
+
+/* PAGE HEADER (eyebrow, title, subtitle, CTA row)
+   ------------------------------------------------------------------ */
+
+.pageHeaderEyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #0369a1;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+}
+
+.pageHeaderTitle {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.9rem, 3.6vw, 2.5rem);
+  line-height: 1.16;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.pageHeaderSubtitle {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: #4b5563;
+  max-width: 44rem;
+}
+
+.pageCtaRow,
+.pageHeaderActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 1.8rem;
+}
+
+/* BUTTONS (page-level primary/secondary)
+   ------------------------------------------------------------------ */
+
+.pagePrimaryButton,
+.pageSecondaryButton {
+  border-radius: 999px;
+  padding: 0.7rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  transition:
+    transform 0.15s ease-out,
+    box-shadow 0.15s ease-out,
+    background-color 0.15s ease-out,
+    color 0.15s ease-out;
+}
+
+/* Primary: soft green with depth (to echo calm SA feel) */
+.pagePrimaryButton {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #f9fafb;
+  box-shadow:
+    0 16px 40px rgba(15, 118, 110, 0.35),
+    0 0 0 1px rgba(22, 163, 74, 0.4);
+}
+
+.pagePrimaryButton:hover {
+  transform: translateY(-1px) scale(1.01);
+  box-shadow:
+    0 20px 50px rgba(15, 118, 110, 0.45),
+    0 0 0 1px rgba(21, 128, 61, 0.55);
+}
+
+.pagePrimaryButton:active {
+  transform: translateY(0) scale(0.99);
+  box-shadow:
+    0 12px 24px rgba(15, 118, 110, 0.35),
+    0 0 0 1px rgba(21, 128, 61, 0.6);
+}
+
+.pagePrimaryButton:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 1px #ecfdf5,
+    0 0 0 4px rgba(22, 163, 74, 0.65),
+    0 18px 40px rgba(15, 23, 42, 0.2);
+}
+
+/* Secondary: subtle outline button */
+.pageSecondaryButton {
+  background-color: #f9fafb;
+  color: #0f172a;
+  border: 1px solid rgba(148, 163, 184, 0.65);
+  box-shadow:
+    0 0 0 0 transparent,
+    0 12px 26px rgba(15, 23, 42, 0.08);
+}
+
+.pageSecondaryButton:hover {
+  background-color: #eff6ff;
+  border-color: rgba(59, 130, 246, 0.55);
+  box-shadow:
+    0 14px 30px rgba(15, 23, 42, 0.12),
+    0 0 0 1px rgba(59, 130, 246, 0.3);
+}
+
+.pageSecondaryButton:active {
+  background-color: #e5f0ff;
+  transform: translateY(0.5px);
+}
+
+.pageSecondaryButton:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 1px #eff6ff,
+    0 0 0 4px rgba(59, 130, 246, 0.45);
+}
+
+/* GENERIC SECTION BLOCKS
+   ------------------------------------------------------------------ */
+
+.sectionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.75rem 1.5rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: radial-gradient(circle at top left, #f9fafb 0, #ffffff 40%, #f9fafb 100%);
+}
+
+.sectionGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.sectionText {
+  max-width: 40rem;
+}
+
+.sectionTitle {
+  margin: 0 0 0.6rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.sectionBody {
+  margin: 0;
+  font-size: 0.96rem;
+  line-height: 1.7;
+  color: #4b5563;
+}
+
+/* Bullet lists used in service sections */
+.bulletList {
+  list-style: none;
+  padding: 0;
+  margin: 0.8rem 0 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.bulletItem {
+  position: relative;
+  padding-left: 1.35rem;
+  font-size: 0.94rem;
+  color: #374151;
+}
+
+.bulletItem::before {
+  content: '';
+  position: absolute;
+  left: 0.35rem;
+  top: 0.55rem;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #22c55e, #059669);
+}
+
+/* Highlight panel (for “Why SA” style callouts)
+   ------------------------------------------------------------------ */
+
+.highlightPanel {
+  border-radius: 1.15rem;
+  padding: 1.5rem 1.4rem;
+  background: linear-gradient(135deg, #ecfdf5, #e0f2fe);
+  border: 1px solid rgba(34, 197, 94, 0.18);
+  box-shadow:
+    0 14px 30px rgba(22, 163, 74, 0.12),
+    0 0 0 1px rgba(226, 232, 240, 0.9);
+}
+
+.highlightTitle {
+  margin: 0 0 0.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #064e3b;
+}
+
+.highlightText {
+  margin: 0;
+  font-size: 0.94rem;
+  line-height: 1.7;
+  color: #065f46;
+}
+
+/* BRICS / pill-style lists
+   ------------------------------------------------------------------ */
+
+.pillList {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  background: rgba(59, 130, 246, 0.06);
+  color: #1d4ed8;
+  border: 1px solid rgba(191, 219, 254, 0.9);
+}
+
+/* FAQ-SPECIFIC STYLES
+   ------------------------------------------------------------------ */
+
+.faqList {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.faqItem {
+  padding: 1.1rem 1.1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background-color: #f9fafb;
+}
+
+.faqQuestion {
+  margin: 0 0 0.4rem;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.faqAnswer {
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 1.6;
+  color: #4b5563;
+}
+
+/* NEWS-SPECIFIC STYLES
+   ------------------------------------------------------------------ */
+
+.newsList {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.newsItem {
+  padding: 1.25rem 1.2rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background-color: #ffffff;
+  box-shadow:
+    0 10px 22px rgba(15, 23, 42, 0.06),
+    0 0 0 1px rgba(248, 250, 252, 0.8);
+}
+
+.newsItemHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.4rem;
+}
+
+.newsItemTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.newsItemMeta {
+  margin: 0;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #6b7280;
+}
+
+.newsItemSummary {
+  margin: 0.25rem 0 0;
+  font-size: 0.93rem;
+  line-height: 1.6;
+  color: #4b5563;
+}
+
+/* RESPONSIVE TWEAKS
+   ------------------------------------------------------------------ */
+
+@media (min-width: 768px) {
+  .sectionBlock {
+    padding: 2rem 1.9rem;
+  }
+
+  .sectionGroup {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .sectionText {
+    flex: 1.2;
+  }
+
+  .bulletList {
+    flex: 1;
+  }
+
+  .faqItem,
+  .newsItem {
+    padding: 1.35rem 1.4rem;
+  }
+}
+
+/* VISA TYPES LAYOUT
+   ------------------------------------------------------------------ */
+
+.visaIntro {
+  margin-top: 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #4b5563;
+}
+
+/* Grid for the 4 visa categories (work, study, business, family) */
+.visaCardGrid {
+  margin-top: 1.75rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .visaCardGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Individual visa card – visually aligned with other section blocks */
+.visaCard {
+  border-radius: 1.25rem;
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  background: radial-gradient(circle at top left, #f9fafb 0, #ffffff 40%, #f9fafb 100%);
+  padding: 1.6rem 1.4rem;
+  box-shadow:
+    0 14px 30px rgba(15, 23, 42, 0.06),
+    0 0 0 1px rgba(248, 250, 252, 0.85);
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+/* Top section: title + optional small badge */
+.visaCardHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.visaCardTitle {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.visaCardBadge {
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+/* Short description text under the title */
+.visaCardBody {
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 1.65;
+  color: #4b5563;
+}
+
+/* Two meta blocks: "Who can apply" + "Main requirements" */
+.visaMetaRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.9rem;
+  margin-top: 0.6rem;
+}
+
+@media (min-width: 768px) {
+  .visaMetaRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.visaMetaBlock {
+  border-radius: 0.9rem;
+  padding: 0.7rem 0.85rem;
+  background-color: #f9fafb;
+  border: 1px dashed rgba(209, 213, 219, 0.9);
+}
+
+.visaMetaLabel {
+  margin: 0 0 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.visaMetaText {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #374151;
+}
+
+/* Requirements list inside each visa card – reuse bullet style but slightly smaller */
+.visaRequirementsList {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.visaRequirementsItem {
+  position: relative;
+  padding-left: 1.15rem;
+  font-size: 0.88rem;
+  color: #374151;
+}
+
+.visaRequirementsItem::before {
+  content: '';
+  position: absolute;
+  left: 0.3rem;
+  top: 0.55rem;
+  width: 0.34rem;
+  height: 0.34rem;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #22c55e, #16a34a);
+}

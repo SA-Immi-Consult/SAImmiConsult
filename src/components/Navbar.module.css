@@ -1,0 +1,242 @@
+/* src/components/Navbar.module.css */
+
+/* ===========================
+   NAVBAR WRAPPER
+   =========================== */
+
+.navbar {
+  position: sticky;
+  top: 1.25rem;
+  z-index: 40;
+
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0.45rem 0.6rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.96);
+  box-shadow:
+    0 14px 32px rgba(15, 23, 42, 0.12),
+    0 0 0 1px rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  backdrop-filter: blur(12px);
+}
+
+/* ===========================
+   LOGO / BRAND
+   =========================== */
+
+.logo {
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #0f172a;
+  white-space: nowrap;
+}
+
+/* ===========================
+   NAV LINKS
+   =========================== */
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+}
+
+/* each <li> */
+.navItem {
+  position: relative;
+}
+
+/* "Services" item, has dropdown */
+.navItemWithDropdown {
+  position: relative;
+}
+
+/* Base link style */
+.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  color: #4b5563;
+  background-color: transparent;
+
+  transition:
+    background-color 0.16s ease-out,
+    border-color 0.16s ease-out,
+    color 0.16s ease-out,
+    box-shadow 0.16s ease-out,
+    transform 0.12s ease-out;
+}
+
+/* Hover effect */
+.link:hover {
+  background-color: #eef2ff;
+  border-color: rgba(148, 163, 184, 0.8);
+  color: #111827;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+  transform: translateY(-1px);
+}
+
+/* Active route pill */
+.active {
+  background: linear-gradient(
+    135deg,
+    rgba(209, 250, 229, 0.9),
+    #ffffff,
+    rgba(219, 234, 254, 0.9)
+  );
+  border-color: rgba(16, 185, 129, 0.55);
+  color: #065f46;
+  box-shadow:
+    0 10px 24px rgba(15, 23, 42, 0.12),
+    0 0 0 1px rgba(148, 163, 184, 0.18);
+}
+
+/* ===========================
+   SERVICES DROPDOWN
+   =========================== */
+
+/* Dropdown container (positioned under Services pill) */
+.servicesDropdown {
+  position: absolute;
+  top: 2.4rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  z-index: 50;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity 0.18s ease-out,
+    transform 0.18s ease-out,
+    visibility 0.18s ease-out;
+}
+
+/* Visible state, controlled by React state */
+.servicesDropdownOpen {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0.3rem);
+}
+
+/* The dropdown card */
+.servicesDropdownInner {
+  min-width: 400px;
+  max-width: 700px;
+  padding: 0.75rem 0.7rem;
+
+  border-radius: 1.2rem;
+  background-color: #ffffff;
+  box-shadow:
+    0 20px 45px rgba(15, 23, 42, 0.18),
+    0 0 0 1px rgba(148, 163, 184, 0.22);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+/* Each dropdown link row */
+.servicesDropdownItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 0.85rem;
+  text-decoration: none;
+
+  background-color: transparent;
+  color: #111827;
+
+  transition:
+    background-color 0.15s ease-out,
+    transform 0.12s ease-out;
+}
+
+.servicesDropdownItem:hover {
+  background-color: #f9fafb;
+  transform: translateY(-1px);
+}
+
+/* Dropdown text */
+.servicesDropdownTitle {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #0f172a;
+}
+
+.servicesDropdownDesc {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: #4b5563;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+
+@media (max-width: 900px) {
+  .navbar {
+    top: 0.85rem;
+    padding: 0.45rem 0.75rem;
+    border-radius: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+
+  .logo {
+    flex: 0 0 100%;
+    text-align: center;
+  }
+
+  .navLinks {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* On small screens, you might later switch this to a click menu */
+  .servicesDropdown {
+    left: 50%;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding-inline: 0.5rem;
+  }
+
+  .link {
+    padding-inline: 0.8rem;
+    font-size: 0.78rem;
+  }
+}

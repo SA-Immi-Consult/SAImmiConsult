@@ -1,0 +1,239 @@
+/* src/app/[locale]/auth.module.css */
+
+.authPage {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  padding: 4rem 1.75rem 3.5rem;
+  box-sizing: border-box;
+  background:
+    radial-gradient(circle at top left, #edf4ff 0, #f7f5f2 45%, #f3f6f5 100%);
+}
+
+.authCard {
+  width: 100%;
+  max-width: 960px;
+  background-color: #ffffff;
+  border-radius: 1.5rem;
+  padding: 2.5rem 2.25rem;
+  box-shadow:
+    0 22px 60px rgba(15, 23, 42, 0.16),
+    0 0 0 1px rgba(148, 163, 184, 0.25);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .authCard {
+    padding: 3rem 3rem;
+    gap: 3rem;
+  }
+}
+
+.authHeader {
+  max-width: 38rem;
+}
+
+.authTitle {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.9rem, 3.6vw, 2.4rem);
+  line-height: 1.16;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.authSubtitle {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: #4b5563;
+}
+
+/* FORM LAYOUT */
+
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .formGrid.twoCols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.formSection {
+  border-radius: 1.25rem;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: radial-gradient(circle at top left, #f9fafb 0, #ffffff 40%, #f9fafb 100%);
+  padding: 1.6rem 1.4rem;
+  box-shadow:
+    0 14px 30px rgba(15, 23, 42, 0.06),
+    0 0 0 1px rgba(248, 250, 252, 0.85);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formSectionTitle {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.formSectionSubtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.9rem;
+}
+
+@media (min-width: 640px) {
+  .formRow.multiple {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.fieldLabel {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.fieldHint {
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+.fieldInput,
+.fieldSelect,
+.fieldTextarea {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(209, 213, 219, 0.9);
+  padding: 0.6rem 0.75rem;
+  font-size: 0.9rem;
+  color: #111827;
+  background-color: #f9fafb;
+  transition:
+    border-color 0.15s ease-out,
+    box-shadow 0.15s ease-out,
+    background-color 0.15s ease-out;
+}
+
+.fieldInput:focus-visible,
+.fieldSelect:focus-visible,
+.fieldTextarea:focus-visible {
+  outline: none;
+  border-color: #22c55e;
+  box-shadow:
+    0 0 0 1px #bbf7d0,
+    0 0 0 4px rgba(34, 197, 94, 0.35);
+  background-color: #ffffff;
+}
+
+.fieldTextarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.fieldInline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.checkboxInput {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* BUTTONS */
+
+.authActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.authPrimaryButton {
+  border-radius: 999px;
+  padding: 0.7rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  text-decoration: none;
+
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #f9fafb;
+  box-shadow:
+    0 16px 40px rgba(15, 118, 110, 0.35),
+    0 0 0 1px rgba(22, 163, 74, 0.4);
+  transition:
+    transform 0.15s ease-out,
+    box-shadow 0.15s ease-out,
+    background-color 0.15s ease-out,
+    color 0.15s ease-out;
+}
+
+.authPrimaryButton:hover {
+  transform: translateY(-1px) scale(1.01);
+  box-shadow:
+    0 20px 50px rgba(15, 118, 110, 0.45),
+    0 0 0 1px rgba(21, 128, 61, 0.55);
+}
+
+.authPrimaryButton:active {
+  transform: translateY(0) scale(0.99);
+  box-shadow:
+    0 12px 24px rgba(15, 118, 110, 0.35),
+    0 0 0 1px rgba(21, 128, 61, 0.6);
+}
+
+.authSecondaryText {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.authLink {
+  color: #0f766e;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.authLink:hover {
+  color: #115e59;
+  text-decoration: underline;
+}

@@ -1,0 +1,106 @@
+/* src/components/LocaleSwitcher.module.css */
+
+.container {
+  position: relative;
+  display: inline-flex; /* stays compact in the navbar row */
+  font-size: 14px;
+}
+
+/* Main button */
+
+.toggleButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background-color: rgba(15, 23, 42, 0.95);
+  color: #e5e7eb;
+  cursor: pointer;
+  outline: none;
+  font-size: 13px;
+  line-height: 1;
+  white-space: nowrap; /* prevent wrapping in the header */
+}
+
+.toggleButton:hover {
+  border-color: rgba(129, 140, 248, 0.9);
+}
+
+.toggleButton:focus-visible {
+  box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.7);
+}
+
+/* Flag + label inside button */
+
+.flag {
+  font-size: 16px;
+}
+
+.label {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Caret arrow */
+
+.caret {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid #e5e7eb;
+  margin-left: 2px;
+}
+
+/* Dropdown list: ABSOLUTE so it does NOT affect header height */
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 4px); /* 4px below the button */
+  right: 0;
+  min-width: 110px;
+  padding: 4px;
+  border-radius: 10px;
+  background-color: rgba(15, 23, 42, 0.98);
+  border: 1px solid rgba(51, 65, 85, 0.9);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.6);
+  list-style: none;
+  margin: 0;
+  z-index: 40; /* appear above header and page content */
+}
+
+/* Options */
+
+.option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #e5e7eb;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.option:hover {
+  background-color: rgba(51, 65, 85, 0.9);
+}
+
+.optionActive {
+  background-color: rgba(79, 70, 229, 0.9);
+}
+
+.optionActive:hover {
+  background-color: rgba(79, 70, 229, 1);
+}
+
+.optionLabel {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}

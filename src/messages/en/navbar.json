@@ -1,0 +1,22 @@
+{
+  "Navbar": {
+    "home": "Home",
+    "about": "About us",
+    "services": "Services",
+    "news": "News",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "login": "Login",
+
+    "servicesMenu": {
+      "immigration": "Immigration to South Africa",
+      "immigrationDesc": "Support with South African visas and long-term relocation.",
+      "emigration": "Emigration & working abroad",
+      "emigrationDesc": "Guidance for leaving South Africa and working or studying overseas.",
+      "visaTypes": "Types of visas",
+      "visaTypesDesc": "Overview of work, study, business, family and visitor visas.",
+      "additionalSupport": "Additional support services",
+      "additionalSupportDesc": "Help with education, housing, banking and everyday questions."
+    }
+  }
+}

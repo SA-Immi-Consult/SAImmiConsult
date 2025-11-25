@@ -1,0 +1,140 @@
+{
+  "Signup": {
+    "heading": "Create your client profile",
+    "subheading": "Tell us a bit more about yourself and your plans. This helps us prepare for a more focused consultation.",
+    "sections": {
+      "personal": {
+        "title": "Personal details",
+        "subtitle": "As in your current passport."
+      },
+      "residence": {
+        "title": "Contact and place of residence"
+      },
+      "familyFinances": {
+        "title": "Family and finances"
+      },
+      "travelHistory": {
+        "title": "Travel and visa history"
+      },
+      "passportPlans": {
+        "title": "Passport and plans in South Africa"
+      },
+      "language": {
+        "title": "English and language study"
+      }
+    },
+    "fields": {
+      "fullName": {
+        "label": "Full name (in English)",
+        "placeholder": "As in your passport",
+        "hint": "Please write your name in English exactly as it appears in your passport."
+      },
+      "citizenship": {
+        "label": "Citizenship",
+        "placeholder": "Country of citizenship"
+      },
+      "age": {
+        "label": "Age (full years)",
+        "placeholder": "Your age"
+      },
+      "maritalStatus": {
+        "label": "Marital status",
+        "placeholder": "Select status",
+        "options": {
+          "single": "Single",
+          "married": "Married",
+          "divorced": "Divorced",
+          "widowed": "Widowed"
+        }
+      },
+      "cityCountry": {
+        "label": "Country and city of residence",
+        "placeholder": "e.g. Moscow, Russia / Cape Town, South Africa"
+      },
+      "phone": {
+        "label": "Phone number",
+        "placeholder": "+27 82 123 4567"
+      },
+      "email": {
+        "label": "Email address",
+        "placeholder": "name@example.com"
+      },
+      "familyComposition": {
+        "label": "Family members and ages",
+        "placeholder": "Spouse, children, dependants and their ages."
+      },
+      "income2000plus": {
+        "label": "Monthly income from 2 000 €",
+        "placeholder": "Select an option",
+        "options": {
+          "yes": "Yes",
+          "no": "No"
+        }
+      },
+      "incomeSource": {
+        "label": "Main source of income",
+        "placeholder": "Employment, own business, pension, rental income, dividends, etc.",
+        "hint": "You can choose more than one source when we discuss your case in detail."
+      },
+      "beenToSa": {
+        "label": "Have you been to South Africa before?",
+        "placeholder": "Select an option",
+        "options": {
+          "yes": "Yes",
+          "no": "No"
+        }
+      },
+      "firstEntrySa": {
+        "label": "If yes, month and year of first entry to South Africa",
+        "placeholder": "e.g. 03/2019"
+      },
+      "currentLocation": {
+        "label": "Where are you currently located?",
+        "placeholder": "Country and city at the time of filling in this form"
+      },
+      "currentVisa": {
+        "label": "If you are already in South Africa, which visa do you hold?",
+        "placeholder": "Type of visa, validity period and start date."
+      },
+      "visaRefusals": {
+        "label": "Any previous visa refusals for South Africa?",
+        "placeholder": "Select an option",
+        "options": {
+          "yes": "Yes",
+          "no": "No"
+        }
+      },
+      "passportExpiry": {
+        "label": "Passport expiry date"
+      },
+      "visitPurpose": {
+        "label": "Purpose of your stay in South Africa",
+        "placeholder": "What do you plan to do in South Africa (work, study, business, retirement, etc.)?"
+      },
+      "englishLevel": {
+        "label": "English level",
+        "placeholder": "Select level",
+        "options": {
+          "basic": "Basic",
+          "intermediate": "Intermediate",
+          "fluent": "Fluent"
+        }
+      },
+      "needLanguageSchool": {
+        "label": "Do you need help selecting a language school?",
+        "placeholder": "Select an option",
+        "options": {
+          "yes": "Yes",
+          "no": "No"
+        }
+      }
+    },
+    "actions": {
+      "submit": "Submit profile"
+    },
+    "footer": {
+      "haveAccount": "Already have an account?",
+      "loginLink": "Log in"
+    }
+  }
+}
