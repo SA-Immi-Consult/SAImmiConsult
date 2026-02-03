@@ -1,4 +1,7 @@
 // src/proxy.ts
+
+// NOTE: This is NOT Next.js middleware unless explicitly wired as /middleware.ts - currently only a wrapper.
+
 import createMiddleware from 'next-intl/middleware';
 import { routing } from './i18n/routing';
 

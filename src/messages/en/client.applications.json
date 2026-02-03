@@ -1,0 +1,167 @@
+{
+  "ClientApplications": {
+    "eyebrow": "My Applications",
+    "title": "Manage your applications here",
+    "subtitle": "Create and track your visa applications here.",
+
+    "navigation": {
+      "returnToApps": "Return to applications",
+      "openCase": "Open case"
+    },
+
+    "overview": {
+      "contactConsultant": "Contact consultant"
+    },
+
+    "contact": {
+      "methods": {
+        "whatsapp": "WhatsApp",
+        "telegram": "Telegram",
+        "email": "Email"
+      }
+    },
+
+    "list": {
+      "empty": "No applications.",
+	  "title": "Your applications",
+      "subtitle": "Filter by status and track your document progress."
+    },
+
+    "details": {
+      "destinationFallback": "Destination not set"
+    },
+
+    "header": {
+      "docsSummary": "{uploaded}/{required} uploaded · {approved} approved"
+	},
+
+    "errors": {
+      "fetchTitle": "We couldn’t load your application",
+      "fetchBody": "Something went wrong while loading this application. Please try again or return to your applications list.",
+      "detailsLabel": "Details",
+      "returnToApps": "Return to applications",
+      "notFoundTitle": "Application not found",
+      "notFoundBody": "We couldn’t find an application with ID {id}. It may not exist or you may not have access to it."
+    },
+
+    "cta": {
+      "confirmNewApplication": "You already have an ongoing application. Are you sure you want to create a new one?"
+    },
+
+    "documents": {
+      "requiredTitle": "Required Documents",
+      "requiredSubtitle": "Upload all required documents to proceed.",
+      "status": {
+        "approved": "Approved",
+        "under_review": "Under review",
+        "resubmit": "Needs resubmission",
+        "rejected": "Rejected",
+        "pending": "Pending review",
+        "uploaded": "Uploaded",
+        "missing": "Outstanding"
+      }
+    },
+
+    "filters": {
+      "statusLabel": "Filter by status:"
+    },
+
+    "status": {
+      "currentStatus": "Current Status"
+    },
+
+    "empty": {
+      "title": "No applications yet",
+      "message": "Ready to begin your journey to South Africa? Create your first application now."
+    },
+
+    "types": {
+      "visa": "Visa Application",
+      "work": "Work Visa",
+      "residence": "Residence Permit",
+      "work_permit": "Work Permit",
+      "study": "Study Visa",
+      "general_work": "General Work Visa",
+      "critical_skills": "Critical Skills Visa",
+      "relative": "Relative’s Visa",
+      "retired": "Retirement Visa",
+      "medical": "Medical Treatment Visa",
+      "medical_treatment": "Medical Treatment Visa",
+      "business": "Business Visa",
+      "visitors": "Visitor’s Visa",
+      "exchange": "Exchange Programme Visa",
+      "corporate": "Corporate Permit"
+    },
+	
+	"journey": {
+		"title": "My Visa Application Journey",
+		"subtitle": "Overview of your visa status and communication from your consultant",
+		"noteLabel": "Consultant notes"
+	},
+
+    "noTimeline": "Timeline will appear once your application is submitted.",
+
+    "timeline": {
+      "ariaLabel": "Application timeline"
+    },
+
+    "statuses": {
+      "not_started": "Not started",
+      "not_started_desc": "Your application has been created but you have not started uploading documents yet.",
+
+      "waiting_documents": "We are waiting for your documents",
+      "waiting_documents_desc": "We are still waiting for you to upload all the required supporting documents.",
+
+      "documents_under_review": "We are reviewing your documents",
+      "documents_under_review_desc": "All required documents have been uploaded and are now being reviewed by your consultant.",
+
+      "documents_approved": "All documents have been approved",
+      "documents_approved_desc": "Your consultant has reviewed and approved all of your documents.",
+
+      "documents_not_approved": "Not all documents have been approved",
+      "documents_not_approved_desc": "Some of your documents need changes or clarification. Your consultant will let you know exactly what is needed.",
+
+      "visa_journey_started": "Visa journey started",
+      "visa_journey_started_desc": "Your application has been submitted to the relevant authorities.",
+
+      "visa_issue_action_needed": "Issue with visa process – action needed",
+      "visa_issue_action_needed_desc": "There is an update from the authorities that requires action. Your consultant will contact you with details.",
+
+      "visa_approved": "Visa approved",
+      "visa_approved_desc": "Your visa has been approved. Your consultant will guide you through the final steps.",
+
+      "finished": "Completed",
+      "finished_desc": "Your visa case has been completed and closed.",
+
+      "cancelled": "Cancelled",
+      "cancelled_desc": "This application has been cancelled."
+    },
+
+    "dates": {
+      "created": "Created",
+      "lastUpdate": "Updated"
+    },
+
+    "actions": {
+      "startNew": "Start new application",
+      "viewDetails": "Open",
+      "submitDocs": "Submit Required Documents"
+    },
+
+    "documentStatuses": {
+      "pending": "Pending review",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "resubmit": "Needs resubmission",
+      "uploaded": "Uploaded",
+      "missing": "Missing"
+    },
+
+    "activeGuard": {
+      "title": "You already have an active application",
+      "body": "You currently have an ongoing application. Creating a new one may delay processing and cause duplicate records. Do you want to continue?",
+      "cancel": "Cancel",
+      "continue": "Continue anyway"
+    }
+  }
+}

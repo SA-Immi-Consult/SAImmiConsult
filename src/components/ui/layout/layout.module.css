@@ -1,0 +1,38 @@
+/*
+DOC NAME: layout.module.css
+LOCATION: /src/components/ui/layout/layout.module.css
+SCOPE: Global layout primitives (PageShell/MainColumn) — layout only.
+STATUS: LOCKED
+APPLIES TO: /src/components/ui/layout/PageShell.tsx, /src/components/ui/layout/MainColumn.tsx and all pages using them
+NOTES:
+- Layout only: no typography/color decisions (those live in globals.css tokens/roles).
+- .page is expected to be used by PageShell to guarantee full-height surface.
+CONTENT:
+*/
+
+/* ==========================================================================
+	PageShell / MainColumn — layout only (LOCKED)
+	========================================================================== */
+
+.page {
+	min-height: 100dvh;
+	display: flex;
+	flex-direction: column;
+}
+
+.shell {
+	width: 100%;
+
+	/* IMPORTANT:
+	   Keep vertical rhythm, but DO NOT add horizontal padding here,
+	   because MainColumn/hero/container already use width: min(92vw, ...).
+	   If we add padding-inline here too, 92vw will overflow the padded box on mobile
+	   and content becomes flush/right-shifted. */
+	padding-block: var(--space-page);
+	padding-inline: 0;
+}
+
+.column {
+	width: min(92vw, var(--content-max-width));
+	margin-inline: auto;
+}

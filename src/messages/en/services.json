@@ -1,9 +1,9 @@
 {
   "ServicesOverview": {
     "header": {
-      "eyebrow": "Services",
-      "title": "How we can help you",
-      "subtitle": "From immigration to South Africa to emigration, visa planning and everyday support, we structure our services to guide you step by step.",
+      "title": "Services",
+      "subtitle": "How we can help you",
+      "description": "From immigration to South Africa to emigration, visa planning and everyday support, we structure our services to guide you step by step.",
       "primaryCta": "Speak to a consultant",
       "secondaryCta": "View FAQ"
     },

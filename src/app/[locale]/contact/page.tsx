@@ -1,214 +1,87 @@
-// src/app/[locale]/contact/page.tsx
-import { useTranslations } from 'next-intl';
-import styles from '../home.module.css';
+/*
+DOC NAME: page.tsx
+LOCATION: /src/app/[locale]/contact/page.tsx
+SCOPE: Contact page — remove enquiry form; provide direct contact CTAs only. Visual overhaul only.
+STATUS: UNLOCKED (lock after verified)
+NOTES:
+- No hardcoded user-facing strings; i18n keys only (no fallbacks).
+- Uses global hero roles (.hero-title/.hero-subtitle/.hero-desc).
+- Buttons use global button classes (button-primary / button-secondary).
+- Uses global hero primitive: PageWithStickyHero (sticky image overlay logic).
+*/
 
-export default function ContactPage() {
-  const t = useTranslations('Contact');
+import { getLocale, getTranslations } from "next-intl/server";
+import { siteConfig } from "@/config/siteConfig";
+import type { CSSProperties } from "react";
 
-  const enquiryTypeOptions = [
-    { value: 'general', key: 'fields.enquiryType.options.general' },
-    { value: 'saImmigration', key: 'fields.enquiryType.options.saImmigration' },
-    { value: 'ukImmigration', key: 'fields.enquiryType.options.ukImmigration' },
-    { value: 'corporate', key: 'fields.enquiryType.options.corporate' },
-    { value: 'other', key: 'fields.enquiryType.options.other' }
-  ];
+import { PageWithStickyHero } from "@/components/ui/hero/PageWithStickyHero";
 
-  const preferredContactOptions = [
-    { value: 'email', key: 'fields.preferredContact.options.email' },
-    { value: 'phone', key: 'fields.preferredContact.options.phone' }
-  ];
+import styles from "./contact.module.css";
 
-  const preferredTimeOptions = [
-    { value: 'morning', key: 'fields.preferredTime.options.morning' },
-    { value: 'afternoon', key: 'fields.preferredTime.options.afternoon' }
-  ];
+export default async function ContactPage() {
+	const t = await getTranslations("Contact");
 
-  return (
-    <div className={styles.container}>
-      <main className={styles.contactCard}>
-        <header className={styles.contactHeader}>
-          <h1 className={styles.contactTitle}>{t('heading')}</h1>
-          <p className={styles.contactSubtitle}>{t('subheading')}</p>
-        </header>
+	// Keep the existing prefill behaviour, but with strict i18n (no fallbacks).
+	const whatsappPrefill = t("quickChat.prefill");
+	const whatsappHref = `${siteConfig.whatsappUrl}?text=${encodeURIComponent(whatsappPrefill)}`;
 
-        {/* Skeleton only: backend wiring will be added later */}
-        <form className={styles.form} method="post" noValidate>
-          {/* Basic details */}
-          <div className={styles.formRow}>
-            <div className={styles.formField}>
-              <label htmlFor="fullName">
-                {t('fields.fullName.label')}
-                <span aria-hidden="true"> *</span>
-              </label>
-              <input
-                id="fullName"
-                name="fullName"
-                type="text"
-                autoComplete="name"
-                required
-                placeholder={t('fields.fullName.placeholder')}
-              />
-            </div>
 
-            <div className={styles.formField}>
-              <label htmlFor="email">
-                {t('fields.email.label')}
-                <span aria-hidden="true"> *</span>
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                placeholder={t('fields.email.placeholder')}
-              />
-            </div>
-          </div>
+	const telegramHref = siteConfig.telegramUrl;
 
-          {/* Phone + location */}
-          <div className={styles.formRow}>
-            <div className={styles.formField}>
-              <label htmlFor="phone">
-                {t('fields.phone.label')}
-                <span aria-hidden="true"> *</span>
-              </label>
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                autoComplete="tel"
-                required
-                placeholder={t('fields.phone.placeholder')}
-              />
-              <p className={styles.fieldHint}>
-                {t('fields.phone.hint')}
-              </p>
-            </div>
+	return (
+		<PageWithStickyHero
+			imageSrc="/images/contact.jpg"
+			overlap={false}
+			title={t("eyebrow")}
+			subtitle={t("title")}
+			description={t("subtitle")}
+			descriptionOnImageRole={true}
+			style={
+				{
+					"--hero-anchor-x": "50%",
+					"--hero-anchor-y": "50%",
+					"--hero-x": "0px",
+					"--hero-y": "80px",
+					"--hero-x-mobile": "170px",
+					"--hero-y-mobile": "0px",
+					"--hero-height": "clamp(420px, 70vh, 820px)",
+					"--hero-overlay-top": "0.2",
+					"--hero-overlay-mid": "0.4",
+					"--hero-overlay-bot": "0.2",
+					"--hero-overlay-blur": "0px",
+					"--hero-overlay-sat": "1.2",
+				} as CSSProperties
+			}
+		>
+			<article className={`surface-soft ${styles.card}`}>
+				<h2 className="panel-title">{t("quickChat.title")}</h2>
 
-            <div className={styles.formField}>
-              <label htmlFor="location">
-                {t('fields.location.label')}
-                <span aria-hidden="true"> *</span>
-              </label>
-              <input
-                id="location"
-                name="location"
-                type="text"
-                required
-                placeholder={t('fields.location.placeholder')}
-              />
-              <p className={styles.fieldHint}>
-                {t('fields.location.hint')}
-              </p>
-            </div>
-          </div>
+				<p className={`text-sm text-muted ${styles.quickBody}`}>{t("quickChat.body")}</p>
 
-          {/* Reason for enquiry */}
-          <div className={styles.formField}>
-            <label htmlFor="enquiryType">
-              {t('fields.enquiryType.label')}
-              <span aria-hidden="true"> *</span>
-            </label>
-            <select
-              id="enquiryType"
-              name="enquiryType"
-              required
-              defaultValue=""
-            >
-              <option value="" disabled>
-                {t('fields.enquiryType.placeholder')}
-              </option>
-              {enquiryTypeOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {t(option.key)}
-                </option>
-              ))}
-            </select>
-          </div>
+				<p className={`text-sm ${styles.fastHint}`}>{t("quickChat.quickerResponse")}</p>
 
-          {/* Preferred contact method */}
-          <fieldset className={styles.fieldset}>
-            <legend>
-              {t('fields.preferredContact.label')}
-              <span aria-hidden="true"> *</span>
-            </legend>
-            <div className={styles.inlineOptions}>
-              {preferredContactOptions.map((option) => (
-                <label
-                  key={option.value}
-                  className={styles.inlineOption}
-                >
-                  <input
-                    type="radio"
-                    name="preferredContact"
-                    value={option.value}
-                    required
-                  />
-                  <span>{t(option.key)}</span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
+				<div className={styles.actionsGrid} aria-label={t("quickChat.ariaLabel")}>
+					<a
+						href={whatsappHref}
+						target="_blank"
+						rel="noopener noreferrer"
+						className={`button button-primary ${styles.actionButton}`}
+					>
+						{t("quickChat.actions.whatsapp")}
+					</a>
 
-          {/* Preferred time (optional) */}
-          <fieldset className={styles.fieldset}>
-            <legend>
-              {t('fields.preferredTime.label')}
-              <span className={styles.optional}>
-                {t('labels.optional')}
-              </span>
-            </legend>
-            <div className={styles.inlineOptions}>
-              {preferredTimeOptions.map((option) => (
-                <label
-                  key={option.value}
-                  className={styles.inlineOption}
-                >
-                  <input
-                    type="radio"
-                    name="preferredTime"
-                    value={option.value}
-                  />
-                  <span>{t(option.key)}</span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
+					<a
+						href={telegramHref}
+						target="_blank"
+						rel="noopener noreferrer"
+						className={`button button-secondary ${styles.actionButton}`}
+					>
+						{t("quickChat.actions.telegram")}
+					</a>
+				</div>
 
-          {/* Message */}
-          <div className={styles.formField}>
-            <label htmlFor="message">
-              {t('fields.message.label')}
-              <span aria-hidden="true"> *</span>
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              rows={5}
-              required
-              placeholder={t('fields.message.placeholder')}
-            />
-          </div>
-
-          {/* Consent */}
-          <div className={styles.consentRow}>
-            <label className={styles.checkboxLabel}>
-              <input
-                type="checkbox"
-                name="consent"
-                required
-              />
-              <span>{t('fields.consent.label')}</span>
-            </label>
-          </div>
-
-          {/* Submit */}
-          <button type="submit" className={styles.primaryButton}>
-            {t('actions.submit')}
-          </button>
-        </form>
-      </main>
-    </div>
-  );
+				<p className={`text-xs text-muted ${styles.metaNote}`}>{t("quickChat.note")}</p>
+			</article>
+		</PageWithStickyHero>
+	);
 }

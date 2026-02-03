@@ -1,124 +1,92 @@
-// src/app/[locale]/services/visa-types/page.tsx
+/*
+DOC NAME: page.tsx
+LOCATION: /src/app/[locale]/services/visa-types/page.tsx
+SCOPE: Services subpage — Visa Types. Visual-only: global hero-shell/hero-inner + global buttons + global typography utilities.
+STATUS: UNLOCKED (lock after verified)
+NOTES:
+- Must use global layout primitives: PageShell/MainColumn.
+- Per global rule: every page uses PageShell + standard hero skeleton (title/subtitle/description).
+- Uses global hero primitive: PageWithStickyHero (sticky image overlay logic).
+*/
 
-import { useTranslations } from 'next-intl';
-import { Link } from '@/i18n/navigation';
-import { siteConfig } from '@/config/siteConfig';
-import styles from '../services.module.css';
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { siteConfig } from "@/config/siteConfig";
+import type { CSSProperties } from "react";
 
-export default function VisaTypesPage() {
-  const t = useTranslations('ServicesVisaTypes');
+import { PageWithStickyHero } from "@/components/ui/hero/PageWithStickyHero";
 
-  return (
-    <div className={styles.pageContainer}>
-      <main className={styles.pageCard}>
-        <header>
-          <p className={styles.pageHeaderEyebrow}>
-            {t('header.eyebrow')}
-          </p>
-          <h1 className={styles.pageHeaderTitle}>
-            {t('header.title')}
-          </h1>
-          <p className={styles.pageHeaderSubtitle}>
-            {t('header.subtitle')}
-          </p>
+import styles from "../services.module.css";
 
-          <div className={styles.pageCtaRow}>
-            <Link
-              href={siteConfig.contactPath} className={styles.pagePrimaryButton}>
-              {t('header.primaryCta')}
-            </Link>
-            <Link
-              href={siteConfig.faqPath} className={styles.pageSecondaryButton}>
-              {t('header.secondaryCta')}
-            </Link>
-          </div>
-        </header>
+const VISA_CATEGORIES = ["work", "study", "business", "family"] as const;
 
-        {/* Main card grid of visa categories */}
-        <section className={styles.sectionBlock}>
-          <div className={styles.cardGrid}>
-            {/* Work visas */}
-            <article className={styles.card}>
-              <h2 className={styles.cardTitle}>
-                {t('work.title')}
-              </h2>
-              <p className={styles.cardText}>{t('work.body')}</p>
-              <h3 className={styles.cardSubheading}>
-                {t('work.who')}
-              </h3>
-              <p className={styles.cardText}>{t('work.whoBody')}</p>
-              <h3 className={styles.cardSubheading}>
-                {t('work.requirements')}
-              </h3>
-              <ul className={styles.bulletList}>
-                <li>{t('work.requirementList.0')}</li>
-                <li>{t('work.requirementList.1')}</li>
-                <li>{t('work.requirementList.2')}</li>
-              </ul>
-            </article>
+export default async function VisaTypesPage() {
+	const t = await getTranslations("ServicesVisaTypes");
 
-            {/* Study visas */}
-            <article className={styles.card}>
-              <h2 className={styles.cardTitle}>
-                {t('study.title')}
-              </h2>
-              <p className={styles.cardText}>{t('study.body')}</p>
-              <h3 className={styles.cardSubheading}>
-                {t('study.who')}
-              </h3>
-              <p className={styles.cardText}>{t('study.whoBody')}</p>
-              <h3 className={styles.cardSubheading}>
-                {t('study.requirements')}
-              </h3>
-              <ul className={styles.bulletList}>
-                <li>{t('study.requirementList.0')}</li>
-                <li>{t('study.requirementList.1')}</li>
-                <li>{t('study.requirementList.2')}</li>
-              </ul>
-            </article>
+	return (
+		<PageWithStickyHero
+			imageSrc="/images/service-visa-types.jpg"
+			overlap={false}
+			title={t("header.title")}
+			subtitle={t("header.subtitle")}
+			description={t("header.description")}
+			descriptionOnImageRole={true}
+			style={
+				{
+					"--hero-anchor-x": "50%",
+					"--hero-anchor-y": "50%",
+					"--hero-x": "0px",
+					"--hero-y": "0px",
+					"--hero-x-mobile": "0px",
+					"--hero-y-mobile": "20px",
+					"--hero-height": "clamp(420px, 70vh, 820px)",
+					"--hero-overlay-top": "0.70",
+					"--hero-overlay-mid": "0.44",
+					"--hero-overlay-bot": "0.26",
+					"--hero-overlay-blur": "0px",
+					"--hero-overlay-sat": "1.2",
+				} as CSSProperties
+			}
+			actions={
+				<>
+					<Link href={siteConfig.contactPath} className="button button-primary">
+						{t("header.primaryCta")}
+					</Link>
 
-            {/* Business / investor / financially independent */}
-            <article className={styles.card}>
-              <h2 className={styles.cardTitle}>
-                {t('business.title')}
-              </h2>
-              <p className={styles.cardText}>{t('business.body')}</p>
-              <h3 className={styles.cardSubheading}>
-                {t('business.who')}
-              </h3>
-              <p className={styles.cardText}>{t('business.whoBody')}</p>
-              <h3 className={styles.cardSubheading}>
-                {t('business.requirements')}
-              </h3>
-              <ul className={styles.bulletList}>
-                <li>{t('business.requirementList.0')}</li>
-                <li>{t('business.requirementList.1')}</li>
-                <li>{t('business.requirementList.2')}</li>
-              </ul>
-            </article>
+					<Link href={siteConfig.faqPath} className="button button-secondary">
+						{t("header.secondaryCta")}
+					</Link>
+				</>
+			}
+		>
+			<section className={styles.subServiceSection}>
+				<div className={styles.subServiceSquare}>
+					<div className={styles.visaCardsGrid}>
+						{VISA_CATEGORIES.map((cat) => (
+							<article key={cat} className={styles.visaCard}>
+								<h2 className="panel-title">{t(`${cat}.title`)}</h2>
 
-            {/* Family / retirement / visitor */}
-            <article className={styles.card}>
-              <h2 className={styles.cardTitle}>
-                {t('family.title')}
-              </h2>
-              <p className={styles.cardText}>{t('family.body')}</p>
-              <h3 className={styles.cardSubheading}>
-                {t('family.who')}
-              </h3>
-              <p className={styles.cardText}>{t('family.whoBody')}</p>
-              <h3 className={styles.cardSubheading}>
-                {t('family.requirements')}
-              </h3>
-              <ul className={styles.bulletList}>
-                <li>{t('family.requirementList.0')}</li>
-                <li>{t('family.requirementList.1')}</li>
-                <li>{t('family.requirementList.2')}</li>
-              </ul>
-            </article>
-          </div>
-        </section>
-      </main>
-    </div>
-  );
+								<p className="text-muted">{t(`${cat}.body`)}</p>
+
+								<div className={styles.visaDivider} />
+
+								<h3 className="text-sm text-bold">{t(`${cat}.who`)}</h3>
+								<p className="text-muted">{t(`${cat}.whoBody`)}</p>
+
+								<h3 className="text-sm text-bold">{t(`${cat}.requirements`)}</h3>
+
+								<ul className={styles.bulletList}>
+									{[0, 1, 2].map((i) => (
+										<li key={i} className="text-sm">
+											{t(`${cat}.requirementList.${i}`)}
+										</li>
+									))}
+								</ul>
+							</article>
+						))}
+					</div>
+				</div>
+			</section>
+		</PageWithStickyHero>
+	);
 }

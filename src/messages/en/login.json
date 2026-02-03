@@ -1,8 +1,9 @@
 {
   "Login": {
-    "heading": "Client login",
-    "subheading": "Existing clients can log in to view the status of their case and share updated information with their consultant.",
-    "fieldsSectionTitle": "Login details",
+    "heading": "Welcome back",
+    "subheading": "Access your portal",
+    "subtitle": "Existing clients can log in to view and manage the status of their applications.",
+	"fieldsSectionTitle": "Login details",
     "fields": {
       "email": {
         "label": "Email address",
@@ -17,8 +18,23 @@
       }
     },
     "actions": {
-      "submit": "Log in"
+      "submit": "Log in",
+      "submitting": "Logging in...",
+	  "forgotPassword": "Forgot password?",
+	  "showPassword": "Show password",
+	  "hidePassword": "Hide password",
+	  "goToSignup": "Go to signup",
+	  "resendConfirm": "Send new link"
     },
+    "messages": {
+      "missingEmailOrPassword": "Please enter both email and password",
+      "loginFailed": "Invalid email or password",
+	  "loginSuccess": "Success! Please wait while we log you in",
+	  "loginErrorHint": "Please check that you entered your email or password correctly, or reset your password",
+      "codeExpired": "This confirmation link has expired. Please request a new one",
+      "callbackFailed": "We couldn’t verify that link. Please try again",
+	  "emailNotConfirmed": "Please confirm your email address before logging in"
+	},
     "footer": {
       "noAccount": "New to SA Immi Consult?",
       "signupLink": "Create an account"

@@ -1,9 +1,12 @@
 {
   "News": {
-    "eyebrow": "News & updates",
-    "title": "Immigration and visa news",
-    "subtitle": "Short and practical updates on South African immigration rules, processing times and global visa changes.",
+    "title": "News & updates",
+    "subtitle": "Immigration and visa news",
+    "description": "Updates on South African immigration rules, processing times and global visa changes.",
+	"eyebrow": "Visa news",
     "cta": "Read all news",
+	"readMore": "Read further",
+	"backToList": "Back to list",
     "items": {
       "0": {
         "title": "South African visa processing times change",

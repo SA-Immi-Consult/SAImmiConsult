@@ -13,21 +13,24 @@ import createNextIntlPlugin from 'next-intl/plugin';
 // Define our core Next.js configuration.
 // The NextConfig type ensures proper structure and autocompletion.
 const nextConfig: NextConfig = {
-  // Enables React Strict Mode during development.
-  // This activates extra checks to detect side effects and potential issues.
-  reactStrictMode: true,
+	// Enables React Strict Mode during development.
+	// This activates extra checks to detect side effects and potential issues.
+	reactStrictMode: true,
 
-  experimental: {
-    // Enables React Server Actions (stable in Next.js App Router).
-    // Allows calling server-side functions directly from client components
-    // without needing API routes.
-	
-    // FIXED: Next.js 16 requires serverActions to be an object, not a boolean
-    serverActions: {},
-  },
+	experimental: {
+		// Enables React Server Actions (stable in Next.js App Router).
+		// Allows calling server-side functions directly from client components
+		// without needing API routes.
 
-  // (If you have other config values, keep them here)
+		// FIXED: Next.js 16 requires serverActions to be an object, not a boolean
+		serverActions: {
+			bodySizeLimit: "10mb",
+		},
+	},
+
+	// (If you have other config values, keep them here)
 };
+
 
 
 // Create the Next-Intl plugin instance.

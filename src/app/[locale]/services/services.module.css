@@ -1,522 +1,509 @@
-/* src/app/[locale]/services/services.module.css */
+/* ==========================================================================
+   services.module.css
+   Location: /src/app/[locale]/services/services.module.css
+   Scope: Services overview + shared sub-service visual language (layout/interaction only)
+   Status: UNLOCKED (lock after verified)
 
-/* PAGE LAYOUT
-   ------------------------------------------------------------------ */
+   Notes:
+   - Hero MUST use global classes in TSX:
+     hero-shell / hero-inner / hero-title / hero-subtitle / hero-desc / hero-actions
+   - Buttons MUST use global classes in TSX:
+     button button-primary / button button-secondary / button button-ghost
+   - This file provides ONLY layout + card visuals for services content sections.
+   - IMPORTANT: Sticky hero image overlay is now handled by the global primitive:
+     /src/components/ui/hero/PageWithStickyHero + PageWithStickyHero.module.css
+     Therefore, hero image / hero overlay / hero container wrapper rules are removed here
+     to avoid collisions and double-layering.
+   ========================================================================== */
 
-.pageContainer {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  padding: 4rem 1.75rem 3.5rem;
-  box-sizing: border-box;
+/* ==========================================================================
+   Section shells (shared across sub-service content)
+   ========================================================================== */
 
-  /* Same calm background language as home */
-  background:
-    radial-gradient(circle at top left, #edf4ff 0, #f7f5f2 45%, #f3f6f5 100%);
+.subSectionShell {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+
+	--sectionShell: var(--section-shell, clamp(1rem, 2.4vw, 1.75rem));
+
+	padding: var(--sectionShell);
+	padding-top: 0;
+	padding-bottom: clamp(2.75rem, 6vw, 6.5rem);
 }
 
-.pageCard {
-  width: 100%;
-  max-width: 1040px;
-  background-color: #ffffff;
-  border-radius: 1.5rem;
-  padding: 2.5rem 2.25rem;
-  box-shadow:
-    0 22px 60px rgba(15, 23, 42, 0.16),
-    0 0 0 1px rgba(148, 163, 184, 0.25);
-  border: 1px solid rgba(226, 232, 240, 0.9);
+.subSectionSquare {
+	width: min(92vw, var(--content-max-width));
+	margin: 0 auto;
 
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
+	container-type: inline-size;
+	container-name: subServiceMain;
+
+	padding: clamp(1.75rem, 4.5cqw, 4.75rem);
+
+	background: transparent;
+	border: none;
+	box-shadow: none;
+	border-radius: 0;
 }
 
-@media (min-width: 768px) {
-  .pageCard {
-    padding: 3rem 3rem;
-    gap: 3rem;
-  }
+/* Visa-types + support pages use this naming */
+.subServiceSection {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+
+	--sectionShell: var(--section-shell, clamp(1rem, 2.4vw, 1.75rem));
+
+	padding: var(--sectionShell);
+	padding-top: 0;
+	padding-bottom: clamp(2.75rem, 6vw, 6.5rem);
 }
 
-/* PAGE HEADER (eyebrow, title, subtitle, CTA row)
-   ------------------------------------------------------------------ */
+.subServiceSquare {
+	width: min(92vw, var(--content-max-width));
+	margin: 0 auto;
 
-.pageHeaderEyebrow {
-  font-size: 0.8rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #0369a1;
-  font-weight: 600;
-  margin: 0 0 0.75rem;
+	container-type: inline-size;
+	container-name: support;
+
+	padding: clamp(1.75rem, 4.5cqw, 4.75rem);
+
+	background: transparent;
+	border: none;
+	box-shadow: none;
+	border-radius: 0;
 }
 
-.pageHeaderTitle {
-  margin: 0 0 0.75rem;
-  font-size: clamp(1.9rem, 3.6vw, 2.5rem);
-  line-height: 1.16;
-  color: #0f172a;
-  letter-spacing: -0.02em;
-}
-
-.pageHeaderSubtitle {
-  margin: 0;
-  font-size: 0.98rem;
-  line-height: 1.6;
-  color: #4b5563;
-  max-width: 44rem;
-}
-
-.pageCtaRow,
-.pageHeaderActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.85rem;
-  margin-top: 1.8rem;
-}
-
-/* BUTTONS (page-level primary/secondary)
-   ------------------------------------------------------------------ */
-
-.pagePrimaryButton,
-.pageSecondaryButton {
-  border-radius: 999px;
-  padding: 0.7rem 1.4rem;
-  font-size: 0.95rem;
-  font-weight: 600;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  text-decoration: none;
-  transition:
-    transform 0.15s ease-out,
-    box-shadow 0.15s ease-out,
-    background-color 0.15s ease-out,
-    color 0.15s ease-out;
-}
-
-/* Primary: soft green with depth (to echo calm SA feel) */
-.pagePrimaryButton {
-  background: linear-gradient(135deg, #16a34a, #22c55e);
-  color: #f9fafb;
-  box-shadow:
-    0 16px 40px rgba(15, 118, 110, 0.35),
-    0 0 0 1px rgba(22, 163, 74, 0.4);
-}
-
-.pagePrimaryButton:hover {
-  transform: translateY(-1px) scale(1.01);
-  box-shadow:
-    0 20px 50px rgba(15, 118, 110, 0.45),
-    0 0 0 1px rgba(21, 128, 61, 0.55);
-}
-
-.pagePrimaryButton:active {
-  transform: translateY(0) scale(0.99);
-  box-shadow:
-    0 12px 24px rgba(15, 118, 110, 0.35),
-    0 0 0 1px rgba(21, 128, 61, 0.6);
-}
-
-.pagePrimaryButton:focus-visible {
-  outline: none;
-  box-shadow:
-    0 0 0 1px #ecfdf5,
-    0 0 0 4px rgba(22, 163, 74, 0.65),
-    0 18px 40px rgba(15, 23, 42, 0.2);
-}
-
-/* Secondary: subtle outline button */
-.pageSecondaryButton {
-  background-color: #f9fafb;
-  color: #0f172a;
-  border: 1px solid rgba(148, 163, 184, 0.65);
-  box-shadow:
-    0 0 0 0 transparent,
-    0 12px 26px rgba(15, 23, 42, 0.08);
-}
-
-.pageSecondaryButton:hover {
-  background-color: #eff6ff;
-  border-color: rgba(59, 130, 246, 0.55);
-  box-shadow:
-    0 14px 30px rgba(15, 23, 42, 0.12),
-    0 0 0 1px rgba(59, 130, 246, 0.3);
-}
-
-.pageSecondaryButton:active {
-  background-color: #e5f0ff;
-  transform: translateY(0.5px);
-}
-
-.pageSecondaryButton:focus-visible {
-  outline: none;
-  box-shadow:
-    0 0 0 1px #eff6ff,
-    0 0 0 4px rgba(59, 130, 246, 0.45);
-}
-
-/* GENERIC SECTION BLOCKS
-   ------------------------------------------------------------------ */
-
-.sectionBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 1.75rem 1.5rem;
-  border-radius: 1.25rem;
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  background: radial-gradient(circle at top left, #f9fafb 0, #ffffff 40%, #f9fafb 100%);
-}
+/* ==========================================================================
+   Immigration / Emigration: story + sidebar layout
+   ========================================================================== */
 
 .sectionGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 1.75rem;
+	display: grid;
+	grid-template-columns: 1fr minmax(260px, 340px);
+	gap: clamp(1.75rem, 4cqw, 4rem);
+	align-items: start;
+
+	container-type: inline-size;
+	container-name: subMain;
 }
 
-.sectionText {
-  max-width: 40rem;
+.sectionBlock {
+	display: flex;
+	flex-direction: column;
+	gap: clamp(2rem, 4cqw, 4rem);
 }
 
-.sectionTitle {
-  margin: 0 0 0.6rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #0f172a;
+.subArticle {
+	background: transparent;
+	margin: 0;
+	padding: 0;
+
+	display: flex;
+	flex-direction: column;
+	gap: clamp(0.75rem, 1.6cqw, 1.25rem);
 }
 
-.sectionBody {
-  margin: 0;
-  font-size: 0.96rem;
-  line-height: 1.7;
-  color: #4b5563;
+.subArticle + .subArticle {
+	margin-top: clamp(1.75rem, 4cqw, 3rem);
 }
 
-/* Bullet lists used in service sections */
-.bulletList {
-  list-style: none;
-  padding: 0;
-  margin: 0.8rem 0 0;
-  display: grid;
-  gap: 0.45rem;
-}
-
-.bulletItem {
-  position: relative;
-  padding-left: 1.35rem;
-  font-size: 0.94rem;
-  color: #374151;
-}
-
-.bulletItem::before {
-  content: '';
-  position: absolute;
-  left: 0.35rem;
-  top: 0.55rem;
-  width: 0.4rem;
-  height: 0.4rem;
-  border-radius: 999px;
-  background: radial-gradient(circle at 30% 30%, #22c55e, #059669);
-}
-
-/* Highlight panel (for “Why SA” style callouts)
-   ------------------------------------------------------------------ */
-
+/* Sidebar panel */
 .highlightPanel {
-  border-radius: 1.15rem;
-  padding: 1.5rem 1.4rem;
-  background: linear-gradient(135deg, #ecfdf5, #e0f2fe);
-  border: 1px solid rgba(34, 197, 94, 0.18);
-  box-shadow:
-    0 14px 30px rgba(22, 163, 74, 0.12),
-    0 0 0 1px rgba(226, 232, 240, 0.9);
-}
+	background: rgba(255, 255, 255, 0.75);
+	border: 1px solid rgba(15, 23, 42, 0.08);
+	border-radius: 2rem;
 
-.highlightTitle {
-  margin: 0 0 0.4rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #064e3b;
-}
+	padding: clamp(1.5rem, 3cqw, 2.5rem);
 
-.highlightText {
-  margin: 0;
-  font-size: 0.94rem;
-  line-height: 1.7;
-  color: #065f46;
-}
+	box-shadow: 0 18px 40px rgba(15, 23, 42, 0.05);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
 
-/* BRICS / pill-style lists
-   ------------------------------------------------------------------ */
+	position: sticky;
+	top: 100px;
+}
 
 .pillList {
-  list-style: none;
-  padding: 0;
-  margin: 1rem 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+	list-style: none;
+	padding: 0;
+	margin: clamp(1rem, 2cqw, 1.5rem) 0 0;
+
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.65rem;
 }
 
 .pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.4rem 0.9rem;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 500;
-  background: rgba(59, 130, 246, 0.06);
-  color: #1d4ed8;
-  border: 1px solid rgba(191, 219, 254, 0.9);
+	background: rgba(186, 153, 102, 0.1);
+	border: 1px solid rgba(186, 153, 102, 0.18);
+
+	padding: 0.5rem 0.9rem;
+	border-radius: 999px;
+
+	color: var(--text-main);
 }
 
-/* FAQ-SPECIFIC STYLES
-   ------------------------------------------------------------------ */
+@container subMain (max-width: 980px) {
+	.sectionGroup {
+		grid-template-columns: 1fr;
+	}
 
-.faqList {
-  margin-top: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
+	.highlightPanel {
+		position: static;
+		top: auto;
+	}
 }
 
-.faqItem {
-  padding: 1.1rem 1.1rem;
-  border-radius: 1rem;
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  background-color: #f9fafb;
+/* ==========================================================================
+   Bullets (shared)
+   ========================================================================== */
+
+.bulletList {
+	list-style: none;
+	padding: 0;
+	margin: clamp(0.85rem, 1.6cqw, 1.25rem) 0 0;
+
+	display: grid;
+	gap: 0.85rem;
 }
 
-.faqQuestion {
-  margin: 0 0 0.4rem;
-  font-size: 0.98rem;
-  font-weight: 600;
-  color: #111827;
+.bulletList li {
+	display: flex;
+	gap: 0.75rem;
+	align-items: flex-start;
+
+	line-height: 1.6;
+	color: var(--text-main);
 }
 
-.faqAnswer {
-  margin: 0;
-  font-size: 0.93rem;
-  line-height: 1.6;
-  color: #4b5563;
+.bulletList li::before {
+	content: "✓";
+	color: var(--savanna-gold);
+	font-weight: 900;
+	flex-shrink: 0;
+	margin-top: 0.05rem;
 }
 
-/* NEWS-SPECIFIC STYLES
-   ------------------------------------------------------------------ */
+/* ==========================================================================
+   Services overview grid (cards)
+   ========================================================================== */
 
-.newsList {
-  margin-top: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.15rem;
+.servicesGrid {
+	margin-top: clamp(1.5rem, 3cqw, 2.25rem);
+
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: clamp(1rem, 2cqw, 1.5rem);
+	align-items: stretch;
+
+	container-type: inline-size;
+	container-name: servicesGrid;
 }
 
-.newsItem {
-  padding: 1.25rem 1.2rem;
-  border-radius: 1rem;
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  background-color: #ffffff;
-  box-shadow:
-    0 10px 22px rgba(15, 23, 42, 0.06),
-    0 0 0 1px rgba(248, 250, 252, 0.8);
+@container servicesGrid (max-width: 1100px) {
+	.servicesGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.serviceCard:last-child {
+		grid-column: 1 / -1;
+	}
 }
 
-.newsItemHeader {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin-bottom: 0.4rem;
+@container servicesGrid (max-width: 720px) {
+	.servicesGrid {
+		grid-template-columns: 1fr;
+	}
+
+	.serviceCard:last-child {
+		grid-column: auto;
+	}
 }
 
-.newsItemTitle {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #0f172a;
+.serviceCard {
+	text-decoration: none;
+	color: inherit;
+
+	background: rgba(255, 255, 255, 0.75);
+	border: 1px solid rgba(15, 23, 42, 0.08);
+	border-radius: 2rem;
+
+	padding: clamp(1.25rem, 2.8cqw, 2.2rem);
+
+	box-shadow: 0 18px 40px rgba(15, 23, 42, 0.05);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+
+	transition:
+		transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+		box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+		border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.newsItemMeta {
-  margin: 0;
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: #6b7280;
+.serviceCard:hover {
+	transform: translateY(-6px);
+	border-color: rgba(229, 115, 115, 0.35);
+	box-shadow: 0 24px 54px rgba(15, 23, 42, 0.07);
 }
 
-.newsItemSummary {
-  margin: 0.25rem 0 0;
-  font-size: 0.93rem;
-  line-height: 1.6;
-  color: #4b5563;
+.serviceCard:focus-visible {
+	outline: 3px solid rgba(229, 115, 115, 0.35);
+	outline-offset: 4px;
 }
 
-/* RESPONSIVE TWEAKS
-   ------------------------------------------------------------------ */
+.serviceCardTop {
+	display: flex;
+	flex-direction: column;
+	gap: 0.85rem;
 
-@media (min-width: 768px) {
-  .sectionBlock {
-    padding: 2rem 1.9rem;
-  }
-
-  .sectionGroup {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-
-  .sectionText {
-    flex: 1.2;
-  }
-
-  .bulletList {
-    flex: 1;
-  }
-
-  .faqItem,
-  .newsItem {
-    padding: 1.35rem 1.4rem;
-  }
+	flex: 1 1 auto;
+	min-width: 0;
 }
 
-/* VISA TYPES LAYOUT
-   ------------------------------------------------------------------ */
+.serviceIcon {
+	width: 52px;
+	height: 52px;
+	border-radius: 999px;
 
-.visaIntro {
-  margin-top: 1.25rem;
-  font-size: 0.95rem;
-  line-height: 1.7;
-  color: #4b5563;
+	display: grid;
+	place-items: center;
+
+	color: var(--savanna-gold);
+	background: rgba(186, 153, 102, 0.16);
+	border: 1px solid rgba(186, 153, 102, 0.22);
 }
 
-/* Grid for the 4 visa categories (work, study, business, family) */
-.visaCardGrid {
-  margin-top: 1.75rem;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1.25rem;
+.serviceIcon svg {
+	width: 24px;
+	height: 24px;
+	display: block;
 }
 
-@media (min-width: 768px) {
-  .visaCardGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.serviceCardTitle {
+	margin: 0;
+	font-weight: 900;
+	letter-spacing: -0.02em;
+	color: var(--text-main);
 }
 
-/* Individual visa card – visually aligned with other section blocks */
+.serviceCardBody {
+	margin: 0;
+	color: var(--text-muted);
+	line-height: 1.75;
+	max-width: 70ch;
+}
+
+.serviceCardLink {
+	margin-top: clamp(1rem, 2cqw, 1.35rem);
+
+	display: inline-flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.55rem;
+
+	font-weight: 900;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	font-size: clamp(0.78rem, 1cqw, 0.9rem);
+
+	color: var(--text-main);
+	opacity: 0.92;
+
+	transition: color 0.25s ease;
+}
+
+.ctaArrow {
+	display: inline-block;
+	transform: translateX(0);
+	transition: transform 0.25s ease;
+}
+
+.serviceCard:hover .serviceCardLink {
+	color: var(--protea-pink);
+}
+
+.serviceCard:hover .ctaArrow {
+	transform: translateX(6px);
+}
+
+/* ==========================================================================
+   Visa types — cards grid
+   ========================================================================== */
+
+.visaCardsGrid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: clamp(1.1rem, 2.4cqw, 2rem);
+	align-items: stretch;
+}
+
+.visaCardsGrid > * {
+	height: 100%;
+}
+
+.visaCardsGrid > :nth-child(odd):last-child {
+	grid-column: 1 / -1;
+}
+
+/* Same container-name as subServiceSquare: support */
+@container support (max-width: 820px) {
+	.visaCardsGrid {
+		grid-template-columns: 1fr;
+	}
+
+	.visaCardsGrid > :last-child {
+		grid-column: auto;
+	}
+}
+
 .visaCard {
-  border-radius: 1.25rem;
-  border: 1px solid rgba(226, 232, 240, 0.95);
-  background: radial-gradient(circle at top left, #f9fafb 0, #ffffff 40%, #f9fafb 100%);
-  padding: 1.6rem 1.4rem;
-  box-shadow:
-    0 14px 30px rgba(15, 23, 42, 0.06),
-    0 0 0 1px rgba(248, 250, 252, 0.85);
+	background: rgba(255, 255, 255, 0.75);
+	border: 1px solid rgba(15, 23, 42, 0.08);
+	border-radius: 2rem;
 
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
+	padding: clamp(1.6rem, 3.2cqw, 3.15rem);
+
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+
+	box-shadow: 0 18px 40px rgba(15, 23, 42, 0.05);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+
+	transition:
+		transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+		box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+		border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Top section: title + optional small badge */
-.visaCardHeader {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.75rem;
-  align-items: flex-start;
+.visaCard:hover {
+	transform: translateY(-6px);
+	border-color: rgba(229, 115, 115, 0.35);
+	box-shadow: 0 24px 54px rgba(15, 23, 42, 0.07);
 }
 
-.visaCardTitle {
-  margin: 0;
-  font-size: 1.02rem;
-  font-weight: 600;
-  color: #0f172a;
+.visaDivider {
+	width: 100%;
+	height: 1px;
+	background: rgba(15, 23, 42, 0.08);
+	margin: clamp(0.9rem, 1.8cqw, 1.25rem) 0;
 }
 
-.visaCardBadge {
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
-  font-size: 0.7rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  background-color: #ecfdf5;
-  color: #047857;
-  border: 1px solid rgba(34, 197, 94, 0.25);
+.visaCard .bulletList {
+	margin-top: clamp(0.25rem, 0.9cqw, 0.6rem);
 }
 
-/* Short description text under the title */
-.visaCardBody {
-  margin: 0;
-  font-size: 0.93rem;
-  line-height: 1.65;
-  color: #4b5563;
+.visaCard .bulletList li::before {
+	color: var(--savanna-gold);
 }
 
-/* Two meta blocks: "Who can apply" + "Main requirements" */
-.visaMetaRow {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0.9rem;
-  margin-top: 0.6rem;
+/* ==========================================================================
+   Additional support
+   ========================================================================== */
+
+/* Give the summary block a gentle “section separation” before the cards */
+.subServiceSquare > .subArticle {
+	margin-bottom: clamp(1.75rem, 4cqw, 3rem);
 }
 
-@media (min-width: 768px) {
-  .visaMetaRow {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+/* Cards grid */
+.supportCardsGrid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: clamp(1.1rem, 2.4cqw, 2rem);
+	align-items: stretch;
 }
 
-.visaMetaBlock {
-  border-radius: 0.9rem;
-  padding: 0.7rem 0.85rem;
-  background-color: #f9fafb;
-  border: 1px dashed rgba(209, 213, 219, 0.9);
+.supportCardsGrid > * {
+	height: 100%;
 }
 
-.visaMetaLabel {
-  margin: 0 0 0.25rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #6b7280;
+/* If odd number of cards, last spans full width in 2-col */
+.supportCardsGrid > :nth-child(odd):last-child {
+	grid-column: 1 / -1;
 }
 
-.visaMetaText {
-  margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: #374151;
+@container support (max-width: 820px) {
+	.supportCardsGrid {
+		grid-template-columns: 1fr;
+	}
+
+	.supportCardsGrid > :last-child {
+		grid-column: auto;
+	}
 }
 
-/* Requirements list inside each visa card – reuse bullet style but slightly smaller */
-.visaRequirementsList {
-  list-style: none;
-  margin: 0.5rem 0 0;
-  padding: 0;
-  display: grid;
-  gap: 0.35rem;
+/* Card visuals */
+.supportCard {
+	background: rgba(255, 255, 255, 0.75);
+	border: 1px solid rgba(15, 23, 42, 0.08);
+	border-radius: 2rem;
+
+	padding: clamp(1.6rem, 3.2cqw, 3.15rem);
+
+	box-shadow: 0 18px 40px rgba(15, 23, 42, 0.05);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+
+	display: flex;
+	flex-direction: column;
+	gap: clamp(0.65rem, 1.2cqw, 1rem);
+
+	transition:
+		transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+		box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+		border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.visaRequirementsItem {
-  position: relative;
-  padding-left: 1.15rem;
-  font-size: 0.88rem;
-  color: #374151;
+.supportCard:hover {
+	transform: translateY(-6px);
+	border-color: rgba(229, 115, 115, 0.35);
+	box-shadow: 0 24px 54px rgba(15, 23, 42, 0.07);
 }
 
-.visaRequirementsItem::before {
-  content: '';
-  position: absolute;
-  left: 0.3rem;
-  top: 0.55rem;
-  width: 0.34rem;
-  height: 0.34rem;
-  border-radius: 999px;
-  background: radial-gradient(circle at 30% 30%, #22c55e, #16a34a);
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+	.serviceCard,
+	.visaCard,
+	.supportCard,
+	.ctaArrow,
+	.serviceCardLink {
+		transition: none !important;
+	}
+
+	.serviceCard:hover,
+	.visaCard:hover,
+	.supportCard:hover {
+		transform: none !important;
+	}
+}
+
+/* --- Additional support: stack on < 900px viewport ----------------------- */
+@media (max-width: 899.98px) {
+	.supportCardsGrid {
+		grid-template-columns: 1fr;
+	}
+
+	.supportCardsGrid > :last-child {
+		grid-column: auto;
+	}
+	
+	.sectionGroup {
+		grid-template-columns: 1fr;
+	}
+
+	.highlightPanel {
+		position: static;
+		top: auto;
+	}
 }

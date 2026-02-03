@@ -1,9 +1,9 @@
 {
   "ServicesEmigration": {
     "header": {
-      "eyebrow": "Emigration",
-      "title": "Emigration & working abroad",
-      "subtitle": "Support for South Africans and residents who want to move abroad, work internationally or apply for study programmes overseas.",
+      "title": "Emigration",
+      "subtitle": "Emigration & working abroad",
+      "description": "Support for South Africans and residents who want to move abroad, work internationally or apply for study programmes overseas.",
       "primaryCta": "Speak to a consultant",
       "secondaryCta": "View FAQ"
     },

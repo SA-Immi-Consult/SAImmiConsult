@@ -1,0 +1,207 @@
+{
+  "AdminApplications": {
+    "title": "Visa applications",
+    "subtitle": "Manage active applications",
+    "description": "Manage active applications, documents, and progress.",
+
+    "hero": {
+      "eyebrow": "Applications",
+      "title": "Visa applications",
+      "desc": "Manage active applications, documents, and progress."
+    },
+
+    "breadcrumbs": {
+      "applications": "Back to Applications"
+    },
+
+    "header": {
+      "title": "Application overview",
+
+      "client": "Client",
+      "case": "Case",
+      "application": "Application",
+
+      "createdAt": "Created",
+      "updatedAt": "Updated",
+      "noLinkedCase": "No case linked.",
+
+      "actions": {
+        "openProfile": "Open profile",
+        "openCase": "Open case"        
+      },
+
+      "clickToContact": {
+        "label": "Contact client",
+        "methods": {
+          "email": "Open in Email",
+          "whatsapp": "Open in WhatsApp",
+          "telegram": "Open in Telegram"
+        }
+      }
+    },
+	
+	  "actions": {
+	  "closeApplication": "Close Application"
+      },
+
+	  "closeApplication": {
+		  "confirmBody": "This action will close the application and disable further progress. Set the status to Finished if the application is complete."
+	  },
+
+    "stats": {
+      "aria": "Application statistics",
+
+      "total": {
+        "label": "Total applications",
+        "help": "All applications currently in the system.",
+        "helpText": "All applications currently in the system."
+      },
+
+      "waiting": {
+        "label": "Waiting for documents",
+        "helpText": "Applications waiting for required documents from clients."
+      },
+
+      "waiting_documents": {
+        "label": "Waiting for documents",
+        "help": "Applications waiting for required documents from clients."
+      },
+
+      "review": {
+        "label": "Under review",
+        "helpText": "Documents submitted and currently under review."
+      },
+
+      "documents_under_review": {
+        "label": "Under review",
+        "help": "Documents submitted and currently under review."
+      },
+
+      "actionNeeded": {
+        "label": "Action needed",
+        "helpText": "Applications requiring consultant action or clarification."
+      },
+
+      "visa_issue_action_needed": {
+        "label": "Action needed",
+        "help": "Applications requiring consultant action or clarification."
+      },
+
+      "completed": {
+        "label": "Approved",
+        "helpText": "Applications with approved documents."
+      },
+
+      "documents_approved": {
+        "label": "Approved",
+        "help": "Applications with approved documents."
+      }
+    },
+
+    "filters": {
+      "aria": "Application filters",
+      "title": "Filter applications",
+      "subtitle": "Narrow down applications by status.",
+
+      "status": {
+        "label": "Status",
+        "all": "All"
+      }
+    },
+
+    "list": {
+      "aria": "Application list",
+      "title": "Applications",
+      "subtitle": "Review and manage applications below.",
+	  "empty": "No applications."
+    },
+
+    "cards": {
+      "applicationStatusLabel": "Visa application status",
+      "documentsStatusLabel": "Documents status"
+    },
+
+    "journey": {
+      "title": "Application journey",
+      "subtitle": "Update application status and add notes.",
+
+      "confirmSave": "Are you sure you want to update the application journey?",
+
+      "status": {
+        "placeholder": "Please select status"
+      },
+
+      "fieldLabel": "Application status",
+      "noteLabel": "Visa application journey notes (visibile to client)",
+      "cta": "Update application",
+
+      "guardrailsTitle": "Guardrails",
+
+      "statusUnlock": {
+        "default": "All documents must first be approved to continue.",
+        "visa_journey_started": "Update to visa journey started once the visa process has been handed over to the relevant departments.",
+        "visa_issue_action_needed": "Update to visa issue action needed when the visa process requires additional information or actions before it can continue.",
+        "visa_approved": "Update to visa approved once the visa outcome has been confirmed and recorded.",
+        "finished": "Update to finished once all steps are complete and the application can be formally closed.",
+        "cancelled": "Update to cancelled only when the application has been stopped and will not continue."
+      },
+
+      "hints": {
+        "statusUnlock": "Application status will only unlock once all relevant documents have been uploaded by the client and approved by the consultant.",
+        "notePlaceholder": "Add any notes regarding visa development, or general requirements regarding the visa process.",
+        "hintNote": "Visa application journey notes are permitted even during "
+      }
+    },
+
+    "documents": {
+      "title": "Documents",
+      "subtitle": "Documents linked to this application.",
+      "empty": "No documents uploaded yet.",
+
+      "confirmSave": "Are you sure you want to update the document status?",
+
+      "noteLabel": "Document notes (visibile to client)",
+
+      "bulkStatus": {
+        "placeholder": "Please select document status"
+      },
+
+      "bulk": {
+        "statusPlaceholder": "Please select status",
+        "hintStatus": "You can bulk update by selecting multiple documents. If you need a specific note for one document, only select that single document before saving (otherwise the note will be applied to all selected documents). If you select “Needs resubmission”, you must add a note explaining why and how to resubmit.",
+        "guardrailsTitle": "Guardrails",
+
+        "hint": {
+          "default": "Select a status to see guidance for this bulk update.",
+          "approved": "Approve the document to finalise the document.",
+          "resubmit": "Please add a note to help the client understand the issue.",
+          "notePlaceholder": "Add any notes regarding the document. If client requires to resubmit, add a note explaining why and how."
+        }
+      },
+
+      "columns": {
+        "status": "Document status",
+        "fileName": "File name",
+        "uploadedAt": "Uploaded at",
+        "fileVersion": "Version"
+      },
+
+      "noneUploaded": "No file uploaded yet.",
+      "statusUpdatedAt": "Status updated: {value}",
+
+      "confirmOverwriteStatus": "Some selected documents already have a status. This will overwrite them. Continue?",
+
+      "actions": {
+        "viewInDrive": "View in Drive"
+      }
+    },
+
+    "timeline": {
+      "title": "Timeline",
+      "subtitle": "Chronological history of this application.",
+
+      "appEvent": "Application event: {type}",
+      "documentUploaded": "Document uploaded"
+    }
+  }
+}

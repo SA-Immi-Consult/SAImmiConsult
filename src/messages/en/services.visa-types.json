@@ -1,9 +1,9 @@
 {
   "ServicesVisaTypes": {
     "header": {
-      "eyebrow": "Visa categories",
-      "title": "Types of visas",
-      "subtitle": "An overview of the main South African visa categories and what is typically required for each.",
+      "title": "Visa categories",
+      "subtitle": "Types of visas",
+      "description": "An overview of the main South African visa categories and what is typically required for each.",
       "primaryCta": "Speak to a consultant",
       "secondaryCta": "View FAQ"
     },

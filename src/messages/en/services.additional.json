@@ -1,9 +1,9 @@
 {
   "ServicesAdditional": {
     "header": {
-      "eyebrow": "Additional services",
-      "title": "Additional support services",
-      "subtitle": "Beyond visa advice, we help you with education, housing, banking and everyday questions so that your move feels calm and organised.",
+      "title": "Additional services",
+      "subtitle": "Additional support services",
+      "description": "Beyond visa advice, we help you with education, housing, banking and everyday questions so that your move feels calm and organised.",
       "primaryCta": "Speak to a consultant",
       "secondaryCta": "View FAQ"
     },

@@ -1,0 +1,188 @@
+/* ==========================================================================
+   Scoped hero typography overrides
+   ONLY applies inside PageWithStickyHero
+   ========================================================================== */
+
+.heroShellWithImage :global(.hero-title) {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  color: var(--hero-title-color);
+}
+
+.heroShellWithImage :global(.hero-subtitle) {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: var(--text-4xl);
+  line-height: 1.45;
+  color: var(--hero-subtitle-color);
+}
+
+.heroShellWithImage :global(.hero-desc) {
+  font-size: var(--text-md);
+  font-weight: var(--weight-regular);
+  line-height: 1.55;
+  max-width: 65ch;
+  color: var(--hero-desc-color);
+}
+
+.heroShellWithImage :global(.hero-desc--onImage) {
+	font-style: normal;
+	text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+	color: var(--hero-desc-onImage-color);
+}
+
+/* Make the scrim wrapper behave like the old direct-child layout */
+.heroShellWithImage :global(.fx-heroScrim) {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Bulletproof the description block centering */
+.heroShellWithImage :global(.hero-desc),
+.heroShellWithImage :global(.hero-desc--onImage) {
+  margin: 0;
+  margin-inline: auto;
+}
+
+/* ==========================================================================
+   Overlay scrim with sticky image
+   ========================================================================== */
+
+.heroShellWithImage {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+
+  --hero-height: clamp(420px, 70vh, 820px);
+
+  /* Anchors */
+  --hero-anchor-x: 50%;
+  --hero-anchor-y: 50%;
+
+  /* Desktop offsets (lengths) */
+  --hero-x: 0px;
+  --hero-y: 0px;
+
+  /* Mobile offsets (lengths) */
+  --hero-x-mobile: var(--hero-x);
+  --hero-y-mobile: var(--hero-y);
+
+  /* Fluid blend (works for “mobile > desktop” too) */
+  --hero-x-fluid: clamp(var(--hero-x), calc(var(--hero-x-mobile) - 6vw), var(--hero-x-mobile));
+  --hero-y-fluid: clamp(var(--hero-y-mobile), 6vw, var(--hero-y));
+
+  min-height: var(--hero-height);
+
+  /* Above fixed image layer */
+  z-index: 1;
+  
+  /* overlay knobs (defaults) */
+  --hero-overlay-top: 0.62;
+  --hero-overlay-mid: 0.38;
+  --hero-overlay-bot: 0.22;
+
+  --hero-overlay-blur: 12px;
+  --hero-overlay-sat: 1.15;
+  
+  /* Hero text color knobs (page-overridable via style prop) */
+  --hero-title-color: var(--eggshell);
+  --hero-subtitle-color: var(--savanna-gold);
+  --hero-desc-color: var(--ink-muted);
+  --hero-desc-onImage-color: var(--eggshell);
+}
+
+.heroShellWithImage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+
+  /* darker gradient */
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 5, 8, var(--hero-overlay-top)) 0%,
+    rgba(10, 8, 12, var(--hero-overlay-mid)) 45%,
+    rgba(10, 8, 12, var(--hero-overlay-bot)) 100%
+  );
+
+  /* blur what’s behind the overlay */
+  backdrop-filter: blur(var(--hero-overlay-blur)) saturate(var(--hero-overlay-sat));
+  -webkit-backdrop-filter: blur(var(--hero-overlay-blur)) saturate(var(--hero-overlay-sat));
+}
+
+
+/* Home-style fixed hero image, but CLIPPED to hero using dynamic clip insets */
+.globalFixedHero {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image: var(--sticky-hero-image);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position:
+    calc(var(--hero-anchor-x) + var(--hero-x))
+    calc(var(--hero-anchor-y) + var(--hero-y));
+
+  /* clip to hero shell (values written by JS to :root) */
+  clip-path: inset(
+    var(--pwh-clip-top, 0px)
+    var(--pwh-clip-right, 0px)
+    var(--pwh-clip-bottom, 100vh)
+    var(--pwh-clip-left, 0px)
+  );
+
+  transform: translateZ(0);
+  will-change: clip-path;
+}
+
+@media (max-width: 900px) {
+  .globalFixedHero {
+    background-position:
+      calc(var(--hero-anchor-x) + var(--hero-x-mobile))
+      calc(var(--hero-anchor-y) + var(--hero-y-mobile));
+  }
+}
+
+/* Overlay only inside hero */
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+
+/*
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 5, 8, 0.55) 0%,
+    rgba(10, 8, 12, 0.3) 45%,
+    rgba(10, 8, 12, 0.18) 100%
+  );
+  */
+}
+
+/* Hero text above overlay */
+.heroInnerOnImage {
+  position: relative;
+  z-index: 3;
+}
+
+/* Everything below must be above the fixed layer (Home contract) */
+.mainOverlap {
+  position: relative;
+  z-index: 10;
+  margin-top: -72px;
+}
+
+.mainAbove {
+  position: relative;
+  z-index: 10;
+}

@@ -1,8 +1,26 @@
 {
   "FAQ": {
-    "eyebrow": "FAQ",
-    "title": "Frequently asked questions",
-    "subtitle": "Here are some of the most common questions clients ask when they start exploring South Africa, visas or relocation.",
+	"header": {
+      "title": "FAQ",
+      "subtitle": "Frequently asked questions",
+      "description": "Here are some of the most common questions clients ask when they start exploring South Africa, visas or relocation."
+	},
+	"panel": {
+		"title": "FAQs",
+		"subtitle": "Browse or search for all frequently asked questions"
+	},
+	"search": {
+		"label": "Search",
+		"clear": "Clear",
+		"submit": "Submit",
+		"placeholder": "Enter your question here",
+		"subtitleWithQuery": "Your question: “{q}”",
+			"noResults": {
+			"title": "No results found",
+			"desc": "We couldn’t find the question “{q}”. Try a different search or contact us.",
+			"clearCta": "Clear search"
+			}
+	},
     "cta": "Didn’t find your question? Contact us.",
     "items": {
       "0": {

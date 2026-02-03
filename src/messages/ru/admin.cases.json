@@ -1,0 +1,318 @@
+{
+  "AdminCases": {
+    "title": "Кейсы",
+    "subtitle": "Просмотр всех клиентских кейсов",
+    "description": "Просматривайте и управляйте всеми клиентскими кейсами. Фильтруйте по статусу и открывайте кейс для просмотра деталей.",
+
+    "filters": {
+      "all": "Все",
+      "statusLabel": "Статус"
+    },
+
+    "stats": {
+      "ariaLabel": "Статистика по кейсам",
+      "total": { "label": "Всего", "helpText": "Все кейсы в системе." },
+      "submitted": { "label": "Новые кейсы", "helpText": "Новые анкеты, ожидающие обработки." },
+      "consultations": { "label": "Консультации", "helpText": "Запрошены или назначены." },
+      "plans": { "label": "Планы", "helpText": "План создан и ожидает активации." },
+      "activated": { "label": "Активированы", "helpText": "Заявления, активированные из кейсов." }
+    },
+
+    "list": {
+      "title": "Последние кейсы",
+      "subtitle": "Откройте кейс для управления консультацией, планом и активацией.",
+      "empty": "Кейсов нет.",
+      "unknownUserNameFallback": "Клиент {userId}",
+      "datesLine": "Создан {createdAt} · Обновлён {lastUpdate}",
+      "metaLine": "Пользователь {userId} · Кейс {caseId}"
+    },
+
+    "hero": {
+      "title": "Кейс",
+      "subtitle": "Управляйте кейсы своих клиентов"
+    },
+
+    "dates": {
+      "na": "—"
+    },
+
+    "closeCase": {
+      "confirmBody": "Кейс будет закрыт, и дальнейшие действия будут недоступны. Вы по-прежнему сможете просматривать таймлайн и заметки. Продолжить?"
+    },
+
+    "header": {
+      "title": "Идентификация кейса",
+      "subtitle": "Быстрый контекст, статус и безопасная навигация.",
+      "unknownClient": "Клиент",
+      "client": "Клиент",
+      "phone": "Телефон",
+      "phoneNA": "Телефон: —",
+      "whatsapp": "WhatsApp",
+      "whatsappNA": "WhatsApp: —",
+      "case": "Кейс",
+      "application": "Заявление",
+      "noApplicationYet": "Заявление пока не связано.",
+      "activationHint": "Активируйте заявление после принятия плана и выбора требований.",
+      "createdAt": "Создан",
+      "updatedAt": "Обновлён",
+      "docsSummary": "Загружено: {uploaded}/{required} · Одобрено: {approved}",
+
+      "actions": {
+        "openProfile": "Открыть профиль",
+        "openApplication": "Открыть заявление"
+      },
+
+      "clickToContactLabel": "Связаться",
+
+      "applicationBadgeLabels": {
+        "applicationStatus": "Статус визового заявления",
+        "documentStatus": "Статус документов"
+      }
+    },
+
+    "close": {
+      "confirmMessage": "Подтвердите закрытие этого кейса."
+    },
+
+    "caseStatuses": {
+      "draft_intake": "Черновик анкеты",
+      "intake_submitted": "Анкета отправлена",
+      "consultation_requested": "Запрошена консультация",
+      "consultation_booked": "Консультация назначена",
+      "consultation_completed": "Консультация завершена",
+      "plan_created": "План успешно создан",
+      "application_activated": "Заявление успешно активировано",
+      "closed": "Кейс закрыт"
+    },
+
+    "applicationStatuses": {
+      "waiting_documents": "Ожидание документов",
+      "documents_under_review": "Документы на проверке",
+      "documents_not_approved": "Документы не одобрены",
+      "documents_approved": "Документы одобрены",
+      "visa_journey_started": "Визовый процесс начат",
+      "visa_issue_action_needed": "Требуется действие",
+      "visa_approved": "Виза одобрена",
+      "finished": "Завершено",
+      "cancelled": "Отменено"
+    },
+
+    "documentStatuses": {
+      "pending": "Ожидает",
+      "approved": "Одобрено",
+      "resubmit": "Нужно загрузить заново",
+      "rejected": "Отклонено"
+    },
+
+    "intake": {
+      "title": "Сводка анкеты",
+      "subtitle": "Данные только для чтения — для подготовки консультации.",
+      "keyFacts": "Информация от клиента",
+      "draftRecommendation": "Предварительная рекомендация",
+      "rawIntakeJson": "Исходный JSON анкеты",
+
+      "fields": {
+        "destination": "Направление",
+        "visaType": "Тип визы",
+        "timeframe": "Сроки",
+        "extraNotes": "Заметки"
+      }
+    },
+
+    "consultation": {
+      "title": "Консультация",
+      "subtitle": "Назначение, связь и продвижение этапа консультации.",
+
+      "sections": {
+        "progressTitle": "Прогресс",
+        "progressHelp": "Перевод кейса по этапам консультации.",
+        "scheduleTitle": "Расписание",
+        "scheduleHelp": "Укажите канал и дату/время при бронировании.",
+        "notesTitle": "Заметки",
+        "notesHelp": "Заметки консультанта, видимые клиенту."
+      },
+
+      "guardrails": {
+        "title": "Правила",
+        "requestedTitle": "При статусе «Консультация запрошена»",
+        "requestedBody": "Сообщает клиенту о запросе консультации. Можно продолжить без канала и даты, но клиента следует связаться для бронирования.",
+        "bookedTitle": "При статусе «Консультация назначена»",
+        "bookedItemChannel": "Детали консультации согласованы с клиентом.",
+        "bookedItemDatetime": "Канал и дата/время обязательны, ссылка — по желанию",
+        "completedTitle": "При статусе «Консультация завершена»",
+        "completedBody": "Консультация завершена. Следующий шаг — подготовка плана и требований."
+      },
+
+      "fields": {
+        "channel": "Канал",
+        "scheduledFor": "Назначено на",
+        "link": "Ссылка на консультацию (необязательно, но рекомендуется для видимости клиентов)",
+        "note": "Заметка для клиента (необязательно)",
+        "transition": "Смена статуса"
+      },
+
+      "placeholders": {
+        "channel": "например: WhatsApp / Zoom / Телефон",
+        "link": "Вставьте ссылку на встречу",
+        "note": "Краткое обновление...",
+        "noteExample": "Пример: Клиент подтвердил доступность; попросить связаться через WhatsApp или Telegram."
+      },
+
+      "transitions": {
+        "none": "Без изменения статуса",
+        "selectStatus": "Выберите статус консультации"
+      },
+
+      "currentValue": "Текущее значение: {value}",
+      "noneScheduled": "Дата пока не назначена.",
+
+      "channels": {
+        "zoom": "Zoom",
+        "googleMeet": "Google Meet",
+        "google_meet": "Google Meet",
+        "phone": "Телефон",
+        "whatsapp": "WhatsApp",
+        "telegram": "Telegram",
+        "email": "Email"
+      },
+
+      "locked": {
+        "title": "Заблокировано",
+        "body": "Раздел заблокирован, так как заявление уже активно."
+      },
+
+      "confirmStatusUpdate": "Обновить статус консультации?",
+      "confirmScheduleUpdate": "Обновить расписание консультации?",
+
+      "clickToContact": {
+        "title": "Связаться",
+        "providedByClient": "Эти контакты предоставлены клиентом и не проверены.",
+        "unavailable": "Предпочтительные контакты недоступны.",
+        "action": "Открыть в {method}",
+        "methods": {
+          "email": "Email",
+          "whatsapp": "WhatsApp",
+          "telegram": "Telegram"
+        }
+      }
+    },
+
+    "plan": {
+      "title": "План",
+      "subtitle": "Определите маршрут, зафиксируйте его и отметьте предложенный/принятый.",
+
+      "fields": {
+        "finalApplicationType": "Итоговый тип заявления",
+        "planNotes": "Личные заметки по плану (не видны клиенту)",
+        "consultantNote": "Заметка для клиента (необязательно)",
+        "transition": "Смена статуса",
+        "finalApplicationTypeNone": "Выберите вариант",
+        "finalApplicationTypeHint": "Выберите итоговый тип для возможности активации."
+      },
+
+      "placeholders": {
+        "finalApplicationType": "Должно совпадать со значением enum в БД",
+        "planNotes": "Обоснование, шаги, зависимости...",
+        "consultantNote": "Короткое обновление, которое клиент увидит позже..."
+      },
+
+      "hints": {
+        "enumMustMatch": "Значение должно совпадать с enum application_type в базе данных."
+      },
+
+      "locked": {
+        "title": "Заблокировано",
+        "body": "Раздел заблокирован, так как заявление уже активно."
+      },
+
+      "confirmFinalApplicationTypeChange": "Изменить итоговый тип заявления?"
+    },
+
+    "requirements": {
+      "title": "Требования",
+      "subtitlePre": "Определите необходимые документы до активации (сохраняются в плане кейса).",
+      "subtitlePost": "Редактируйте документы после активации (обновляет требования заявления).",
+
+      "locked": {
+        "title": "Заблокировано",
+        "body": "Раздел заблокирован, так как заявление уже активно."
+      },
+
+      "confirmChange": "Обновить требования?"
+    },
+
+    "activation": {
+      "title": "Активация заявления",
+      "subtitle": "Создаёт рабочий процесс заявления на основе этого кейса.",
+      "notActiveTitle": "Заявление ещё не создано",
+      "alreadyActiveTitle": "Заявление активно",
+      "alreadyActiveBody": "Этот кейс уже связан с заявлением.",
+      "openApplication": "Открыть заявление",
+      "activate": "Активировать заявление",
+      "activateDevBypass": "Активировать (DEV bypass)",
+      "confirmBody": "Вы уверены, что хотите активировать этот кейс? Кейс будет завершён, и на его основе будет создано заявление.",
+
+      "preconditions": {
+        "planAccepted": "Статус кейса — plan_accepted",
+        "finalType": "Итоговый тип заявления задан",
+        "requirements": "Требования выбраны",
+        "consultationCompleted": "Консультация завершена",
+        "caseCreated": "План подготовлен",
+        "planCreated": "План подготовлен",
+        "requirementsSelected": "Требования выбраны",
+        "caseClosed": "Кейс закрыт"
+      }
+    },
+
+    "preview": {
+      "title": "Предпросмотр для клиента",
+      "subtitle": "Что клиенту нужно сделать дальше.",
+      "nextStepTitle": "Следующий шаг",
+
+      "case": {
+        "default": "Мы готовим вашу консультацию и план.",
+        "intakeSubmitted": "Анкета получена. Далее — назначение консультации.",
+        "consultationRequested": "Консультация запрошена. Ожидаем детали бронирования.",
+        "consultationBooked": "Консультация назначена. Пожалуйста, подключитесь в указанное время.",
+        "planProposed": "План предложен. Далее — принять план.",
+        "planAccepted": "План принят. Далее — активация заявления.",
+        "consultationCompleted": "Консультация завершена. Далее — подготовка плана.",
+        "closed": "Этот кейс закрыт."
+      },
+
+      "app": {
+        "default": "Ваше заявление в работе.",
+        "waitingDocuments": "Следующий шаг — загрузить необходимые документы.",
+        "underReview": "Мы проверяем ваши документы.",
+        "notApproved": "Требуется действие: загрузите документы повторно.",
+        "approved": "Документы одобрены. Визовый процесс продолжается."
+      }
+    },
+
+    "timeline": {
+      "title": "Таймлайн",
+      "subtitle": "Хронология пути кейса.",
+      "created": "Кейс создан",
+      "updated": "Кейс обновлён",
+      "consultationRequested": "Консультация запрошена",
+      "consultationScheduled": "Консультация назначена",
+      "consultantNoteUpdated": "Заметка консультанта обновлена",
+      "appEvent": "Событие заявления: {type}"
+    },
+
+    "actions": {
+      "saveConsultation": "Сохранить консультацию",
+      "savePlan": "Сохранить план",
+      "saveRequirements": "Сохранить требования",
+      "unlock": "Разблокировать",
+      "closeCase": "Закрыть кейс"
+    },
+
+    "confirm": {
+      "title": "Вы редактируете активный кейс",
+      "activeCaseEdit": "Этот кейс уже связан с заявлением. Изменения могут повлиять на активное заявление. Продолжить?",
+      "cancel": "Отмена",
+      "continue": "Продолжить"
+    }
+  }
+}

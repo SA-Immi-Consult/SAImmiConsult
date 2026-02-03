@@ -1,0 +1,127 @@
+{
+  "ClientCases": {
+    "hero": {
+      "title": "Your case",
+      "subtitle": "Track your case intake, consultation, and plan in one place."
+    },
+
+    "header": {
+      "title": "Case overview",
+      "client": "Client",
+      "case": "Case",
+      "application": "Application",
+      "noApplicationYet": "No application linked yet.",
+      "activationHint": "Your consultant will activate your application after the consultation and once your required documents have been selected.",
+      "docsSummary": "{uploaded}/{required} uploaded · {approved} approved",
+
+      "actions": {
+        "openApplication": "Open application"
+      },
+
+      "clickToContactLabel": "Contact your consultant",
+	  
+      "applicationBadgeLabels": {
+        "applicationStatus": "Case status",
+        "documentStatus": "Document status"
+      }
+    },
+
+    "Buttons": {
+      "createNewCase": "Create new case"
+    },
+    "filters": {
+      "all": "All",
+	  "statusLabel": "Status"
+    },
+    "list": {
+      "title": "Your cases",
+      "subtitle": "Filter and open your cases below.",
+      "empty": "No cases found."
+    },
+	
+    "Confirm": {
+      "newCaseTitle": "Start a new case?",
+      "newCaseActiveBody": "You already have an active case. Starting a new case may duplicate your intake. Do you want to continue?"
+    },
+
+    "intake": {
+      "title": "Intake summary",
+      "subtitle": "What you submitted.",
+      "keyFacts": "Information provided by you",
+      "draftRecommendation": "Draft recommendation",
+
+      "fields": {
+        "destination": "Destination",
+        "visaType": "Visa type",
+        "timeframe": "Timeframe",
+        "extraNotes": "Notes"
+      },
+
+      "draft": {
+        "fields": {
+          "confidence": "Confidence",
+          "suggestedType": "Suggested route",
+          "rationale": "Reasoning",
+          "generatedAt": "Generated"
+        }
+      }
+    },
+
+    "consultation": {
+      "title": "Consultation",
+      "subtitle": "Communicate with a consultant for the next steps",
+
+      "sections": {
+        "scheduleTitle": "Schedule",
+        "notesHelp": "Notes from your consultant."
+      },
+
+      "fields": {
+        "channel": "Channel",
+        "scheduledFor": "Scheduled for",
+        "link": "Meeting link"
+      },
+
+      "channels": {
+        "zoom": "Zoom",
+        "googleMeet": "Google Meet",
+        "google_meet": "Google Meet",
+        "phone": "Phone",
+        "whatsapp": "WhatsApp",
+        "telegram": "Telegram",
+        "email": "Email"
+      },
+
+      "currentValue": "Current: {value}",
+
+      "clickToContact": {
+        "action": "Open in {method}",
+        "methods": {
+          "whatsapp": "WhatsApp",
+          "telegram": "Telegram"
+        }
+      }
+    },
+
+    "plan": {
+      "fields": {
+        "consultantNote": "Notes from the consultant"
+      }
+    },
+
+    "activation": {
+      "subtitle": "Your application becomes available after activation."
+    },
+
+    "preview": {
+      "subtitle": "What happens next in your case.",
+      "nextStepTitle": "Next step"
+    },
+
+    "timeline": {
+      "title": "Timeline",
+      "subtitle": "Your case activity log.",
+      "appEvent": "Application event: {type}"
+    }
+  }
+}

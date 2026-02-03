@@ -1,8 +1,13 @@
 {
   "About": {
-    "eyebrow": "About SA Immi Consult",
-    "heading": "Helping you make South Africa feel like home",
-    "subheading": "SA Immi Consult is an immigration and education agency that supports individuals, families and businesses who want to study, live, invest or retire in South Africa.",
+
+    "imageAlt": "About SA Immi Consult",
+    "ctaExploreServices": "Explore services",
+    "ctaTalkToConsultant": "Talk to a consultant",
+	
+    "title": "About SA Immi Consult",
+    "subtitle": "Helping you make South Africa feel like home",
+    "description": "SA Immi Consult is an immigration and education agency that supports individuals, families and businesses who want to study, live, invest or retire in South Africa.",
 
     "whoWeAre": {
       "title": "Who we are",

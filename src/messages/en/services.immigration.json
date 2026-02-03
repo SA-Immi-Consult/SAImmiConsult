@@ -1,9 +1,9 @@
 {
   "ServicesImmigration": {
     "header": {
-      "eyebrow": "Immigration",
-      "title": "Immigration to South Africa",
-      "subtitle": "Clear, personalised guidance for individuals and families who want to relocate to South Africa or explore opportunities in BRICS countries.",
+      "title": "Immigration",
+      "subtitle": "Immigration to South Africa",
+      "description": "Clear, personalised guidance for individuals and families who want to relocate to South Africa or explore opportunities in BRICS countries.",
       "primaryCta": "Speak to a consultant",
       "secondaryCta": "View FAQ"
     },

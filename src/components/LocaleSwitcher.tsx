@@ -1,93 +1,115 @@
-// src/components/LocaleSwitcher.tsx
-'use client';
+/*
+DOC NAME: LocaleSwitcher.tsx
+LOCATION: /src/components/LocaleSwitcher.tsx
+SCOPE: Locale toggle (EN/RU) used in navbar (header + drawer). Visual-only.
+STATUS: UNLOCKED
+*/
 
-import { usePathname, useRouter } from '@/i18n/navigation';
-import { useLocale } from 'next-intl';
-import { routing } from '@/i18n/routing';
-import { useEffect, useRef, useState } from 'react';
-import styles from './LocaleSwitcher.module.css';
+"use client";
 
-// Auto-generate flag + label from locale code
-const getLocaleMeta = (locale: string) => {
-  switch (locale) {
-    case 'en':
-      return { flag: '🇬🇧', label: ' EN' };
-    case 'ru':
-      return { flag: '🇷🇺', label: ' RU' };
-    default:
-      // fallback for unexpected locales
-      return { flag: '🏳️', label: locale.toUpperCase() };
-  }
+import * as React from "react";
+import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
+import { usePathname, useRouter } from "@/i18n/navigation";
+import type { ComponentProps } from "react";
+
+import { useParams } from "next/navigation";
+
+import styles from "./LocaleSwitcher.module.css";
+
+type LocaleSwitcherProps = {
+	variant?: "header" | "drawer";
 };
 
-export default function LocaleSwitcher() {
-  const currentLocale = useLocale();
-  const router = useRouter();
-  const pathname = usePathname();
+export default function LocaleSwitcher({ variant = "header" }: LocaleSwitcherProps) {
+	const locale = useLocale();
+	const t = useTranslations("GlobalForm");
+	const router = useRouter();
+	const pathname = usePathname();
+	const params = useParams();
+	
+	const routeParams = React.useMemo(() => {
+		const out: Record<string, string> = {};
+		if (!params) return out;
+	
+		for (const [k, v] of Object.entries(params)) {
+			if (typeof v === "string") out[k] = v;
+			else if (Array.isArray(v) && typeof v[0] === "string") out[k] = v[0];
+		}
+		return out;
+	}, [params]);
+	
 
-  const [isOpen, setIsOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement | null>(null);
+	const isEn = locale === "en";
+	const nextLocale = isEn ? "ru" : "en";
 
-  // The correct dynamic locale list
-  const supportedLocales = routing.locales;
+	const onToggle = React.useCallback(() => {
+		const targetPath = typeof pathname === "string" && pathname.length > 0 ? pathname : "/";
+	
+		// If next-intl gave us a dynamic template (e.g. "/admin/.../[id]"),
+		// we must pass the current params or it will throw.
+		if (targetPath.includes("[")) {
 
-  const current = getLocaleMeta(currentLocale);
+		type Router = ReturnType<typeof useRouter>;
+		type AppHref = Parameters<Router["replace"]>[0];
 
-  const switchLocale = (newLocale: string) => {
-    if (newLocale !== currentLocale) {
-      router.replace(pathname, { locale: newLocale });
-      router.refresh();
-    }
-    setIsOpen(false);
-  };
+		const href = {
+			pathname: targetPath,
+			params: routeParams,
+		} as unknown as AppHref;
+	
+		router.replace(href, { locale: nextLocale });
+		return;
+	}
 
-  // Close dropdown on outside click
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setIsOpen(false);
-      }
-    };
+		// Static/unknown route: route types may not include bracket templates (e.g. "/news/[slug]"),
+		// so cast through the router's href type to satisfy TS.
+		type Router = ReturnType<typeof useRouter>;
+		type AppHref = Parameters<Router["replace"]>[0];
+		router.replace(targetPath as unknown as AppHref, { locale: nextLocale });
+ 	}, [router, pathname, routeParams, nextLocale]);
+	
 
-    if (isOpen) document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen]);
+	const containerClass = variant === "drawer" ? styles.containerDrawer : styles.containerHeader;
 
-  return (
-    <div className={styles.container} ref={containerRef}>
-      {/* Toggle button */}
-      <button
-        type="button"
-        className={styles.toggleButton}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <span className={styles.flag}>{current.flag}</span>
-        <span className={styles.label}>{current.label}</span>
-        <span className={styles.caret} />
-      </button>
+	const ariaLabel = isEn ? t("labels.switchToRu") : t("labels.switchToEn");
 
-      {/* Dropdown */}
-      {isOpen && (
-        <ul className={styles.dropdown} role="listbox">
-          {supportedLocales.map((locale) => {
-            const meta = getLocaleMeta(locale);
-            const active = locale === currentLocale;
+	return (
+		<div className={`${styles.container} ${containerClass}`}>
+			{/* EN label (left) */}
+			<span className={`${styles.langLabel} ${isEn ? styles.langActive : styles.langInactive}`}>
+				{t("labels.en")}
+			</span>
 
-            return (
-              <li key={locale}>
-                <button
-                  type="button"
-                  className={`${styles.option} ${active ? styles.optionActive : ''}`}
-                  onClick={() => switchLocale(locale)}
-                >
-                  <span className={styles.flag}>{meta.flag}</span>
-                  <span className={styles.optionLabel}>{meta.label}</span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      )}
-    </div>
-  );
+			{/* Flag pill + porcelain knob */}
+			<button
+				type="button"
+				onClick={onToggle}
+				className={styles.toggle}
+				aria-label={ariaLabel}
+				title={ariaLabel}
+				aria-pressed={!isEn}
+			>
+				<span
+					className={`${styles.track} ${isEn ? styles.trackEn : styles.trackRu}`}
+					aria-hidden="true"
+				>
+					<Image
+						key={isEn ? "flag-en" : "flag-ru"}
+						src={isEn ? "/flags/uk.png" : "/flags/ru.png"}
+						alt=""
+						fill
+						sizes="72px"
+						className={styles.flag}
+						priority={false}
+					/>
+				</span>
+			</button>
+
+			{/* RU label (right) */}
+			<span className={`${styles.langLabel} ${!isEn ? styles.langActive : styles.langInactive}`}>
+				{t("labels.ru")}
+			</span>
+		</div>
+	);
 }

@@ -1,0 +1,129 @@
+{
+  "ClientCases": {
+    "hero": {
+      "title": "Ваш кейс",
+      "subtitle": "Отслеживайте анкету, консультацию и план по вашему кейсу в одном месте."
+    },
+
+    "header": {
+      "title": "Обзор кейса",
+      "client": "Клиент",
+      "case": "Кейс",
+      "application": "Заявление",
+      "noApplicationYet": "Заявление пока не связано.",
+      "activationHint": "Ваш консультант активирует заявление после консультации и выбора необходимых документов.",
+      "docsSummary": "Загружено: {uploaded}/{required} · Одобрено: {approved}",
+
+      "actions": {
+        "openApplication": "Открыть заявление"
+      },
+
+      "clickToContactLabel": "Связаться с консультантом",
+      
+      "applicationBadgeLabels": {
+        "applicationStatus": "Статус кейса",
+        "documentStatus": "Статус документов"
+      }
+    },
+
+    "Buttons": {
+      "createNewCase": "Создать новый кейс"
+    },
+
+    "filters": {
+      "all": "Все",
+      "statusLabel": "Статус"
+    },
+
+    "list": {
+      "title": "Ваши кейсы",
+      "subtitle": "Ниже вы можете отфильтровать и открыть свои кейсы.",
+      "empty": "Кейсы не найдены."
+    },
+    
+    "Confirm": {
+      "newCaseTitle": "Начать новый кейс?",
+      "newCaseActiveBody": "У вас уже есть активный кейс. Создание нового может привести к дублированию анкеты. Продолжить?"
+    },
+
+    "intake": {
+      "title": "Сводка анкеты",
+      "subtitle": "Информация, которую вы предоставили.",
+      "keyFacts": "Данные от вас",
+      "draftRecommendation": "Предварительная рекомендация",
+
+      "fields": {
+        "destination": "Направление",
+        "visaType": "Тип визы",
+        "timeframe": "Сроки",
+        "extraNotes": "Заметки"
+      },
+
+      "draft": {
+        "fields": {
+          "confidence": "Уверенность",
+          "suggestedType": "Рекомендуемый маршрут",
+          "rationale": "Обоснование",
+          "generatedAt": "Сформировано"
+        }
+      }
+    },
+
+    "consultation": {
+      "title": "Консультация",
+      "subtitle": "Общение с консультантом для следующих шагов",
+
+      "sections": {
+        "scheduleTitle": "Расписание",
+        "notesHelp": "Заметки от вашего консультанта."
+      },
+
+      "fields": {
+        "channel": "Канал",
+        "scheduledFor": "Назначено на",
+        "link": "Ссылка на встречу"
+      },
+
+      "channels": {
+        "zoom": "Zoom",
+        "googleMeet": "Google Meet",
+        "google_meet": "Google Meet",
+        "phone": "Телефон",
+        "whatsapp": "WhatsApp",
+        "telegram": "Telegram",
+        "email": "Email"
+      },
+
+      "currentValue": "Текущее значение: {value}",
+
+      "clickToContact": {
+        "action": "Открыть в {method}",
+        "methods": {
+          "whatsapp": "WhatsApp",
+          "telegram": "Telegram"
+        }
+      }
+    },
+
+    "plan": {
+      "fields": {
+        "consultantNote": "Комментарий консультанта"
+      }
+    },
+
+    "activation": {
+      "subtitle": "Заявление станет доступно после активации."
+    },
+
+    "preview": {
+      "subtitle": "Что будет дальше по вашему кейсу.",
+      "nextStepTitle": "Следующий шаг"
+    },
+
+    "timeline": {
+      "title": "Таймлайн",
+      "subtitle": "Журнал активности по вашему кейсу.",
+      "appEvent": "Событие заявления: {type}"
+    }
+  }
+}
