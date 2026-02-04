@@ -20,6 +20,9 @@ function runPgDump({ host, port, db, user, password, outFile }) {
 			"--format=custom",
 			"--blobs",
 			"--verbose",
+			// hardening for pooler/CI
+			"--sslmode=require",
+			"--no-password",
 			`--file=${outFile}`,
 		];
 
