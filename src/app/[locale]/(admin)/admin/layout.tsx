@@ -52,5 +52,9 @@ export default async function AdminLayout({ children, params }: LayoutProps) {
 		redirect(`/${locale}${siteConfig.clientDashboardPath}`);
 	}
 
-	return <div className="min-h-screen">{children}</div>;
+	return (
+		<div className="min-h-screen" data-scope="profile">
+			{children}
+		</div>
+	);
 }

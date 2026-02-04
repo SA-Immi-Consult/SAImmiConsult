@@ -14,7 +14,7 @@ type Props = {
 
 export function PageShell({ children }: Props) {
 	return (
-		<div className={styles.page}>
+		<div className={`${styles.page} app-page`}>
 			<div className={styles.shell}>{children}</div>
 		</div>
 	);

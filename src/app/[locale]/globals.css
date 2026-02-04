@@ -233,6 +233,11 @@ body.no-scroll {
 	max-width: 100%;
 }
 
+/* Profile-only bottom breathing room */
+[data-scope="profile"] .app-page {
+  padding-bottom: var(--space-6);
+}
+
 /* ==========================================================================
 	LAYOUT PRIMITIVES
 	========================================================================== */

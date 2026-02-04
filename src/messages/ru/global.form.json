@@ -7,7 +7,8 @@
       "switchToEn": "EN"
     },
     "actions": {
-      "logout": "Выйти"
+      "logout": "Выйти",
+	  "openInDrive": "Открыть Google Диск"
     },
     "consultation_channel": {
       "channelCta": "Открыть в {value}",

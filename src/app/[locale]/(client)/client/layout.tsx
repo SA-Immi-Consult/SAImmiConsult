@@ -42,5 +42,9 @@ export default async function ClientLayout({ children, params }: ClientLayoutPro
 	}
 
 	// Everything below this point is protected
-	return <div className="min-h-screen">{children}</div>;
+	return (
+		<div className="min-h-screen" data-scope="profile">
+			{children}
+		</div>
+	);
 }

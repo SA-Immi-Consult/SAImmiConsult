@@ -33,11 +33,22 @@ import {
 } from "@/lib/supabaseServer";
 import { siteConfig } from "@/config/siteConfig";
 
+import styles from "@/styles/casedetails.module.css";
 import { PageShell } from "@/components/ui/layout/PageShell";
 import { MainColumn } from "@/components/ui/layout/MainColumn";
-import { Panel } from "@/components/ui/panel/Panel";
+import { DisclosurePanel } from "@/components/ui/panel/DisclosurePanel";
 import StatCard from "@/components/ui/StatCard";
 import { Link } from "@/i18n/navigation";
+
+/* -------------------------------------------------------------------------- */
+/* Google Drive Link                                                          */
+/* -------------------------------------------------------------------------- */
+
+function getDriveRootFolderUrl() {
+	const id = (process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID ?? "").trim();
+	if (!id) return null;
+	return `https://drive.google.com/drive/folders/${encodeURIComponent(id)}`;
+}
 
 /* -------------------------------------------------------------------------- */
 /* Admin Supabase (Service Role)                                              */
@@ -95,6 +106,11 @@ export default async function AdminDashboardPage() {
 	const tAdmin = await getTranslations("AdminDashboard");
 	const tCases = await getTranslations("AdminCases");
 	const tApps = await getTranslations("AdminApplications");
+	const tGlobal = await getTranslations("GlobalForm");
+	const chevronLabel = tGlobal("Common.symbols.chevronDown");
+	
+	const driveRootUrl = getDriveRootFolderUrl();
+	
 
 	/* ------------------------------------------------------------------------ */
 	/* Cases stats (same buckets as /admin/cases)                                */
@@ -188,8 +204,29 @@ export default async function AdminDashboardPage() {
 
 			<MainColumn>
 				<div className="stack">
-					{/* Always-open: Cases */}
-					<Panel title={tCases("title")} subtitle={tCases("subtitle")}>
+					{driveRootUrl ? (
+						<div className="formInline">
+							<a
+								href={driveRootUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="button button-secondary"
+							>
+								{tGlobal("actions.openInDrive")}
+								<span className={styles.arrow} aria-hidden="true"> 
+									{tGlobal("Common.symbols.arrowRight")} 
+								</span>
+							</a>
+						</div>
+					) : null}
+					{/* Collapsed by default: Cases */}
+					<DisclosurePanel
+						id="panel-cases"
+						title={tCases("title")}
+						subtitle={tCases("subtitle")}
+						defaultOpen={false}
+						chevronLabel={chevronLabel}
+					>
 						<section className={dash.statsGrid}>
 							<Link
 								href={siteConfig.adminCasesPath}
@@ -261,10 +298,16 @@ export default async function AdminDashboardPage() {
 								/>
 							</Link>
 						</section>
-					</Panel>
+					</DisclosurePanel>
 
-					{/* Always-open: Applications */}
-					<Panel title={tApps("title")} subtitle={tApps("subtitle")}>
+					{/* Collapsed by default: Applications */}
+					<DisclosurePanel
+						id="panel-applications"
+						title={tApps("title")}
+						subtitle={tApps("subtitle")}
+						defaultOpen={false}
+						chevronLabel={chevronLabel}
+					>
 						<section className={dash.statsGrid}>
 							<Link
 								href={siteConfig.adminApplicationsPath}
@@ -336,7 +379,7 @@ export default async function AdminDashboardPage() {
 								/>
 							</Link>
 						</section>
-					</Panel>
+					</DisclosurePanel>
 				</div>
 			</MainColumn>
 		</PageShell>
