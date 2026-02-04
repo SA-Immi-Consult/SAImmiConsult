@@ -1,3 +1,10 @@
+/*
+DOC NAME: supabase-backup-to-drive.mjs
+LOCATION: /scripts/supabase-backup-to-drive.mjs
+SCOPE: Weekly Supabase Postgres logical backup via pg_dump (pooler-compatible), upload to Google Drive folder, delete backups older than RETENTION_DAYS.
+STATUS: UNLOCKED
+*/
+
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -20,8 +27,6 @@ function runPgDump({ host, port, db, user, password, outFile }) {
 			"--format=custom",
 			"--blobs",
 			"--verbose",
-			// hardening for pooler/CI
-			"--sslmode=require",
 			"--no-password",
 			`--file=${outFile}`,
 		];
@@ -69,24 +74,40 @@ async function uploadToDrive(drive, folderId, filePath) {
 	return res.data;
 }
 
-// Deletes files in the folder older than retentionDays based on createdTime
+function escapeDriveQueryValue(value) {
+	// Google Drive query strings are quoted with single quotes; escape any embedded single quotes.
+	return String(value).replace(/'/g, "\\'");
+}
+
+function isBackupFileName(name) {
+	// Only delete backups created by this script.
+	// Matches: supabase_<db>_<timestamp>.dump
+	return /^supabase_.+_.+\.dump$/i.test(name ?? "");
+}
+
+// Deletes script backups in the folder older than retentionDays based on createdTime
 async function retentionCleanup(drive, folderId, retentionDays) {
 	const cutoff = new Date(Date.now() - retentionDays * 24 * 60 * 60 * 1000);
 
 	let pageToken = undefined;
 	let deleted = 0;
 
+	const q = `'${escapeDriveQueryValue(folderId)}' in parents and trashed = false`;
+
 	do {
 		const list = await drive.files.list({
-			q: `'${folderId}' in parents and trashed = false`,
+			q,
 			fields: "nextPageToken, files(id,name,createdTime)",
 			pageSize: 1000,
 			pageToken,
 		});
 
 		for (const f of list.data.files ?? []) {
-			if (!f.createdTime) continue;
+			if (!f.id || !f.name || !f.createdTime) continue;
+			if (!isBackupFileName(f.name)) continue;
+
 			const created = new Date(f.createdTime);
+			if (Number.isNaN(created.getTime())) continue;
 
 			if (created < cutoff) {
 				await drive.files.delete({ fileId: f.id });
@@ -98,7 +119,9 @@ async function retentionCleanup(drive, folderId, retentionDays) {
 		pageToken = list.data.nextPageToken ?? undefined;
 	} while (pageToken);
 
-	console.log(`Retention cleanup done. Deleted ${deleted} file(s) older than ${retentionDays} days.`);
+	console.log(
+		`Retention cleanup done. Deleted ${deleted} backup file(s) older than ${retentionDays} days.`
+	);
 }
 
 async function main() {
@@ -110,6 +133,10 @@ async function main() {
 
 	const folderId = mustEnv("GOOGLE_DRIVE_BACKUP_FOLDER_ID");
 	const retentionDays = Number(process.env.RETENTION_DAYS ?? "30");
+
+	if (!Number.isFinite(retentionDays) || retentionDays < 0) {
+		throw new Error(`RETENTION_DAYS must be a non-negative number. Got: ${process.env.RETENTION_DAYS}`);
+	}
 
 	const ts = new Date().toISOString().replace(/[:.]/g, "-");
 	const outFile = path.join(os.tmpdir(), `supabase_${db}_${ts}.dump`);
@@ -131,7 +158,7 @@ async function main() {
 	console.log(`Applying retention cleanup: keep last ${retentionDays} days...`);
 	await retentionCleanup(drive, folderId, retentionDays);
 
-	// Optional: remove local temp file
+	// Remove local temp file
 	fs.unlinkSync(outFile);
 	console.log("Local temp file removed.");
 }
