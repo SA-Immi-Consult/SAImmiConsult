@@ -35,9 +35,8 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install deps for backup script
-        run: |
-          npm i googleapis
+      - name: Install deps
+        run: npm ci
 
       - name: Run backup + upload + retention cleanup
         env:
