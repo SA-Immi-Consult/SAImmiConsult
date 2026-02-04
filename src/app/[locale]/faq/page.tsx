@@ -95,7 +95,7 @@ export default async function FAQPage({
 					"--hero-y": "-30px",
 					"--hero-x-mobile": "120px",
 					"--hero-y-mobile": "-60px",
-					"--hero-height": "clamp(420px, 70vh, 820px)",
+					"--hero-height": "clamp(420px, 70svh, 820px)",
 					"--hero-overlay-top": "0.70",
 					"--hero-overlay-mid": "0.44",
 					"--hero-overlay-bot": "0.26",
@@ -104,7 +104,7 @@ export default async function FAQPage({
 				} as CSSProperties
 			}
 		>
-			<div className={styles.faqPanel}>
+			<div className={`content-gutter ${styles.faqPanel}`}>
 				<Panel
 					title={t("panel.title")}
 					subtitle={q ? t("search.subtitleWithQuery", { q }) : t("panel.subtitle")}

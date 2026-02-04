@@ -106,6 +106,15 @@ CONTENT:
 	--space-6: clamp(2rem, 3.2vw, 2.25rem);
 	--space-7: clamp(3rem, 4.5vw, 3.25rem);
 	--space-8: clamp(4rem, 6vw, 4.5rem);
+	
+
+	/* extended scale */
+	--space-9:  clamp(5.5rem, 8vw, 6rem);
+	--space-10: clamp(7.5rem, 11vw, 8.25rem);
+	--space-11: clamp(10rem, 14.5vw, 11rem);
+	--space-12: clamp(13rem, 19vw, 14.5rem);
+	--space-13: clamp(17rem, 24vw, 19rem);
+	--space-14: clamp(22rem, 30vw, 25rem);
 
 	--space-page: var(--space-6);
 	--space-panel: var(--space-5);
@@ -493,11 +502,6 @@ body.no-scroll {
 	min-height: clamp(380px, 46vh, 560px);
 }
 
-.hero-shell + * {
-	/* reduce the forced gap after hero */
-	margin-top: clamp(2.5rem, 5vw, 4rem);
-}
-
 .hero-inner {
 	width: min(92vw, var(--content-max-width));
 	margin: 0 auto;
@@ -518,7 +522,6 @@ body.no-scroll {
 
 	max-height: 100%;
 }
-
 
 /* ==========================================================================
 	FORM CONTROLS (LOCKED)
@@ -1910,7 +1913,7 @@ textarea.form-control {
 	);
 	backdrop-filter: blur(20px) saturate(160%);
 	-webkit-backdrop-filter: blur(20px) saturate(160%);
-	border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+	
 	box-shadow:
 		0 10px 26px rgba(15, 23, 42, 0.06),
 		inset 0 1px 0 rgba(255, 255, 255, 0.6);

@@ -12,9 +12,10 @@
       "secondaryCta": "WhatsApp us",
       "reassurance": "No obligations, just honest advice from consultants who have lived in South Africa for more than 15 years.",
       "kpi": {
+		"circlePath": "ESTABLISHED • TAILORED • DEPENDABLE • ",
         "yearsInSA": {
           "value": "15+",
-          "label": "Years experience in South Africa"
+          "label": "Years"
         },
         "languages": {
           "value": "RU / EN",
@@ -33,7 +34,6 @@
       "tag": "End-to-end support: from first idea to landing in South Africa",
 	  "imageAlt": "SA Immi Consult hero image"
     },
-
     "services": {
       "title": "Our services",
       "subtitle": "How we can help you",

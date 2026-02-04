@@ -18,6 +18,7 @@ import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import type { CSSProperties } from "react";
+import { useMemo } from "react";
 import { siteConfig } from "@/config/siteConfig";
 
 import { PageWithStickyHero } from "@/components/ui/hero/PageWithStickyHero";
@@ -110,6 +111,24 @@ function IconSun() {
 	);
 }
 
+function IconPin() {
+	return (
+		<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+			<path
+				d="M12 21s7-4.4 7-11a7 7 0 1 0-14 0c0 6.6 7 11 7 11Z"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinejoin="round"
+			/>
+			<path
+				d="M12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
+				stroke="currentColor"
+				strokeWidth="2"
+			/>
+		</svg>
+	);
+}
+
 /* =========================================================
    Page
    ========================================================= */
@@ -139,6 +158,8 @@ export default function AboutPage() {
 		"services.realEstate",
 		"services.internationalVisas",
 	];
+	
+	const tHeroKpi = useTranslations("Home.hero.kpi");
 
 	return (
 		<PageWithStickyHero
@@ -180,13 +201,13 @@ export default function AboutPage() {
 					"--hero-y": "90px",
 					"--hero-x-mobile": "0px",
 					"--hero-y-mobile": "0px",
-					"--hero-height": "clamp(420px, 70vh, 820px)",
+					"--hero-height": "clamp(420px, 70svh, 820px)",
 					"--hero-overlay-top": "0.5",
 					"--hero-overlay-mid": "0.3",
 					"--hero-overlay-bot": "0.1",
 					"--hero-overlay-blur": "1.3px",
 					"--hero-overlay-sat": "2",
-					
+
 					"--hero-title-color": "var(--eggshell)",
 					"--hero-subtitle-color": "var(--savanna-gold)",
 					"--hero-desc-color": "var(--eggshell)",
@@ -219,7 +240,6 @@ export default function AboutPage() {
 											transition={{ delay: i * 0.08, duration: 0.5 }}
 											viewport={{ once: true }}
 										>
-											
 											<span className="text-sm text-bold">{t(key)}</span>
 										</motion.div>
 									))}
@@ -246,22 +266,42 @@ export default function AboutPage() {
 
 									<div className={styles.experienceSignature}>
 										<div className={styles.spinningWrapper}>
-											<svg viewBox="0 0 100 100" className={styles.spinningTextSVG} aria-hidden="true">
-												<path
+											<svg
+												viewBox="0 0 100 100"
+												className={styles.spinningTextSVG}
+												style={{ "--circle-r": "40" } as React.CSSProperties}
+												>
+												<defs>
+													<path
 													id="circlePath"
-													d="M 50, 50 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0"
-													fill="none"
-												/>
-												<text fontSize="8.5" fontWeight="700" fill="var(--savanna-gold)" letterSpacing="2.5">
-													<textPath xlinkHref="#circlePath">
-														ESTABLISHED • HERITAGE • EXCELLENCE • ESTABLISHED • HERITAGE • EXCELLENCE •
+													pathLength="1000"
+													d="
+														M 50, 50
+														m calc(-1 * var(--circle-r)), 0
+														a var(--circle-r),var(--circle-r) 0 1,1 calc(2 * var(--circle-r)),0
+														a var(--circle-r),var(--circle-r) 0 1,1 calc(-2 * var(--circle-r)),0
+													"
+													/>
+												</defs>
+												
+												<text className={styles.circleText}>
+													<textPath
+													href="#circlePath"
+													startOffset="50%"
+													textAnchor="middle"
+													textLength="1000"
+													lengthAdjust="spacing"
+													>
+													{tHeroKpi("circlePath")}
 													</textPath>
 												</text>
 											</svg>
+												
 										</div>
 
 										<div className={styles.sigValue}>
-											10+<span>yrs</span>
+											{tHeroKpi("yearsInSA.value")}
+											<span>{tHeroKpi("yearsInSA.label")}</span>
 										</div>
 									</div>
 								</div>
@@ -286,11 +326,7 @@ export default function AboutPage() {
 								{ key: "bricks", Icon: IconBuild },
 								{ key: "lifestyle", Icon: IconSun },
 							].map(({ key, Icon }) => (
-								<motion.div
-									key={key}
-									className={styles.featureCard}
-									whileHover={{ y: -8, transition: { duration: 0.3 } }}
-								>
+								<motion.div key={key} className={styles.featureCard} whileHover={{ y: -8, transition: { duration: 0.3 } }}>
 									<div className={styles.featureIcon} aria-hidden="true">
 										<Icon />
 									</div>
@@ -332,7 +368,50 @@ export default function AboutPage() {
 					</div>
 				</section>
 
-				{/* 4) SERVICES */}
+				{/* 4) LOCATION */}
+				<section className={styles.section}>
+					<div className={styles.squareTight}>
+						<motion.div className={styles.sectionHeader} {...fadeInUp}>
+							<h2 className="page-title">{t("location.title")}</h2>
+							<p className="text-muted">{t("location.subtitle")}</p>
+						</motion.div>
+
+						<div className={styles.locationGrid}>
+							<motion.div className={styles.locationCard} {...fadeInUp}>
+								<div className={styles.locationTop}>
+									<div className={styles.locationIcon} aria-hidden="true">
+										<IconPin />
+									</div>
+									<div className={styles.locationMeta}>
+										<p className={styles.locationName}>{t("location.placeName")}</p>
+										<p className="text-muted">{t("location.placeHint")}</p>
+									</div>
+								</div>
+
+								<address className={styles.addressBlock}>
+									<p className={styles.addressLine}>{t("location.line1")}</p>
+									<p className={styles.addressLine}>{t("location.line2")}</p>
+									<p className={styles.addressLine}>{t("location.line3")}</p>
+									<p className={styles.addressLine}>{t("location.line4")}</p>
+									<p className={styles.addressLine}>{t("location.postcode")}</p>
+								</address>
+
+								{/* Buttons */}
+								<div className={styles.locationActions}>
+									<Link href={siteConfig.contactPath} className="button button-ghost">
+										{t("location.contactCta")}
+									</Link>
+								</div>
+							</motion.div>
+
+							<motion.div className={styles.locationNote} {...fadeInUp}>
+								<p className="text-muted">{t("location.note")}</p>
+							</motion.div>
+						</div>
+					</div>
+				</section>
+
+				{/* 5) SERVICES */}
 				<section className={styles.section}>
 					<div className={styles.squareTight}>
 						<motion.div className={styles.sectionHeader} {...fadeInUp}>
@@ -370,6 +449,7 @@ export default function AboutPage() {
 						</div>
 					</div>
 				</section>
+
 			</div>
 		</PageWithStickyHero>
 	);

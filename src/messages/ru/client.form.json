@@ -190,8 +190,8 @@
       "loading": "Загрузка…"
     },
     "footer": {
-      "backToDashboard": "Сделаю позже",
-      "dashboardLink": "Назад в мой портал"
+      "goToDashboardPrefix": "Сделаю позже",
+      "goToDashboardLink": "Назад в мой портал"
     },
     "messages": {
       "notAuthenticated": "Пожалуйста, войдите, чтобы продолжить.",

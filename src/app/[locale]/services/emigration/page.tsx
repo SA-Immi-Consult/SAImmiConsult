@@ -36,7 +36,7 @@ export default function EmigrationPage() {
 					"--hero-y": "0px",
 					"--hero-x-mobile": "0px",
 					"--hero-y-mobile": "-200px",
-					"--hero-height": "clamp(420px, 70vh, 820px)",
+					"--hero-height": "clamp(420px, 70svh, 820px)",
 					"--hero-overlay-top": "0.40",
 					"--hero-overlay-mid": "0.4",
 					"--hero-overlay-bot": "0.26",

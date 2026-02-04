@@ -28,7 +28,16 @@ const nextConfig: NextConfig = {
 		},
 	},
 
+	// Allow dev assets (/_next/*) to be requested from these origins on your LAN
+	allowedDevOrigins: [
+		'localhost',
+		'127.0.0.1',
+		'192.168.50.254',
+		// Add the PC IP you open from your phone if different, e.g. '192.168.50.10'
+	],
+	
 	// (If you have other config values, keep them here)
+
 };
 
 

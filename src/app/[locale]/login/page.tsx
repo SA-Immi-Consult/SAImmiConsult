@@ -255,7 +255,7 @@ export default function LoginPage() {
 					"--hero-y": "30px",
 					"--hero-x-mobile": "0px",
 					"--hero-y-mobile": "0px",
-					"--hero-height": "clamp(420px, 70vh, 820px)",
+					"--hero-height": "clamp(420px, 70svh, 820px)",
 					"--hero-overlay-top": "0.40",
 					"--hero-overlay-mid": "0.3",
 					"--hero-overlay-bot": "0.26",

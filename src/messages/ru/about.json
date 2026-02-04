@@ -1,5 +1,6 @@
 {
   "About": {
+	"yearsShort": "Лет",
     "imageAlt": "О компании SA Immi Consult",
     "ctaExploreServices": "Посмотреть услуги",
     "ctaTalkToConsultant": "Связаться с консультантом",
@@ -94,6 +95,20 @@
           "2": "Информационная поддержка на всех этапах процесса."
         }
       }
-    }
+    },
+	"location": {
+		"title": "Где нас найти",
+		"subtitle": "Приём осуществляется по предварительной записи в Ривонии, Сэндтон.",
+		"placeName": "Regus – Йоханнесбург, Rivonia Village",
+		"placeHint": "Rivonia Village, Sandton",
+		"line1": "2-й этаж, Rivonia Village",
+		"line2": "Угол Mutual Road и Rivonia Boulevard",
+		"line3": "Rivonia Village",
+		"line4": "Sandton",
+		"postcode": "2191 | Южная Африка",
+		"openInMaps": "Открыть в Картах",
+		"contactCta": "Связаться с нами",
+		"note": "Если вы не уверены, как нас найти, свяжитесь с нами — мы подскажем."
+	}
   }
 }

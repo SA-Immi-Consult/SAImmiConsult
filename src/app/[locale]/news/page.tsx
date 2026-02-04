@@ -52,7 +52,7 @@ export default async function NewsPage() {
 						"--hero-y": "100px",
 						"--hero-x-mobile": "90px",
 						"--hero-y-mobile": "0px",
-						"--hero-height": "clamp(420px, 70vh, 820px)",
+						"--hero-height": "clamp(420px, 70svh, 820px)",
 						"--hero-overlay-top": "0.3",
 						"--hero-overlay-mid": "0.6",
 						"--hero-overlay-bot": "0.06",

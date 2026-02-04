@@ -352,72 +352,77 @@ export default function Home() {
 			.filter((x) => x.question.length > 0 && x.answer.length > 0);
 	}, [homeFaq, locale]);
 
-	useEffect(() => {
-		const navEl =
-			(document.querySelector("[data-site-nav]") as HTMLElement | null) ??
-			(document.querySelector("header") as HTMLElement | null);
+useEffect(() => {
+  const navEl =
+    (document.querySelector("[data-site-nav]") as HTMLElement | null) ??
+    (document.querySelector("header") as HTMLElement | null);
 
-		if (!navEl) return;
+  if (!navEl) return;
 
-		const setVars = () => {
-			const navH = Math.ceil(navEl.getBoundingClientRect().height);
-			document.documentElement.style.setProperty("--nav-h", `${navH}px`);
+  let raf = 0;
+  const setVars = () => {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      const navH = Math.ceil(navEl.getBoundingClientRect().height);
+      document.documentElement.style.setProperty("--nav-h", `${navH}px`);
+    });
+  };
 
-			const availH = Math.max(0, window.innerHeight - navH);
-			document.documentElement.style.setProperty("--hero-avail-h", `${availH}px`);
-		};
+  setVars();
+  window.addEventListener("orientationchange", setVars);
+  window.addEventListener("resize", setVars);
 
-		setVars();
+  return () => {
+    cancelAnimationFrame(raf);
+    window.removeEventListener("orientationchange", setVars);
+    window.removeEventListener("resize", setVars);
+  };
+}, []);
 
-		const ro = new ResizeObserver(setVars);
-		ro.observe(navEl);
-
-		window.addEventListener("resize", setVars);
-		return () => {
-			ro.disconnect();
-			window.removeEventListener("resize", setVars);
-		};
-	}, []);
 
 	useEffect(() => {
 		const titleEl = titleRef.current;
 		const l1 = titleLine1Ref.current;
 		const l2 = titleLine2Ref.current;
 		if (!titleEl || !l1 || !l2) return;
-
+		
 		let raf = 0;
-
+		let lastW = 0;
+		
 		const update = () => {
 			cancelAnimationFrame(raf);
 			raf = requestAnimationFrame(() => {
-				const navHRaw = getComputedStyle(document.documentElement).getPropertyValue("--nav-h").trim();
-				const navH = navHRaw.endsWith("px") ? parseFloat(navHRaw) : 0;
-
-				const availH = Math.max(320, window.innerHeight - navH);
-				const maxPx = Math.min(96, Math.floor(availH * 0.12));
-
-				fitTwoLineTitle(titleEl, l1, l2, {
-					minPx: 18,
-					maxPx,
-					precisionPx: 0.25,
-				});
+			const w = Math.floor(titleEl.getBoundingClientRect().width);
+			if (Math.abs(w - lastW) < 4) return; // ignore tiny changes
+			lastW = w;
+		
+			const navHRaw = getComputedStyle(document.documentElement).getPropertyValue("--nav-h").trim();
+			const navH = navHRaw.endsWith("px") ? parseFloat(navHRaw) : 0;
+		
+			const availH = Math.max(320, window.innerHeight - navH);
+			const maxPx = Math.min(96, Math.floor(availH * 0.12));
+		
+			fitTwoLineTitle(titleEl, l1, l2, { minPx: 14, maxPx, precisionPx: 1 }); // coarser precision helps too
 			});
 		};
-
-		const fontsReady = (document as any).fonts?.ready;
-		if (fontsReady?.then) fontsReady.then(update);
-		else update();
-
-		const ro = new ResizeObserver(update);
-		ro.observe(titleEl);
-
+		
+		update();
+		window.addEventListener("orientationchange", update);
 		window.addEventListener("resize", update);
+		
 		return () => {
 			cancelAnimationFrame(raf);
-			ro.disconnect();
+			window.removeEventListener("orientationchange", update);
 			window.removeEventListener("resize", update);
 		};
 	}, [t]);
+	
+	
+	const [isMounted, setIsMounted] = useState(false);
+	
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
 
 	return (
 		<div className={styles.container}>
@@ -457,7 +462,7 @@ export default function Home() {
 						</motion.div>
 
 						<motion.div
-							className={styles.heroCopy}
+							className={styles.heroCopyWrap}
 							style={{ filter: prefersReducedMotion ? "none" : (copyFilter as any) }}
 							initial={{ opacity: 0, y: 22 }}
 							animate={{ opacity: 1, y: 0 }}
@@ -474,7 +479,7 @@ export default function Home() {
 								}}
 							/>
 
-							<h1 ref={titleRef} className={`${styles.heroMainTitle} hero-title`}>
+							<h1 ref={titleRef} className={styles.heroMainTitle}>
 								<span ref={titleLine1Ref} className="hero-title1">
 									{t("hero.title.line1")}
 								</span>
@@ -510,7 +515,11 @@ export default function Home() {
 					</div>
 				</motion.div>
 
-				<motion.div className={styles.heroScrollIndicator} style={{ opacity: textOpacity }}>
+				
+				<motion.div
+					className={styles.heroScrollIndicator}
+					style={{ opacity: isMounted ? (textOpacity as any) : 1 }}
+				>
 					<motion.div
 						className={styles.scrollUnderline}
 						animate={{ y: [0, 8, 0] }}
@@ -561,7 +570,13 @@ function NewsBannerSection(props: { tickerItems: { key: string; headline: string
 					</div>
 
 					{/* Shared ticker: ONLY render when we have DB items */}
-					{props.tickerItems.length > 0 ? <NewsTicker eyebrow={t("eyebrow")} items={props.tickerItems} /> : null}
+					<div className={styles.newsTickerSlot}>
+						{props.tickerItems.length > 0 ? (
+							<NewsTicker eyebrow={t("eyebrow")} items={props.tickerItems} />
+						) : (
+							<div className={styles.newsTickerSkeleton} aria-hidden="true" />
+						)}
+					</div>
 
 					<p className={styles.newsBannerSubtitle}>{t("description")}</p>
 				</motion.div>
@@ -663,11 +678,16 @@ function WhySouthAfricaSection() {
 	const reasons = ["lifestyle", "education", "opportunity", "costOfLiving"];
 
 	const images = [
-		"/home/south-africa-slideshow/slide-1.jpg",
-		"/home/south-africa-slideshow/slide-2.jpg",
-		"/home/south-africa-slideshow/slide-3.jpg",
-		"/home/south-africa-slideshow/slide-4.jpg",
-		"/home/south-africa-slideshow/slide-5.jpg",
+		"/home/south-africa-slideshow/marq-slide-1.jpg",
+		"/home/south-africa-slideshow/marq-slide-2.jpg",
+		"/home/south-africa-slideshow/marq-slide-3.jpg",
+		"/home/south-africa-slideshow/marq-slide-4.jpg",
+		"/home/south-africa-slideshow/marq-slide-5.jpg",
+		"/home/south-africa-slideshow/marq-slide-6.jpg",
+		"/home/south-africa-slideshow/marq-slide-7.jpg",
+		"/home/south-africa-slideshow/marq-slide-8.jpg",
+		"/home/south-africa-slideshow/marq-slide-9.jpg",
+		"/home/south-africa-slideshow/marq-slide-10.jpg",
 	];
 
 	const trackRef = useRef<HTMLDivElement | null>(null);
@@ -675,63 +695,77 @@ function WhySouthAfricaSection() {
 	const marqueeWrapRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
-		const track = trackRef.current;
-		const setA = setARef.current;
-		const wrap = marqueeWrapRef.current;
-
-		if (!track || !setA || !wrap) return;
-
-		const update = () => {
-			const distance = setA.getBoundingClientRect().width;
-
-			const PX_PER_SEC = 30;
-			const duration = distance / PX_PER_SEC;
-
-			track.style.setProperty("--marquee-distance", `${distance}px`);
-			track.style.setProperty("--marquee-duration", `${duration}s`);
-		};
-
-		update();
-
-		const ro = new ResizeObserver(update);
-		ro.observe(setA);
-
-		const imgs = Array.from(track.querySelectorAll("img"));
+	const track = trackRef.current;
+	const setA = setARef.current;
+	const wrap = marqueeWrapRef.current;
+	
+	if (!track || !setA || !wrap) return;
+	
+	const update = () => {
+		const distance = Math.ceil(setA.scrollWidth);
+		if (!distance || !Number.isFinite(distance)) return;
+	
+		const PX_PER_SEC = 45;
+		const duration = distance / PX_PER_SEC;
+	
+		track.style.setProperty("--marquee-distance", `${distance}px`);
+		track.style.setProperty("--marquee-duration", `${duration}s`);
+	};
+	
+	let raf = 0;
+	const scheduleUpdate = () => {
+		cancelAnimationFrame(raf);
+		raf = requestAnimationFrame(update);
+	};
+	
+	scheduleUpdate();
+	
+	const ro = new ResizeObserver(scheduleUpdate);
+	ro.observe(setA);
+	
+	requestAnimationFrame(() => {
+		const imgs = Array.from(setA.querySelectorAll("img"));
 		imgs.forEach((img) => {
-			if ((img as HTMLImageElement).complete) update();
-			img.addEventListener("load", update);
+		const el = img as HTMLImageElement;
+		if (el.complete) scheduleUpdate();
+		else el.addEventListener("load", scheduleUpdate, { once: true });
 		});
-
-		const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches === true;
-
-		let io: IntersectionObserver | null = null;
-
-		if (!prefersReduced) {
-			track.style.animationPlayState = "paused";
-
-			io = new IntersectionObserver(
-				(entries) => {
-					const entry = entries[0];
-					if (!entry) return;
-
-					track.style.animationPlayState = entry.isIntersecting ? "running" : "paused";
-				},
-				{
-					root: null,
-					rootMargin: "200px 0px 200px 0px",
-					threshold: 0.01,
-				},
-			);
-
-			io.observe(wrap);
-		}
-
+	});
+	
+	const prefersReduced =
+		window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches === true;
+	
+	// ✅ Step 2: reduced motion early return
+	if (prefersReduced) {
+		track.style.animation = "none";
 		return () => {
-			if (io) io.disconnect();
-			ro.disconnect();
-			imgs.forEach((img) => img.removeEventListener("load", update));
+		cancelAnimationFrame(raf);
+		ro.disconnect();
 		};
+	}
+	
+	let io: IntersectionObserver | null = null;
+	
+	track.style.animationPlayState = "paused";
+	
+	io = new IntersectionObserver(
+		(entries) => {
+		const entry = entries[0];
+		if (!entry) return;
+		track.style.animationPlayState = entry.isIntersecting ? "running" : "paused";
+		},
+		{ root: null, rootMargin: "200px 0px 200px 0px", threshold: 0.01 }
+	);
+	
+	io.observe(wrap);
+	
+	return () => {
+		cancelAnimationFrame(raf);
+		if (io) io.disconnect();
+		ro.disconnect();
+	};
 	}, []);
+
 
 	return (
 		<section className={styles.whyModernSection}>
@@ -859,24 +893,43 @@ function AboutBriefSection() {
 
 							<div className={styles.experienceSignature}>
 								<div className={styles.spinningWrapper}>
-									<svg viewBox="0 0 100 100" className={styles.spinningTextSVG}>
-										<defs>
-											<path
-												id="circlePath"
-												d="M 50, 50 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0"
-											/>
-										</defs>
-										<text fontSize="10" fontWeight="700" fill="var(--savanna-gold)" letterSpacing="2">
-											<textPath xlinkHref="#circlePath">
-												ESTABLISHED • HERITAGE • EXCELLENCE • ESTABLISHED • HERITAGE • EXCELLENCE •
-											</textPath>
-										</text>
-									</svg>
+									<svg
+  viewBox="0 0 100 100"
+  className={styles.spinningTextSVG}
+  style={{ "--circle-r": "40" } as React.CSSProperties}
+>
+  <defs>
+    <path
+      id="circlePath"
+      pathLength="1000"
+      d="
+        M 50, 50
+        m calc(-1 * var(--circle-r)), 0
+        a var(--circle-r),var(--circle-r) 0 1,1 calc(2 * var(--circle-r)),0
+        a var(--circle-r),var(--circle-r) 0 1,1 calc(-2 * var(--circle-r)),0
+      "
+    />
+  </defs>
+
+  <text className={styles.circleText}>
+    <textPath
+      href="#circlePath"
+      startOffset="50%"
+      textAnchor="middle"
+      textLength="1000"
+      lengthAdjust="spacing"
+    >
+      {tHeroKpi("circlePath")}
+    </textPath>
+  </text>
+</svg>
+
+									
 								</div>
 
 								<div className={styles.sigValue}>
 									{tHeroKpi("yearsInSA.value")}
-									<span>yrs</span>
+									<span>{tHeroKpi("yearsInSA.label")}</span>
 								</div>
 							</div>
 						</motion.div>
@@ -996,7 +1049,7 @@ function FinalCtaSection() {
 					fill
 					priority
 					className={styles.finaleImg}
-					sizes="100vw"
+					sizes="100svw"
 				/>
 				<div className={styles.finaleOverlay} />
 			</div>

@@ -1,6 +1,6 @@
 {
   "About": {
-
+    "yearsShort": "Years",
     "imageAlt": "About SA Immi Consult",
     "ctaExploreServices": "Explore services",
     "ctaTalkToConsultant": "Talk to a consultant",
@@ -95,6 +95,20 @@
           "2": "Ongoing information support throughout the process."
         }
       }
-    }
+    },
+	"location": {
+		"title": "Where to find us",
+		"subtitle": "Visit us by appointment in Rivonia, Sandton.",
+		"placeName": "Regus - Johannesburg, Rivonia Village",
+		"placeHint": "Rivonia Village, Sandton",
+		"line1": "2nd Floor, Rivonia Village",
+		"line2": "Cnr Mutual Road and Rivonia Boulevard",
+		"line3": "Rivonia Village",
+		"line4": "Sandton",
+		"postcode": "2191 | South Africa",
+		"openInMaps": "Open in Maps",
+		"contactCta": "Contact us",
+		"note": "If you’re unsure where to go, contact us and we’ll guide you."
+	}
   }
 }

@@ -64,8 +64,8 @@ function safeRaw<T>(t: ReturnType<typeof useTranslations>, key: string, fallback
 	}
 }
 
-function useMediaQuery(query: string): boolean {
-	const [matches, setMatches] = useState(false);
+function useMediaQuery(query: string): boolean | null {
+	const [matches, setMatches] = useState<boolean | null>(null);
 
 	useEffect(() => {
 		if (typeof window === "undefined") return;
@@ -73,23 +73,22 @@ function useMediaQuery(query: string): boolean {
 		const mql: MediaQueryList = window.matchMedia(query);
 		const onChange = () => setMatches(mql.matches);
 
+		// Set immediately on mount (before paint where possible)
 		onChange();
 
-		// Prefer modern API when available
 		const hasModern = typeof (mql as any).addEventListener === "function";
 		if (hasModern) {
 			(mql as any).addEventListener("change", onChange);
 			return () => (mql as any).removeEventListener("change", onChange);
 		}
 
-		// Legacy Safari fallback (typed via interface narrowing)
 		if (typeof (mql as any).addListener === "function") {
 			(mql as any).addListener(onChange);
 			return () => (mql as any).removeListener(onChange);
 		}
 
 		return;
- 	}, [query]);
+	}, [query]);
 
 	return matches;
 }
@@ -164,6 +163,14 @@ export default function Navbar({
 	const [mobileView, setMobileView] = useState<MobileView>("main");
 
 	const isMobile = useMediaQuery("(max-width: 970px)");
+	const isResponsiveReady = isMobile !== null;
+	
+	useEffect(() => {
+		if (!isResponsiveReady) return;
+		// When we finally know desktop vs mobile, ensure nav is visible.
+		setIsVisible(true);
+		lastScrollY.current = window.scrollY;
+	}, [isResponsiveReady]);
 
 	// unique IDs (desktop vs mobile)
 	const drawerDesktopId = "nav-drawer-desktop";
@@ -188,6 +195,7 @@ export default function Navbar({
 
 	const [isVisible, setIsVisible] = useState(true);
 	const lastScrollY = useRef(0);
+	const scrollTicking = useRef(false);
 
 	useEffect(() => {
 		const el = navRef.current;
@@ -212,32 +220,50 @@ export default function Navbar({
 	}, []);
 
 	useEffect(() => {
-		const handleScroll = () => {
-			const currentScrollY = window.scrollY;
-			if (menuOpen) return;
-
-			if (currentScrollY <= 10) {
-				setIsVisible(true);
+		const onScroll = () => {
+			if (scrollTicking.current) return;
+			scrollTicking.current = true;
+	
+			window.requestAnimationFrame(() => {
+				scrollTicking.current = false;
+	
+				const currentScrollY = window.scrollY;
+	
+				// Never auto-hide while the mobile drawer is open
+				if (menuOpen) {
+					lastScrollY.current = currentScrollY;
+					return;
+				}
+	
+				// Always show when near the top
+				if (currentScrollY <= 10) {
+					setIsVisible(true);
+					lastScrollY.current = currentScrollY;
+					return;
+				}
+	
+				// Same thresholds as desktop behavior
+				if (currentScrollY > lastScrollY.current && currentScrollY > 70) {
+					setIsVisible(false);
+				} else if (currentScrollY < lastScrollY.current) {
+					setIsVisible(true);
+				}
+	
 				lastScrollY.current = currentScrollY;
-				return;
-			}
-
-			if (currentScrollY > lastScrollY.current && currentScrollY > 70) {
-				setIsVisible(false);
-			} else if (currentScrollY < lastScrollY.current) {
-				setIsVisible(true);
-			}
-
-			lastScrollY.current = currentScrollY;
+			});
 		};
-
-		window.addEventListener("scroll", handleScroll, { passive: true });
-
+	
+		// Initialize baseline on mount
+		lastScrollY.current = window.scrollY;
+	
+		window.addEventListener("scroll", onScroll, { passive: true });
+	
 		return () => {
-			window.removeEventListener("scroll", handleScroll);
+			window.removeEventListener("scroll", onScroll);
 			if (closeTimeout.current) clearTimeout(closeTimeout.current);
 		};
 	}, [menuOpen]);
+	
 
 	useEffect(() => {
 		const root = document.documentElement;
@@ -264,7 +290,10 @@ export default function Navbar({
 
 	// If opening while already inside /services, jump to services view (mobile only)
 	useEffect(() => {
-		if (menuOpen && isMobile && pathname && pathname.startsWith(siteConfig.servicesPath)) {
+		if (!menuOpen) return;
+		if (isMobile !== true) return;
+	
+		if (pathname && pathname.startsWith(siteConfig.servicesPath)) {
 			setMobileView("services");
 		}
 	}, [menuOpen, isMobile, pathname]);
@@ -340,7 +369,7 @@ export default function Navbar({
 
 	// Mobile drawer: focus trap + Escape + focus return
 	useEffect(() => {
-		if (!isMobile) return;
+		if (isMobile !== true) return;
 		if (!menuOpen) return;
 
 		lastFocusedRef.current = document.activeElement as HTMLElement | null;
@@ -398,8 +427,8 @@ export default function Navbar({
 	}, [menuOpen, isMobile]);
 
 	useEffect(() => {
-		if (!isMobile) return;
-
+		if (isMobile !== true) return;
+	
 		if (!menuOpen) {
 			const last = lastFocusedRef.current;
 			if (last && typeof last.focus === "function") {
@@ -418,14 +447,16 @@ export default function Navbar({
 	return (
 		<>
 			<div
-				className={`${styles.scrim} ${menuOpen && isMobile ? styles.scrimVisible : ""}`}
+				className={`${styles.scrim} ${menuOpen && isMobile === true ? styles.scrimVisible : ""}`}
 				onClick={() => closeMobileDrawer()}
 				aria-hidden="true"
 			/>
 
 			<nav
 				ref={navRef}
-				className={`${styles.navbar} nav-surface ${!isVisible ? styles.navbarHidden : ""}`}
+				className={`${styles.navbar} nav-surface ${!isVisible ? styles.navbarHidden : ""} ${
+					isResponsiveReady ? styles.responsiveReady : styles.responsivePending
+				}`}
 			>
 				<div className={styles.navContainer}>
 					<Link
@@ -444,25 +475,27 @@ export default function Navbar({
 						/>
 					</Link>
 
-					<div className={styles.mobileTopRight}>
-						<button
-							ref={triggerRef}
-							className={styles.mobileToggle}
-							onClick={() => setMenuOpen((v) => !v)}
-							aria-label={t("aria.toggleMenu")}
-							aria-expanded={menuOpen}
-							aria-controls={drawerMobileId}
-							type="button"
-						>
-							<div className={`${styles.hamburger} ${menuOpen ? styles.hamburgerActive : ""}`}>
-								<span aria-hidden="true"></span>
-								<span aria-hidden="true"></span>
-								<span aria-hidden="true"></span>
-							</div>
-						</button>
-					</div>
+					{isResponsiveReady && isMobile === true && (
+						<div className={styles.mobileTopRight}>
+							<button
+								ref={triggerRef}
+								className={styles.mobileToggle}
+								onClick={() => setMenuOpen((v) => !v)}
+								aria-label={t("aria.toggleMenu")}
+								aria-expanded={menuOpen}
+								aria-controls={drawerMobileId}
+								type="button"
+							>
+								<div className={`${styles.hamburger} ${menuOpen ? styles.hamburgerActive : ""}`}>
+									<span aria-hidden="true"></span>
+									<span aria-hidden="true"></span>
+									<span aria-hidden="true"></span>
+								</div>
+							</button>
+						</div>
+					)}
 
-					{!isMobile && (
+					{isResponsiveReady && isMobile === false && (
 						<ul id={drawerDesktopId} className={styles.navLinks}>
 							{PUBLIC_NAV_KEYS.map((key) => {
 								const href = getPublicHref(key);
@@ -545,6 +578,7 @@ export default function Navbar({
 						</ul>
 					)}
 
+				{isResponsiveReady && isMobile === false && (
 					<div className={styles.rightControlsDesktop}>
 						<LocaleSwitcher variant="header" />
 						{user ? (
@@ -587,9 +621,10 @@ export default function Navbar({
 							</Link>
 						)}
 					</div>
+				)}
 				</div>
 
-				{isMobile && (
+				{isResponsiveReady && isMobile === true && (
 					<div
 						id={drawerMobileId}
 						ref={mobileDrawerRef}

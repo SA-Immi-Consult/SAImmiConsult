@@ -40,6 +40,7 @@ type FormState = {
 	formError: string | null;
 	formSuccess: string | null;
 	lastSubmittedEmail: string | null;
+	canResendConfirm: boolean;
 };
 
 function prefixLocale(locale: string, path: string) {
@@ -69,11 +70,12 @@ export default function SignupCredentialsPage() {
 		formError: null,
 		formSuccess: null,
 		lastSubmittedEmail: null,
+		canResendConfirm: false,
 	});
 	
 	const [isResending, setIsResending] = useState(false);
 
-	const { isSubmitting, formError, formSuccess, lastSubmittedEmail } = state;
+	const { isSubmitting, formError, formSuccess, lastSubmittedEmail, canResendConfirm } = state;
 
 	const [authBanner, setAuthBanner] = useState<"code_expired" | "callback_failed" | "invalid_link" | null>(null);
 
@@ -217,6 +219,7 @@ useEffect(() => {
 				formError: null,
 				formSuccess: null,
 				lastSubmittedEmail: null,
+				canResendConfirm: false,
 			}));
 
 			const form = e.currentTarget;
@@ -254,10 +257,10 @@ useEffect(() => {
 					setState((s) => ({
 						...s,
 						lastSubmittedEmail: email,
+						canResendConfirm: true,
 					}));
 
 					setSuccess(t("messages.signupConfirmSuccess", { email }));
-
 					return;
 				}
 
@@ -328,7 +331,7 @@ useEffect(() => {
 					"--hero-y": "0px",
 					"--hero-x-mobile": "0px",
 					"--hero-y-mobile": "0px",
-					"--hero-height": "clamp(420px, 70vh, 820px)",
+					"--hero-height": "clamp(420px, 70svh, 820px)",
 					"--hero-overlay-top": "0.40",
 					"--hero-overlay-mid": "0.3",
 					"--hero-overlay-bot": "0.1",
@@ -369,31 +372,31 @@ useEffect(() => {
 					</div>
 				) : null}
 				
-				{lastSubmittedEmail ? (
+				{lastSubmittedEmail && canResendConfirm ? (
 					<div className={`${styles.formInline} ${styles.formInlineStart}`}>
 						<button
-							type="button"
-							className="button button-secondary"
-							disabled={isResending}
-							onClick={async () => {
-								if (isResending) return;
-				
-								setIsResending(true);
-								//setError(""); // clear hard error UI if you want
-								try {
-									await resendConfirmEmail(lastSubmittedEmail);
-									setSuccess(t("messages.resendConfirmSent"));
-								} catch {
-									setError(t("messages.resendConfirmFailed"));
-								} finally {
-									setIsResending(false);
-								}
-							}}
+						type="button"
+						className="button button-secondary"
+						disabled={isResending}
+						onClick={async () => {
+							if (isResending) return;
+					
+							setIsResending(true);
+							try {
+							await resendConfirmEmail(lastSubmittedEmail);
+							setSuccess(t("messages.resendConfirmSent"));
+							} catch {
+							setError(t("messages.resendConfirmFailed"));
+							} finally {
+							setIsResending(false);
+							}
+						}}
 						>
-							{isResending ? t("actions.resending") : t("actions.resendConfirm")}
+						{isResending ? t("actions.resending") : t("actions.resendConfirm")}
 						</button>
 					</div>
 				) : null}
+
 				
 
 				<form className={styles.authForm} onSubmit={handleSubmit} aria-busy={isSubmitting}>

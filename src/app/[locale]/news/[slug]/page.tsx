@@ -87,7 +87,7 @@ export default async function NewsSlugPage({ params }: Props) {
 					"--hero-y": "0px",
 					"--hero-x-mobile": "90px",
 					"--hero-y-mobile": "-60px",
-					"--hero-height": "clamp(420px, 70vh, 820px)",
+					"--hero-height": "clamp(420px, 70svh, 820px)",
 					"--hero-overlay-top": "0.70",
 					"--hero-overlay-mid": "0.44",
 					"--hero-overlay-bot": "0.26",

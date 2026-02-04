@@ -140,23 +140,22 @@
    ========================================================================== */
 
 .stickyHeroSection {
-  position: relative;
-  height: 100vh;
-  height: 100dvh;
-  /* do NOT set overflow hidden here */
+	position: relative;
+
+	/* IMPORTANT: use stable viewport units on mobile to avoid address-bar "dvh" jumps */
+	min-height: 100svh;
+
+	overflow: clip;
+	isolation: isolate;
 }
 
 /* Fixed background image */
 .stickyHeroImage {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100vh;
-  height: 100dvh;
-  z-index: 0;
-  isolation: isolate;
+	position: fixed;
+	inset: 0;
+	height: 100svh;
+	overflow: hidden;
+	transform: translateZ(0); /* promote */
 }
 
 .heroImg {
@@ -206,15 +205,18 @@
 
 /* Text layer */
 .heroTextContent {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
+	position: sticky;
+	top: var(--nav-h, 0px);
+	z-index: 1;
 
-  display: grid;
-  place-items: center;
-  text-align: center;
+	/* IMPORTANT: stable height to prevent scroll "jerk" on mobile */
+	height: 100svh;
 
-  padding: clamp(1rem, 4vw, 2rem);
+	display: grid;
+	place-items: center;
+	text-align: center;
+
+	padding: clamp(1rem, 4vw, 2rem);
 }
 
 /* Inner frame becomes a container query boundary */
@@ -240,6 +242,9 @@
   align-items: center;
   text-align: center;
   width: 100%;
+  overflow: visible;      /* blur/filter animations sometimes combine with overflow rules */
+  padding-inline: 12px;
+  margin-inline: -12px;
 }
 
 .heroMainTitle {
@@ -256,38 +261,105 @@
   margin: 0 0 clamp(1.0rem, 2.2vmin, 1.45rem);
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   
+  overflow: visible;      /* make sure glyphs/long lines never get clipped */
+  max-width: 100%;
 }
 
 
 /* --------------------------------------------------------------------------
-   HERO TITLE: force each line to be its own single-line row (JS fit expects this)
+   HERO TITLE: keep each line single-line, but LET <h1> control the size (JS fit)
    -------------------------------------------------------------------------- */
 
+/* IMPORTANT: your JSX uses heroCopyWrap, but CSS had heroCopy.
+   Make heroCopyWrap the real container so we can safely clip on mobile. */
+.heroCopyWrap {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	width: 100%;
+
+	/* This is the key: prevent mobile sideways bleed without touching desktop */
+	max-width: 100%;
+	overflow-x: clip;
+
+	/* keep your blur/filter behavior safe */
+	overflow-y: visible;
+
+	padding-inline: 12px;
+	margin-inline: -12px;
+}
+
+/* If you still use .heroCopy anywhere, keep it consistent */
+.heroCopy {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	width: 100%;
+	max-width: 100%;
+	overflow-x: clip;
+	overflow-y: visible;
+	padding-inline: 12px;
+	margin-inline: -12px;
+}
+
+.heroMainTitle {
+	color: white;
+
+	/* JS sets --heroTitleFit (px). This must be the ONE source of truth. */
+	font-size: var(--heroTitleFit, clamp(1.9rem, 5.6vmin, 5.75rem));
+
+	font-weight: 800;
+	line-height: 1.08;
+	letter-spacing: -0.02em;
+
+	width: 100%;
+	max-width: 100%;
+
+	margin: 0 0 clamp(1.0rem, 2.2vmin, 1.45rem);
+	text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+	/* prevent horizontal escape on tiny screens */
+	overflow-x: clip;
+}
+
+/* Force single-line rows, but DO NOT let globals.css hardcode the px sizing */
 .heroMainTitle :global(.hero-title1),
 .heroMainTitle :global(.hero-title2) {
 	display: block;
 	white-space: nowrap;
+	overflow: visible !important;
 }
 
-.heroTitleLine {
-	/* replace your hardcoded Inter stack with this */
-	font-family: var(--font-sans, system-ui, -apple-system, "Segoe UI", sans-serif);
+/* Home hero: line2 slightly larger than line1, relative to the fitted base size */
+.heroMainTitle :global(.hero-title1) {
+	font-size: 1em;
 }
 
-.heroTitleLineThin {
-	/* replace your hardcoded serif with this */
-	font-family: var(--font-serif, ui-serif, Georgia, "Times New Roman", serif);
+.heroMainTitle :global(.hero-title2) {
+	font-size: 1.18em; /* tweak: 1.06–1.18 */
+	line-height: 1.02; /* optional: keeps italics tight */
 }
 
-.heroTitleLineAccent { 
-  margin-top: 0.12em; 
-  font-family: serif; 
-  font-style: italic; 
-  font-weight: 320; 
-  letter-spacing: -0.02em; 
-  color: rgba(255, 255, 255, 0.96); 
-  opacity: 0.98; 
+.heroTextContent {
+	overflow-x: clip;
 }
+
+/* The actual fix:
+   - keep the global font-family/weight/style from globals.css
+   - override ONLY font-size to be relative to <h1> so --heroTitleFit works
+*/
+.heroMainTitle :global(.hero-title1) {
+	font-size: 0.82em; /* smaller first line */
+	line-height: 1.08;
+}
+
+.heroMainTitle :global(.hero-title2) {
+	font-size: 1em; /* accent line uses the base */
+	line-height: 1.08;
+}
+
 
 
 /* CTAs */
@@ -302,7 +374,7 @@
 /* Scroll Indicator */
 .heroScrollIndicator {
   position: absolute;
-  bottom: 1.4rem;
+  bottom: 2.5rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
@@ -501,9 +573,10 @@
 }
 
 .scrollUnderline {
-  width: 60px;
-  height: 1px;
+  width: 130px;
+  height: 4px;
   background: var(--savanna-gold);
+  border-radius: 999px
 }
 
 /*
@@ -630,8 +703,8 @@
   width: 100%;
 
   /* Full-screen section feel (same as hero philosophy) */
-  min-height: 100vh;  /* fallback */
-  min-height: 100dvh; /* modern */
+  min-height: 100svh;
+  /*min-height: 100dvh;*/
 
   display: flex;
   align-items: center;
@@ -656,7 +729,7 @@
   
 
   /* keep full-screen feel */
-  min-height: calc(100dvh - (2 * var(--sectionShell)));
+  min-height: calc(100svh - (2 * var(--sectionShell)));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -901,8 +974,8 @@
 
 .whyModernSection {
   width: 100%;
-  min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100svh;
+
   background-color: var(--eggshell);
 
   display: flex;
@@ -1052,8 +1125,9 @@
   position: relative;
   flex: 0 0 auto;
 
-  width: clamp(240px, 26cqw, 450px);
-  height: clamp(180px, 18cqw, 320px);
+  width:  clamp(360px, 40cqw, 520px); /* was 26cqw / 450px */
+  height: clamp(240px, 31cqw, 380px); /* was 18cqw / 320px */
+  aspect-ratio: 16 / 11;
 
   border-radius: 1.5rem;
   overflow: hidden;
@@ -1074,7 +1148,6 @@
   height: 100%;
   object-fit: cover;
 
-  filter: grayscale(0.2);
   transition: filter 0.6s ease;
 }
 
@@ -1096,11 +1169,10 @@
   /* this is what makes cqw + container queries work */
   container-type: inline-size;
 
-  /* internal breathing */
-  padding: clamp(2rem, 4.5cqw, 5rem);
+
 
   /* full-screen feel */
-  min-height: calc(100dvh - (2 * var(--sectionShell)));
+  min-height: calc(100svh - (2 * var(--sectionShell)));
 
   display: flex;
   flex-direction: column;
@@ -1177,8 +1249,8 @@
 
 .aboutStorySection {
   width: 100%;
-  min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100svh;
+
   background: var(--eggshell);
 
   display: flex;
@@ -1199,8 +1271,7 @@
   container-type: inline-size;
   container-name: about;
 
-  padding: clamp(2rem, 4.5cqw, 5rem);
-  min-height: calc(100dvh - (2 * var(--sectionShell)));
+  min-height: calc(100svh - (2 * var(--sectionShell)));
 
   display: flex;
   align-items: center;
@@ -1368,7 +1439,18 @@
 .spinningTextSVG {
   width: 90%;
   height: 90%;
-  overflow: visible;
+}
+
+/* Default (desktop / tablet) */
+.spinningTextSVG {
+  --circle-r: 40;
+}
+
+/* Mobile: increase circumference */
+@media (max-width: 480px) {
+  .spinningTextSVG {
+    --circle-r: 46;
+  }
 }
 
 .sigValue {
@@ -1442,8 +1524,8 @@
 
 .newsBannerSection {
   width: 100%;
-  min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100svh;
+
   background-color: var(--eggshell);
 
   display: flex;
@@ -1464,8 +1546,7 @@
   container-type: inline-size;
   container-name: news;
 
-  padding: clamp(2rem, 4.5cqw, 5rem);
-  min-height: calc(100dvh - (2 * var(--sectionShell)));
+  min-height: calc(100svh - (2 * var(--sectionShell)));
 
   display: flex;
   align-items: center;
@@ -1741,8 +1822,6 @@
   background: white;
   border-radius: clamp(1.5rem, 4cqw, 40px);
 
-  padding: var(--section-square-pad);
-
   /* critical: remove this so the square can grow naturally */
   min-height: 0;
   
@@ -2007,8 +2086,8 @@
   padding: var(--finaleShell);
 
   /* feels “full screen” without hard forcing layout rules */
-  min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100svh;
+
 }
 
 /* Background */
@@ -2224,5 +2303,36 @@
 @media (prefers-reduced-motion: reduce) {
   .grandCta {
     transition: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .heroCopy {
+    overflow: hidden; /* clip title bleed */
+  }
+}
+
+@media (max-width: 900px) {
+  .heroTextContent {
+    padding: clamp(1rem, 4vw, 2rem); /* keep full-bleed */
+  }
+
+  .heroTextInner {
+    width: min(92vw, 42rem); /* constrain the INNER box */
+  }
+  
+  .heroMainTitle :global(.hero-title1) {
+  font-size: 1.1em;
+}
+
+.heroMainTitle :global(.hero-title2) {
+  font-size: 2.3em;
+}
+}
+
+@media (max-width: 900px) {
+  .heroGridParent {
+    grid-template-columns: 1fr; /* collapse to one column */
+    justify-items: center;
   }
 }

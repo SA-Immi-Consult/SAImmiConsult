@@ -18,7 +18,6 @@ NOTES:
 	gap: var(--space-3);
 	padding: clamp(1.25rem, 3.2cqw, 2.25rem);
 	border-radius: var(--radius-xl);
-	margin-top: var(--space-2);
 
 	/* overflow hardening */
 	min-width: 0;

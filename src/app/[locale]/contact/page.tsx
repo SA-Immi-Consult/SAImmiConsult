@@ -25,8 +25,7 @@ export default async function ContactPage() {
 	const whatsappPrefill = t("quickChat.prefill");
 	const whatsappHref = `${siteConfig.whatsappUrl}?text=${encodeURIComponent(whatsappPrefill)}`;
 
-
-	const telegramHref = siteConfig.telegramUrl;
+	const telegramHref = siteConfig.telegramPhoneUrl;
 
 	return (
 		<PageWithStickyHero
@@ -44,7 +43,7 @@ export default async function ContactPage() {
 					"--hero-y": "80px",
 					"--hero-x-mobile": "170px",
 					"--hero-y-mobile": "0px",
-					"--hero-height": "clamp(420px, 70vh, 820px)",
+					"--hero-height": "clamp(420px, 70svh, 820px)",
 					"--hero-overlay-top": "0.2",
 					"--hero-overlay-mid": "0.4",
 					"--hero-overlay-bot": "0.2",

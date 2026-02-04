@@ -2,12 +2,7 @@
 DOC NAME: PageShell.tsx
 LOCATION: /src/components/ui/layout/PageShell.tsx
 SCOPE: PageShell — global layout primitive wrapper (layout only).
-STATUS: LOCKED
-APPLIES TO: All pages using <PageShell>
-NOTES:
-- Must apply base page wrapper class to ensure min-height/background consistency.
-- No UI strings, no page-specific styling here.
-CONTENT:
+STATUS: UNLOCKED
 */
 
 import type React from "react";
@@ -18,5 +13,9 @@ type Props = {
 };
 
 export function PageShell({ children }: Props) {
-	return <div className={`${styles.page} ${styles.shell}`}>{children}</div>;
+	return (
+		<div className={styles.page}>
+			<div className={styles.shell}>{children}</div>
+		</div>
+	);
 }

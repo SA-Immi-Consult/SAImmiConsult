@@ -210,7 +210,7 @@
       "passwordMismatch": "Passwords do not match",
       "signupFailed": "We could not create your account. Please try again",
       "profileFailed": "Your profile could not be saved. Please contact support",
-      "signupSuccess": "Sign-up successful! Please check your email for confirmation",
+      "signupSuccess": "Sign-up successful! Signing you in.",
       "userAlreadyRegistered": "This email is already registered, please log in instead",
       "titleError": "Email already in use",
       "mustBeLoggedInToContinue": "Please sign in to continue",

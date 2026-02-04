@@ -25,11 +25,9 @@
 	display: flex;
 	justify-content: center;
 
-	--sectionShell: var(--section-shell, clamp(1rem, 2.4vw, 1.75rem));
-
-	padding: var(--sectionShell);
-	padding-top: 0;
-	padding-bottom: clamp(2.75rem, 6vw, 6.5rem);
+	/* STANDARD: vertical rhythm only */
+	padding-block: var(--space-6);
+	padding-inline: 0;
 }
 
 .subSectionSquare {
@@ -53,11 +51,9 @@
 	display: flex;
 	justify-content: center;
 
-	--sectionShell: var(--section-shell, clamp(1rem, 2.4vw, 1.75rem));
-
-	padding: var(--sectionShell);
-	padding-top: 0;
-	padding-bottom: clamp(2.75rem, 6vw, 6.5rem);
+	/* STANDARD: vertical rhythm only */
+	padding-block: var(--space-6);
+	padding-inline: 0;
 }
 
 .subServiceSquare {
@@ -67,7 +63,7 @@
 	container-type: inline-size;
 	container-name: support;
 
-	padding: clamp(1.75rem, 4.5cqw, 4.75rem);
+	padding-block: 0;
 
 	background: transparent;
 	border: none;
