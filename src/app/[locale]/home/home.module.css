@@ -2336,3 +2336,26 @@
     justify-items: center;
   }
 }
+
+
+/* -------------------------------------------------------
+   Mobile-only section breathing room (NO rift)
+   Adds internal padding instead of external margins.
+   Excludes News (it has its own padding rules).
+-------------------------------------------------------- */
+@media (max-width: 768px) {
+  .container {
+    --homeSectionPadY: 28px; /* tweak */
+  }
+
+  /* Give all Home sections internal vertical padding */
+  .container > section:not(.stickyHeroSection):not(.newsBannerSection) {
+    padding-block: var(--space-6);
+  }
+
+  /* Ensure we don't accidentally keep the old "gap" approach */
+  .container > section:not(.stickyHeroSection):not(.newsBannerSection) {
+    margin-top: 0;
+  }
+}
+
