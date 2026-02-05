@@ -1074,6 +1074,10 @@
   overflow: hidden; /* keep it clipped to wrapper */
 }
 
+.marqueeWrapperDragging {
+  cursor: grabbing;
+}
+
 .marqueeTrack {
   display: flex;
   width: max-content;
