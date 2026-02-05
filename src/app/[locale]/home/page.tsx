@@ -672,7 +672,7 @@ function ServicesOverviewSection() {
 	);
 }
 
-/** 3) WHY SOUTH AFRICA SECTION - Modern Infinite Marquee */
+/** 3) WHY SOUTH AFRICA SECTION - Modern Infinite Marquee (Swipe + Inertia) */
 function WhySouthAfricaSection() {
 	const t = useTranslations("Home.whySa");
 	const reasons = ["lifestyle", "education", "opportunity", "costOfLiving"];
@@ -694,78 +694,240 @@ function WhySouthAfricaSection() {
 	const setARef = useRef<HTMLDivElement | null>(null);
 	const marqueeWrapRef = useRef<HTMLDivElement | null>(null);
 
-	useEffect(() => {
-	const track = trackRef.current;
-	const setA = setARef.current;
-	const wrap = marqueeWrapRef.current;
-	
-	if (!track || !setA || !wrap) return;
-	
-	const update = () => {
-		const distance = Math.ceil(setA.scrollWidth);
-		if (!distance || !Number.isFinite(distance)) return;
-	
-		const PX_PER_SEC = 45;
-		const duration = distance / PX_PER_SEC;
-	
-		track.style.setProperty("--marquee-distance", `${distance}px`);
-		track.style.setProperty("--marquee-duration", `${duration}s`);
-	};
-	
-	let raf = 0;
-	const scheduleUpdate = () => {
-		cancelAnimationFrame(raf);
-		raf = requestAnimationFrame(update);
-	};
-	
-	scheduleUpdate();
-	
-	const ro = new ResizeObserver(scheduleUpdate);
-	ro.observe(setA);
-	
-	requestAnimationFrame(() => {
-		const imgs = Array.from(setA.querySelectorAll("img"));
-		imgs.forEach((img) => {
-		const el = img as HTMLImageElement;
-		if (el.complete) scheduleUpdate();
-		else el.addEventListener("load", scheduleUpdate, { once: true });
-		});
-	});
-	
-	const prefersReduced =
-		window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches === true;
-	
-	// ✅ Step 2: reduced motion early return
-	if (prefersReduced) {
-		track.style.animation = "none";
-		return () => {
-		cancelAnimationFrame(raf);
-		ro.disconnect();
-		};
-	}
-	
-	let io: IntersectionObserver | null = null;
-	
-	track.style.animationPlayState = "paused";
-	
-	io = new IntersectionObserver(
-		(entries) => {
-		const entry = entries[0];
-		if (!entry) return;
-		track.style.animationPlayState = entry.isIntersecting ? "running" : "paused";
-		},
-		{ root: null, rootMargin: "200px 0px 200px 0px", threshold: 0.01 }
-	);
-	
-	io.observe(wrap);
-	
-	return () => {
-		cancelAnimationFrame(raf);
-		if (io) io.disconnect();
-		ro.disconnect();
-	};
-	}, []);
+	// UI state only (cursor / affordance)
+	const [isDragging, setIsDragging] = useState(false);
 
+	useEffect(() => {
+		const track = trackRef.current;
+		const setA = setARef.current;
+		const wrap = marqueeWrapRef.current;
+
+		if (!track || !setA || !wrap) return;
+
+		const prefersReduced =
+			window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches === true;
+
+		// We drive transform ourselves (for swipe + inertia), so disable the CSS keyframes.
+		track.style.animation = "none";
+
+		// ---- Measurements (loop distance = one full set width) ----
+		let distance = 0;
+
+		const measure = () => {
+			const d = Math.ceil(setA.scrollWidth);
+			if (!d || !Number.isFinite(d)) return;
+
+			distance = d;
+
+			// Keep legacy vars up-to-date (useful for debugging + future styling)
+			track.style.setProperty("--marquee-distance", `${distance}px`);
+		};
+
+		let rafMeasure = 0;
+		const scheduleMeasure = () => {
+			cancelAnimationFrame(rafMeasure);
+			rafMeasure = requestAnimationFrame(measure);
+		};
+
+		scheduleMeasure();
+
+		const ro = new ResizeObserver(scheduleMeasure);
+		ro.observe(setA);
+
+		// Also re-measure when images finish loading.
+		requestAnimationFrame(() => {
+			const imgs = Array.from(setA.querySelectorAll("img"));
+			imgs.forEach((img) => {
+				const el = img as HTMLImageElement;
+				if (el.complete) scheduleMeasure();
+				else el.addEventListener("load", scheduleMeasure, { once: true });
+			});
+		});
+
+		// ---- Animation state ----
+		// offset increases as content moves left (track translateX becomes more negative)
+		let offsetPx = 0;
+
+		// Extra velocity injected by swipe “fling” (px/sec); decays over time.
+		let flingVel = 0;
+
+		// Base auto-scroll speed (px/sec)
+		const BASE_PX_PER_SEC = 45;
+
+		// Active / in-view gate (saves battery; matches your existing IO behaviour)
+		let isActive = false;
+
+		let lastT = 0;
+		let rafAnim = 0;
+
+		const applyTransform = () => {
+			if (!distance) return;
+
+			// Keep offset bounded so it doesn't grow forever.
+			const m = offsetPx % distance;
+			const x = m < 0 ? m + distance : m;
+
+			track.style.transform = `translate3d(${-x}px, 0, 0)`;
+		};
+
+		const step = (now: number) => {
+			if (!isActive) {
+				rafAnim = requestAnimationFrame(step);
+				lastT = now;
+				return;
+			}
+
+			const dt = Math.min(0.05, Math.max(0, (now - lastT) / 1000)); // clamp dt
+			lastT = now;
+
+			// Reduced motion: freeze (but still keep transform stable).
+			if (prefersReduced) {
+				applyTransform();
+				rafAnim = requestAnimationFrame(step);
+				return;
+			}
+
+			// During drag, offset is driven by pointermove (no auto step).
+			if (!drag.isDragging) {
+				// Apply base speed + fling, then decay fling.
+				offsetPx += (BASE_PX_PER_SEC + flingVel) * dt;
+
+				// Exponential decay (tuned to feel “weighty” but quick to settle)
+				const decay = Math.exp(-6 * dt);
+				flingVel *= decay;
+
+				// Small dead-zone to fully settle
+				if (Math.abs(flingVel) < 2) flingVel = 0;
+
+				applyTransform();
+			}
+
+			rafAnim = requestAnimationFrame(step);
+		};
+
+		// ---- Pointer swipe handling ----
+		const drag = {
+			isDragging: false,
+			pointerId: -1,
+			startX: 0,
+			startOffset: 0,
+			lastX: 0,
+			lastTime: 0,
+			velX: 0, // px/sec (pointer space)
+		};
+
+		const onPointerDown = (e: PointerEvent) => {
+			// Only primary button for mouse; always allow touch/pen.
+			if (e.pointerType === "mouse" && e.button !== 0) return;
+
+			// If distance isn't ready yet, don't start drag.
+			if (!distance) return;
+
+			drag.isDragging = true;
+			drag.pointerId = e.pointerId;
+			drag.startX = e.clientX;
+			drag.startOffset = offsetPx;
+			drag.lastX = e.clientX;
+			drag.lastTime = performance.now();
+			drag.velX = 0;
+
+			// Kill any running fling so the swipe feels 1:1.
+			flingVel = 0;
+
+			try {
+				wrap.setPointerCapture(e.pointerId);
+			} catch {
+				// no-op
+			}
+
+			setIsDragging(true);
+		};
+
+		const onPointerMove = (e: PointerEvent) => {
+			if (!drag.isDragging) return;
+			if (e.pointerId !== drag.pointerId) return;
+
+			const x = e.clientX;
+			const dx = x - drag.startX;
+
+			// Dragging right should move content right (offset decreases),
+			// dragging left should move content left (offset increases).
+			offsetPx = drag.startOffset - dx;
+
+			// Velocity estimation
+			const now = performance.now();
+			const dtMs = Math.max(8, now - drag.lastTime);
+			drag.velX = ((x - drag.lastX) / dtMs) * 1000;
+
+			drag.lastX = x;
+			drag.lastTime = now;
+
+			applyTransform();
+		};
+
+		const endDrag = (e: PointerEvent) => {
+			if (!drag.isDragging) return;
+			if (e.pointerId !== drag.pointerId) return;
+
+			drag.isDragging = false;
+
+			try {
+				wrap.releasePointerCapture(e.pointerId);
+			} catch {
+				// no-op
+			}
+
+			setIsDragging(false);
+
+			// Convert pointer velocity (right positive) to offset velocity.
+			// offset is opposite of pointer dx, so flingVel should be -velX.
+			const raw = -drag.velX;
+
+			// Clamp fling to avoid “teleport” on fast swipes.
+			const CLAMP = 1400;
+			flingVel = Math.max(-CLAMP, Math.min(CLAMP, raw));
+		};
+
+		const onPointerUp = (e: PointerEvent) => endDrag(e);
+		const onPointerCancel = (e: PointerEvent) => endDrag(e);
+
+		// ---- In-view activation ----
+		let io: IntersectionObserver | null = null;
+
+		io = new IntersectionObserver(
+			(entries) => {
+				const entry = entries[0];
+				if (!entry) return;
+				isActive = entry.isIntersecting;
+			},
+			{ root: null, rootMargin: "200px 0px 200px 0px", threshold: 0.01 },
+		);
+
+		io.observe(wrap);
+
+		// Bind pointer handlers on the wrapper so the whole marquee area is swipeable.
+		wrap.addEventListener("pointerdown", onPointerDown, { passive: true });
+		wrap.addEventListener("pointermove", onPointerMove, { passive: true });
+		wrap.addEventListener("pointerup", onPointerUp, { passive: true });
+		wrap.addEventListener("pointercancel", onPointerCancel, { passive: true });
+
+		// Start RAF loop
+		lastT = performance.now();
+		rafAnim = requestAnimationFrame(step);
+
+		return () => {
+			cancelAnimationFrame(rafMeasure);
+			cancelAnimationFrame(rafAnim);
+
+			wrap.removeEventListener("pointerdown", onPointerDown);
+			wrap.removeEventListener("pointermove", onPointerMove);
+			wrap.removeEventListener("pointerup", onPointerUp);
+			wrap.removeEventListener("pointercancel", onPointerCancel);
+
+			if (io) io.disconnect();
+			ro.disconnect();
+		};
+	}, []);
 
 	return (
 		<section className={styles.whyModernSection}>
@@ -778,7 +940,12 @@ function WhySouthAfricaSection() {
 					<p className={styles.whyModernSubtitle}>{t("description")}</p>
 				</div>
 
-				<div ref={marqueeWrapRef} className={styles.marqueeWrapper}>
+				<div
+					ref={marqueeWrapRef}
+					className={`${styles.marqueeWrapper}${
+						isDragging ? ` ${styles.marqueeWrapperDragging}` : ""
+					}`}
+				>
 					<div ref={trackRef} className={styles.marqueeTrack}>
 						<div ref={setARef} className={styles.marqueeSet}>
 							{images.map((src, idx) => (
@@ -894,37 +1061,35 @@ function AboutBriefSection() {
 							<div className={styles.experienceSignature}>
 								<div className={styles.spinningWrapper}>
 									<svg
-  viewBox="0 0 100 100"
-  className={styles.spinningTextSVG}
-  style={{ "--circle-r": "40" } as React.CSSProperties}
->
-  <defs>
-    <path
-      id="circlePath"
-      pathLength="1000"
-      d="
-        M 50, 50
-        m calc(-1 * var(--circle-r)), 0
-        a var(--circle-r),var(--circle-r) 0 1,1 calc(2 * var(--circle-r)),0
-        a var(--circle-r),var(--circle-r) 0 1,1 calc(-2 * var(--circle-r)),0
-      "
-    />
-  </defs>
-
-  <text className={styles.circleText}>
-    <textPath
-      href="#circlePath"
-      startOffset="50%"
-      textAnchor="middle"
-      textLength="1000"
-      lengthAdjust="spacing"
-    >
-      {tHeroKpi("circlePath")}
-    </textPath>
-  </text>
-</svg>
-
-									
+										viewBox="0 0 100 100"
+										className={styles.spinningTextSVG}
+										style={{ "--circle-r": "40" } as React.CSSProperties}
+										>
+										<defs>
+											<path
+											id="circlePath"
+											pathLength="1000"
+											d="
+												M 50, 50
+												m calc(-1 * var(--circle-r)), 0
+												a var(--circle-r),var(--circle-r) 0 1,1 calc(2 * var(--circle-r)),0
+												a var(--circle-r),var(--circle-r) 0 1,1 calc(-2 * var(--circle-r)),0
+											"
+											/>
+										</defs>
+										
+										<text className={styles.circleText}>
+											<textPath
+											href="#circlePath"
+											startOffset="50%"
+											textAnchor="middle"
+											textLength="1000"
+											lengthAdjust="spacing"
+											>
+											{tHeroKpi("circlePath")}
+											</textPath>
+										</text>
+									</svg>
 								</div>
 
 								<div className={styles.sigValue}>
