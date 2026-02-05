@@ -15,6 +15,16 @@ STATUS: UNLOCKED (lock after verified)
 	right: 50%;
 	margin-left: -50vw;
 	margin-right: -50vw;
+
+	/* allow vertical scroll, but let us handle horizontal swipe */
+	touch-action: pan-y;
+
+	/* swipe affordance */
+	cursor: grab;
+}
+
+.wrapperDragging {
+	cursor: grabbing;
 }
 
 .track {
@@ -26,10 +36,12 @@ STATUS: UNLOCKED (lock after verified)
 	backface-visibility: hidden;
 	transform: translate3d(0, 0, 0);
 
+	/* CSS animation remains as fallback; JS disables it at runtime */
 	animation: ticker-slide var(--ticker-duration, 40s) linear infinite;
 }
 
-/* Pause ticker when ANYTHING inside is hovered or focused */
+/* Keep your original intent: pause ticker when ANYTHING inside is hovered or focused.
+   (JS also pauses; this remains harmless as a fallback.) */
 .wrapper:hover .track,
 .wrapper:focus-within .track {
 	animation-play-state: paused !important;
@@ -51,13 +63,6 @@ STATUS: UNLOCKED (lock after verified)
 
 	gap: clamp(0.85rem, 1.8cqw, 2rem);
 	padding: 0 clamp(1.25rem, 2.4cqw, 3rem);
-}
-
-.itemLink {
-	display: inline-flex;
-	align-items: center;
-	gap: clamp(0.85rem, 1.8cqw, 2rem);
-	text-decoration: none;
 }
 
 .itemLink {
