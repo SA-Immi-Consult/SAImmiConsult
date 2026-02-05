@@ -265,7 +265,7 @@ export default function LoginPage() {
 			}
 		>
 			<div className={`${styles.formInline} ${styles.formInlineEnd}`}>
-				<Link href={siteConfig.signupPath} className="button button-primary">
+				<Link href={siteConfig.signupPath} className="button button-secondary">
 					{tGlobal("header.actions.createNewAccount")}
 					<span aria-hidden="true">{tGlobal("Common.symbols.arrowRight")}</span>
 				</Link>
