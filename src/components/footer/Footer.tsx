@@ -160,6 +160,9 @@ export function Footer() {
 								<Link href={siteConfig.contactHref} className={styles.footerLink}>
 									{t("links.contact")}
 								</Link>
+								<Link href={siteConfig.loginHref} className={styles.footerLink}>
+									{t("links.login")}
+								</Link>								
 							</div>
 
 							<div className={styles.linkCol}>
