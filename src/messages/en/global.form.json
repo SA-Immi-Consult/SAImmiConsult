@@ -297,7 +297,8 @@
         "waitingDocuments": "Next: upload the required documents.",
         "underReview": "We are reviewing your documents.",
         "notApproved": "Action required: re-upload documents where requested.",
-        "approved": "Documents approved. Your visa journey will continue."
+        "approved": "Documents approved. Your visa journey will continue.",
+		"finished": "The application for this case is completed."
       }
     },
 
